@@ -3,10 +3,10 @@ Contributing
 
 Limited to members of Spotterfly. Subject to change after project completion
 
-Alexander
-Yena
-Seulmin
-Zhongheng
+* Alexander
+* Yena
+* Seulmin
+* Zhongheng
 
 ---
 
