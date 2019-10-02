@@ -60,9 +60,9 @@ We conducted stakeholder interviews with Amos Bloomberg (Professor). During the 
 ### 3. Use Cases
 
 #### Use Case 1:
-Title: Find New Playlist
-Actor: Spotify User
-Scenario:
+**Title:** Find New Playlist<br />
+**Actor:** Spotify User<br />
+**Scenario:**<br />
 1. User logs in to the spotterfly app using spotify log in.
 2. User turns on the app
 3. The app scans if anyone who turned on the app in the vicinity has similar artists in their top songs playlist as those of the user.
@@ -71,9 +71,9 @@ Scenario:
 6. When there is no match, app gives out a message that says “There are no matches”.
 
 #### Use Case 2:
-Title:  Visit matched users’ profiles
-Actor: Spotify user
-Scenario:
+**Title:**  Visit matched users’ profiles<br />
+**Actor:** Spotify user<br />
+**Scenario:**<br />
 1. User logs in to the spotterfly app using spotify log in.
 2. User turns on the app
 3. The app scans if anyone who turned on the app in the vicinity has similar artists in their top songs playlist as those of the user.
