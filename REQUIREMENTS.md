@@ -82,3 +82,6 @@ Scenario:
 6. With the access to the matched users’ profile, they can visit their profiles so user can see the other playlists of the matched user and more songs of what the matched user listens to.
 
 ![image](images/UseCaseDiagram.png)
+
+### 4. Domain Modeling
+![image](images/DomainModel.png)
