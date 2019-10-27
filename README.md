@@ -1,10 +1,14 @@
 # Spotterfly
 
-## Description
-Spotterfly helps you find music you like by matching you with users with similar taste.
+## Overview
+Find music you like by letting the music find you. Spotterfly connects you with people nearby who share similar music taste.
 
-## Requirements
-Read [REQUIREMENTS.md](https://github.com/nyu-software-engineering/fall-2019-spotterfly/blob/yena/REQUIREMENTS.md) for information.
+## Installation 
+To run locally, run `npm install` then start the server with `npm start` and visit http://localhost:8888 
+
 
 ## How to Contribute
-Read [CONTRIBUTING.md](https://github.com/nyu-software-engineering/fall-2019-spotterfly/blob/master/CONTRIBUTING.md) for information.
+Pull requests are always welcome! Simply fork the repo and make changes on your fork in a feature branch. If you would like to learn more about how to contribute to Spotterfly, read our [CONTRIBUTING.md](https://github.com/nyu-software-engineering/fall-2019-spotterfly/blob/master/CONTRIBUTING.md). The requirements for this project can be found here: [REQUIREMENTS.md](https://github.com/nyu-software-engineering/fall-2019-spotterfly/blob/yena/REQUIREMENTS.md)
+
+## Spotterfly Team
+Alexander Goldman, Yena Park, Seulmin Ryu, Zhongheng Sun 
