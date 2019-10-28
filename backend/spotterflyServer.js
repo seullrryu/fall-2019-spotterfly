@@ -19,7 +19,9 @@ const connection = mongoose.connection;connection.once('open', () => {
 })
 
 const userDataRouter = require('./routes/userData');
+const ArtistRouter = require('./routes/Artist');
 app.use('/userData', userDataRouter);
+app.use('/Artist', ArtistRouter);
 
 
 

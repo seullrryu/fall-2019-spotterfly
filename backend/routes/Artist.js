@@ -1,21 +1,19 @@
 const router = require('express').Router();
-let UserData = require('../model/userData.model');
+let Artist = require('../model/Artist.model');
 
 router.route('/').get((req, res) => {
-  UserData.find()
-    .then(userData => res.json(userData))
+  Artist.find()
+    .then(Artist => res.json(Artist))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/add').post((req, res) => {
-  const id = req.body.id;
-  const name = req.body.name;
+  const ArtistID = req.body.ArtistID;
 
+  const newArtist = new Artist({ArtistID});
 
-  const newUser = new UserData({id, name});
-
-  newUser.save()
-    .then(() => res.json('User added!'))
+  newArtist.save()
+    .then(() => res.json('Artist added!'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
