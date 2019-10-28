@@ -1,0 +1,15 @@
+2a) The recurrence relation for any L(I,J) palindrome where J >= I is:
+L[I - J] { (case1 base case): if I=J then 1, (case2 first and last characters match) L[i+1, j-1] + 2, (case3 check the sides) Max(L[i+1,j], L[i,j-1])}
+
+2b)
+
+def plain(arr):
+    map = [arr.length(), arr.length()]
+    def rec_plain(i,j):
+        if map[i][j] != None:
+            return map[i][j]
+        else:
+            if i == j:
+                answer = 1
+            elif (arr[i] == arr[j]):
+                answer = rec_plain(i+1, j-1) +2
