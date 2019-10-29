@@ -1,0 +1,36 @@
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+    - "$HOME/.npm"
+
+jobs:
+ include:
+   -stage: test
+    install:
+     - cd test-assignment-zhonghengsun
+    script:
+     - npm test
+    install:
+     - cd test-assignment-seulminryu
+    script:
+     - npm test
+   -stage : build
+    install:
+     - cd client
+    script:
+     - npm run build
+   - stage: build
+     install:
+       -cd web-api-auth-examples
+       -cd authorization_code
+     script:
+       -node app.js
+
+
+branches:
+  only:
+    - master
+    - spike/43/setting-up-travis-ci-sun
+
