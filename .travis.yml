@@ -8,25 +8,20 @@ cache:
 jobs:
  include:
    -stage: test
-     name: Run test suites
     install:
      - cd test-assignment-zhonghengsun
     script:
      - npm test
-   -stage: test
-     name: Run test suites
     install:
      - cd test-assignment-seulminryu
     script:
      - npm test
    -stage : build
-     name: build client
     install:
      - cd client
     script:
      - npm run build
    - stage: build
-       name: build server
      install:
        -cd web-api-auth-examples
        -cd authorization_code
@@ -39,5 +34,3 @@ branches:
     - master
     - spike/43/setting-up-travis-ci-sun
 
-notification:
- email: false
