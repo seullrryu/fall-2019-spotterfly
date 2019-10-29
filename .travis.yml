@@ -38,6 +38,7 @@ jobs:
         - npm install
       script:
         - node app.js
+        - pkill node
       afterscript:
         - pkill node
 notifications:
