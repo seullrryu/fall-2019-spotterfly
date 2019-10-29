@@ -17,7 +17,7 @@ jobs:
         - cd test-assignment-seulminryu
         - npm install
       script:
-        - npm test
+        - npm run test
       name: Run test suites 2
       install:
         - cd test-assignment-zhonghengsun
@@ -38,5 +38,7 @@ jobs:
         - npm install
       script:
         - node app.js
+      afterscript:
+        - pkill node
 notifications:
   email: false
