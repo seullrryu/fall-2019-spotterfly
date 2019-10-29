@@ -1,0 +1,35 @@
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+    - "$HOME/.npm"
+branches:
+  only:
+    - master
+    - spike/43/setting-up-travis-ci-sun
+
+jobs:
+  include:
+    - stage: test
+      name: Run test suites
+      install:
+        - cd test-assignment-seulminryu
+        - npm install
+      script:
+        - npm run test
+      name: Run test suites 2
+      install:
+        - cd test-assignment-zhonghengsun
+        - npm install
+      script:
+        - npm test
+    - stage: build
+      name: Build client
+      install:
+        - cd client
+        - npm install
+      script:
+        - npm run build
+notifications:
+  email: false
