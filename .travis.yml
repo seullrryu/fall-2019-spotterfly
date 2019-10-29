@@ -4,6 +4,7 @@ node_js:
 cache:
   directories:
     - "$HOME/.npm"
+before_install: cd test-assignment-zhonghengsun
 script:
   - npm run test
 branches:
