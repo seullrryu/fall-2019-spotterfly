@@ -13,9 +13,11 @@ const userDataSchema = new Schema({
         type: String,
         required: true,
         trim: true,
-    }, // need to add location type GeoLocation Object 
+    },   //need to add location type GeoLocation Object 
+        //make dictionary of artist / song combos 
+
 }, {
-    timestamps: true,
+    timestamps: true, // use some sort of time for login / sync not this one 
 });
 
 const UserData = mongoose.model('userData', userDataSchema);

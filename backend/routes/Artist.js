@@ -1,5 +1,6 @@
 const router = require('express').Router();
-let Artist = require('../model/Artist.model');
+let ArtistModel = require('../model/Artist.model');
+const Artist = ArtistModel.Artist;
 
 router.route('/').get((req, res) => {
   Artist.find()
@@ -9,8 +10,9 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
   const ArtistID = req.body.ArtistID;
+  const Name = req.body.Name;
 
-  const newArtist = new Artist({ArtistID});
+  const newArtist = new Artist({ArtistID, Name});
 
   newArtist.save()
     .then(() => res.json('Artist added!'))
