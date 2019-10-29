@@ -4,6 +4,10 @@ node_js:
 cache:
   directories:
     - "$HOME/.npm"
+branches:
+  only:
+    - master
+    - spike/43/setting-up-travis-ci-sun
 
 jobs:
   include:
