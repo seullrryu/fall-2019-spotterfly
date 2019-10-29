@@ -118,7 +118,7 @@ app.get("/callback", function(req, res) {
         );
       } else {
         res.redirect(
-          "/#" +
+          "http://localhost:3000/#" +
             querystring.stringify({
               error: "invalid_token"
             })
