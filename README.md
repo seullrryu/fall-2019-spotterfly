@@ -1,3 +1,5 @@
-# fall-2019-spotterfly
+# Unit Testing Assignment
 
-To run tests: $npm run test
+
+### `cd test-assignment-seulminryu/` 
+### `npm run test`
