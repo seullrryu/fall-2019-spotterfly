@@ -31,15 +31,5 @@ jobs:
         - npm install
       script:
         - npm run build
-    - stage: build
-      name: Build server
-      install:
-        - cd web-api-auth-examples/authorization_code
-        - npm install
-      script:
-        - node app.js
-        - pkill node
-      afterscript:
-        - pkill node
 notifications:
   email: false
