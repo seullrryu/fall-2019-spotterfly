@@ -7,20 +7,13 @@ cache:
 branches:
   only:
     - master
-    - spike/43/setting-up-travis-ci-sun
 
 jobs:
   include:
     - stage: test
       name: Run test suites
       install:
-        - cd test-assignment-seulminryu
-        - npm install
-      script:
-        - npm run test
-      name: Run test suites 2
-      install:
-        - cd test-assignment-zhonghengsun
+        - cd client
         - npm install
       script:
         - npm test
