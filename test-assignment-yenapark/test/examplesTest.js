@@ -1,15 +1,15 @@
 const mocha = require('mocha')
 const assert = require('chai').assert;
-const app = require('../examples');
+const examples = require('../examples');
 
-sendMessageResult = app.sendMessage();
-addResult = app.add(3,6);
-isNullResult = app.isNull();
-stringReverseResult = app.stringReverse('king');
-stringReverseResult_upper = app.stringReverse('KING');
-createUserResult = app.createUser();
+sendMessageResult = examples.sendMessage();
+addResult = examples.add(3,6);
+isNullResult = examples.isNull();
+stringReverseResult = examples.stringReverse('king');
+stringReverseResult_upper = examples.stringReverse('KING');
+createUserResult = examples.createUser();
 
-describe('App', function(){
+describe('Examples', function(){
   describe('sendMessage()', function(){
     it('should return hello world', function(){
       assert.equal(sendMessageResult, 'hello world');
@@ -60,5 +60,5 @@ describe('App', function(){
       assert.typeOf(createUserResult.email, 'undefined');
     });
   });
-  
+
 });
