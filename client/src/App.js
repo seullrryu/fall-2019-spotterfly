@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { Component } from 'react';
 import './App.css';
+=======
+import React from "react";
+import "./App.css";
+>>>>>>> 73e9362f3bc1e2edbf664d1bdf3cbf7db0126996
 
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
@@ -59,11 +64,16 @@ class App extends Component {
     return (
     <div className="App">
       <section class="login">
-        <h1>SPOTTERFLY</h1> 
-        <p>Share your playlists with people near you with similar tastes.</p>
+        <h1>SPOTTERFLY</h1>
+        <p1>Share your playlists with people near you with similar tastes.</p1>
         <p>Discover new music.</p>
-        <a href="http://localhost:8888/login"><button id="login-button"><b>LOG IN WITH SPOTIFY</b></button></a>
+        <a href="http://localhost:8888/login">
+          <button id="login-button">
+            <b>LOG IN WITH SPOTIFY</b>
+          </button>
+        </a>
       </section>
+<<<<<<< HEAD
         <div>
           Now Playing: { this.state.nowPlaying.name }
         </div>
@@ -79,6 +89,14 @@ class App extends Component {
       </div>
     );
   }
+=======
+      <footer>
+        Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun
+        2019
+      </footer>
+    </div>
+  );
+>>>>>>> 73e9362f3bc1e2edbf664d1bdf3cbf7db0126996
 }
 
 export default App;

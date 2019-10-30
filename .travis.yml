@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+    - "$HOME/.npm"
+branches:
+  only:
+    - master
+
+jobs:
+  include:
+    - stage: test
+      name: Run test suites
+      install:
+        - cd client
+        - npm install
+      script:
+        - npm test
+    - stage: build
+      name: Build client
+      install:
+        - cd client
+        - npm install
+      script:
+        - npm run build
+notifications:
+  email: false
