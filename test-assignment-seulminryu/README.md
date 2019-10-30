@@ -1,5 +1,5 @@
 # Unit Testing Assignment
 
-
-### `cd test-assignment-seulminryu/` 
-### `npm run test`
+## How to Run
+1. install npm, mocha, and chai
+2. run `npm test`
