@@ -3,18 +3,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userDataSchema = new Schema({
-    id: {
+    UserID: {
         type: String,
         required: true,
         unique: true,
         trim: true,
     }, 
-    name: {
+    Username: {
         type: String,
         required: true,
         trim: true,
     },   //need to add location type GeoLocation Object 
-        //make dictionary of artist / song combos 
+    Song: {
+        type: [],
+        trim: true,
+    },
 
 }, {
     timestamps: true, // use some sort of time for login / sync not this one 
