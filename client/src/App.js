@@ -15,10 +15,11 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      nowPlaying: { name: 'Not Checked', albumArt: '' }
-      // topArtists: { artists: 'Not Checked', artistProfile: ''},
-      // topTracks: {albums: 'Not Checked'}
-    }
+      nowPlaying: { name: 'Not Checked', albumArt: '' },
+      topArtists: { artists: 'Not Checked' },
+      //, artistProfile: ''}
+      topTracks: { tracks : 'Not Checked' }
+    };
   }
 
   getHashParams() {
@@ -45,17 +46,35 @@ class App extends Component {
       })
   }
 
-  // getTopArtists(){
-  //   spotifyApi.getMyTopArtists()
-  //     .then((response) => {
-  //       this.setState({
-  //         topArtists: { 
-  //             artists: response.name, 
-  //             artistProfile: response.images[0].url
-  //           }
-  //       });
-  //     })
-  // }
+  getTopArtists(){
+    spotifyApi.getMyTopArtists({limit: 20})
+      .then((response) => {
+        var arr = [];
+        response.items.forEach(function(p){
+          arr.push(p.name);
+        });
+        this.setState({
+          topArtists: { 
+              artists: arr.join(', ')
+            }
+        });
+      });
+  }
+
+  getTopTracks(){
+    spotifyApi.getMyTopTracks()
+      .then((response) => {
+        var arr = [];
+        response.items.forEach(function(p){
+          arr.push(p.name);
+        });
+        this.setState({
+          topTracks: { 
+              tracks: arr.join(', ')
+            }
+        });
+      })
+  }
 
   render() {
     return (
@@ -81,6 +100,25 @@ class App extends Component {
             Check Now Playing
           </button>
         }
+
+        <div>
+          Top Artists: { this.state.topArtists.artists }
+        </div>
+        { this.state.loggedIn && 
+          <button onClick={() => this.getTopArtists()}>
+            Check Top Artists
+          </button>
+        }
+
+        <div>
+          Top Tracks: { this.state.topTracks.tracks }
+        </div>
+        { this.state.loggedIn && 
+          <button onClick={() => this.getTopTracks()}>
+            Check Top Tracks
+          </button>
+        }
+
         <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
       </div>
     );
@@ -88,56 +126,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-//       <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
-//     </div>
-//   );
-
-//   //return (
-//       <div className="App">
-//         <a href='http://localhost:8888' > Login to Spotify </a>
-//         <div>
-//           Now Playing: { this.state.nowPlaying.name }
-//         </div>
-//         <div>
-//           <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
-//         </div>
-//         { this.state.loggedIn &&
-//           <button onClick={() => this.getNowPlaying()}>
-//             Check Now Playing
-//           </button>
-//         }
-//       </div>
-//     );
-//   }
-// }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <section class="login">
-//         <h1>SPOTTERFLY</h1> 
-//         <p>Share your playlists with people near you with similar tastes.</p>
-//         <p>Discover new music.</p>
-//         <a href="http://localhost:8888/login"><button id="login-button"><b>LOG IN WITH SPOTIFY</b></button></a>
-//       </section>
-//       <div>
-//           Now Playing: { this.state.nowPlaying.name }
-//         </div>
-//         <div>
-//           <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
-//         </div>
-//         { this.state.loggedIn &&
-//           <button onClick={() => this.getNowPlaying()}>
-//             Check Now Playing
-//           </button>
-//         }
-//       </div>
-
-//       <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
-//     </div>
-//   );
-// }
-
-// export default App;
