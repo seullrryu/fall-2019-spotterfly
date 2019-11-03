@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import './App.css';
 
@@ -16,9 +15,9 @@ class App extends Component {
     this.state = {
       loggedIn: token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' },
-      topArtists: { artists: 'Not Checked' },
-      //, artistProfile: ''}
-      topTracks: { tracks : 'Not Checked' }
+      topArtists: { artists: 'Not Checked' }, //, artistProfile: ''}
+      topTracks: { tracks : 'Not Checked' },
+      location: { latitude : 'Loading', longitude : 'Loading'}
     };
   }
 
@@ -76,6 +75,19 @@ class App extends Component {
       })
   }
 
+  getLocation(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) =>
+        this.setState({
+          location: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+          }
+        })
+      );
+    }
+  }
+
   render() {
     return (
     <div className="App">
@@ -119,10 +131,21 @@ class App extends Component {
           </button>
         }
 
+        <div>
+          Latitude: { this.state.location.latitude }
+        </div>
+        <div>
+          Longitude: { this.state.location.longitude }
+        </div>
+        { <button onClick={() => this.getLocation()}>
+            Check Location
+          </button>
+        }
+
         <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
       </div>
     );
   }
 }
 
-export default App;
+export default App;  
