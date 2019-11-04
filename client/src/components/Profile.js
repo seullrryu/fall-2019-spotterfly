@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 
-class App extends Component {
+class Profile extends Component {
   constructor(){
     super();
     const params = this.getHashParams();
@@ -90,17 +89,7 @@ class App extends Component {
 
   render() {
     return (
-    <div className="App">
-      <section class="login">
-        <h1>SPOTTERFLY</h1>
-        <p1>Share your playlists with people near you with similar tastes.</p1>
-        <p>Discover new music.</p>
-        <a href='http://localhost:8888/login'>
-          <button id="login-button">
-            <b>LOG IN WITH SPOTIFY</b>
-          </button>
-        </a>
-      </section>
+    <div className="Profile">
         <div>
           Now Playing: { this.state.nowPlaying.name }
         </div>
@@ -142,10 +131,9 @@ class App extends Component {
           </button>
         }
 
-        <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
       </div>
     );
   }
 }
 
-export default App;  
+export default Profile;  
