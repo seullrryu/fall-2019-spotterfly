@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD:client/src/App.js
 import Login from "./components/Login.js";
 import './App.css';
+=======
+>>>>>>> 313b90e7e22d26975e921f28bcd8d1bfd8347e55:client/src/components/Profile.js
 
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 
-class App extends Component {
+class Profile extends Component {
   constructor(){
     super();
     const params = this.getHashParams();
@@ -90,6 +93,7 @@ class App extends Component {
   }
 
   render() {
+<<<<<<< HEAD:client/src/App.js
     if (this.state.loggedIn == true) {
       return (
         <section class="top-artists">
@@ -154,7 +158,54 @@ class App extends Component {
           </div>
         );
     }
+=======
+    return (
+    <div className="Profile">
+        <div>
+          Now Playing: { this.state.nowPlaying.name }
+        </div>
+        <div>
+          <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
+        </div>
+        { this.state.loggedIn &&
+          <button onClick={() => this.getNowPlaying()}>
+            Check Now Playing
+          </button>
+        }
+
+        <div>
+          Top Artists: { this.state.topArtists.artists }
+        </div>
+        { this.state.loggedIn && 
+          <button onClick={() => this.getTopArtists()}>
+            Check Top Artists
+          </button>
+        }
+
+        <div>
+          Top Tracks: { this.state.topTracks.tracks }
+        </div>
+        { this.state.loggedIn && 
+          <button onClick={() => this.getTopTracks()}>
+            Check Top Tracks
+          </button>
+        }
+
+        <div>
+          Latitude: { this.state.location.latitude }
+        </div>
+        <div>
+          Longitude: { this.state.location.longitude }
+        </div>
+        { <button onClick={() => this.getLocation()}>
+            Check Location
+          </button>
+        }
+
+      </div>
+    );
+>>>>>>> 313b90e7e22d26975e921f28bcd8d1bfd8347e55:client/src/components/Profile.js
   }
 }
 
-export default App;  
+export default Profile;  
