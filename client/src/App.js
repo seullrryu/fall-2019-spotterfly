@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Login from "./components/Login.js";
 import './App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -89,62 +90,70 @@ class App extends Component {
   }
 
   render() {
-    return (
-    <div className="App">
-      <section class="login">
-        <h1>SPOTTERFLY</h1>
-        <p1>Share your playlists with people near you with similar tastes.</p1>
-        <p>Discover new music.</p>
-        <a href='http://localhost:8888/login'>
-          <button id="login-button">
-            <b>LOG IN WITH SPOTIFY</b>
-          </button>
-        </a>
-      </section>
-        <div>
-          Now Playing: { this.state.nowPlaying.name }
-        </div>
-        <div>
-          <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
-        </div>
-        { this.state.loggedIn &&
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
-        }
-
-        <div>
-          Top Artists: { this.state.topArtists.artists }
-        </div>
-        { this.state.loggedIn && 
-          <button onClick={() => this.getTopArtists()}>
-            Check Top Artists
-          </button>
-        }
-
-        <div>
-          Top Tracks: { this.state.topTracks.tracks }
-        </div>
-        { this.state.loggedIn && 
-          <button onClick={() => this.getTopTracks()}>
-            Check Top Tracks
-          </button>
-        }
-
-        <div>
-          Latitude: { this.state.location.latitude }
-        </div>
-        <div>
-          Longitude: { this.state.location.longitude }
-        </div>
-        { <button onClick={() => this.getLocation()}>
-            Check Location
-          </button>
-        }
-
-        <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
-      </div>
-    );
+    if (this.state.loggedIn == true) {
+      return (
+        <section class="top-artists">
+          <h2>Thanks for logging in! Your top artists have been imported. </h2>
+          <br></br>
+          <p>Your top artists are: </p>
+          <div class="display-box">
+              <ol>
+                <li>However we can get the top artists.</li>
+              </ol>
+          </div>
+        </section>
+      );
+    }
+    else {
+      return (
+        <div className="App">
+          <Login></Login>
+    
+            <div>
+              Now Playing: { this.state.nowPlaying.name }
+            </div>
+            <div>
+              <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
+            </div>
+            { this.state.loggedIn &&
+              <button onClick={() => this.getNowPlaying()}>
+                Check Now Playing
+              </button>
+            }
+    
+            <div>
+              Top Artists: { this.state.topArtists.artists }
+            </div>
+            { this.state.loggedIn && 
+              <button onClick={() => this.getTopArtists()}>
+                Check Top Artists
+              </button>
+            }
+    
+            <div>
+              Top Tracks: { this.state.topTracks.tracks }
+            </div>
+            { this.state.loggedIn && 
+              <button onClick={() => this.getTopTracks()}>
+                Check Top Tracks
+              </button>
+            }
+    
+            <div>
+              Latitude: { this.state.location.latitude }
+            </div>
+            <div>
+              Longitude: { this.state.location.longitude }
+            </div>
+            { <button onClick={() => this.getLocation()}>
+                Check Location
+              </button>
+            }
+    
+            <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
+          </div>
+        );
+    }
   }
 }
 
