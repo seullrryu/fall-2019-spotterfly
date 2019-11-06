@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Login from "./Login.js";
-import '../App.css';
+import Login from "./components/Login.js";
+import './App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 
-class Profile extends Component {
+class App extends Component {
   constructor(){
     super();
     const params = this.getHashParams();
@@ -157,4 +157,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;  
+export default App;  
