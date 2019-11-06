@@ -90,7 +90,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.loggedIn == true) {
+    if (this.state.loggedIn === true) {
       return (
         <section class="top-artists">
           <h2>Thanks for logging in! Your top artists have been imported. </h2>
