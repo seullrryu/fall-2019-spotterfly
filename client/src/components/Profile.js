@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Login from "./components/Login.js";
+import './App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
@@ -88,6 +90,7 @@ class Profile extends Component {
   }
 
   render() {
+<<<<<<< HEAD:client/src/components/Profile.js
     return (
     <div className="Profile">
         <div>
@@ -133,6 +136,72 @@ class Profile extends Component {
 
       </div>
     );
+=======
+    if (this.state.loggedIn == true) {
+      return (
+        <section class="top-artists">
+          <h2>Thanks for logging in! Your top artists have been imported. </h2>
+          <br></br>
+          <p>Your top artists are: </p>
+          <div class="display-box">
+              <ol>
+                <li>However we can get the top artists.</li>
+              </ol>
+          </div>
+        </section>
+      );
+    }
+    else {
+      return (
+        <div className="App">
+          <Login></Login>
+    
+            <div>
+              Now Playing: { this.state.nowPlaying.name }
+            </div>
+            <div>
+              <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
+            </div>
+            { this.state.loggedIn &&
+              <button onClick={() => this.getNowPlaying()}>
+                Check Now Playing
+              </button>
+            }
+    
+            <div>
+              Top Artists: { this.state.topArtists.artists }
+            </div>
+            { this.state.loggedIn && 
+              <button onClick={() => this.getTopArtists()}>
+                Check Top Artists
+              </button>
+            }
+    
+            <div>
+              Top Tracks: { this.state.topTracks.tracks }
+            </div>
+            { this.state.loggedIn && 
+              <button onClick={() => this.getTopTracks()}>
+                Check Top Tracks
+              </button>
+            }
+    
+            <div>
+              Latitude: { this.state.location.latitude }
+            </div>
+            <div>
+              Longitude: { this.state.location.longitude }
+            </div>
+            { <button onClick={() => this.getLocation()}>
+                Check Location
+              </button>
+            }
+    
+            <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
+          </div>
+        );
+    }
+>>>>>>> made login component and created a page after logging in:client/src/App.js
   }
 }
 
