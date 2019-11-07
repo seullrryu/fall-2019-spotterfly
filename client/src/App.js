@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Login from "./components/Login.js";
+import Artists from "./components/Artists.js";
 import './App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -92,16 +93,7 @@ class App extends Component {
   render() {
     if (this.state.loggedIn === true) {
       return (
-        <section class="top-artists">
-          <h2>Thanks for logging in! Your top artists have been imported. </h2>
-          <br></br>
-          <p>Your top artists are: </p>
-          <div class="display-box">
-              <ol>
-                <li>However we can get the top artists.</li>
-              </ol>
-          </div>
-        </section>
+        <Artists></Artists>
       );
     }
     else {
