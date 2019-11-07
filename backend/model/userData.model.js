@@ -14,7 +14,18 @@ const userDataSchema = new Schema({
         required: true,
         trim: true,
     },   //need to add location type GeoLocation Object 
+<<<<<<< Updated upstream
         //make dictionary of artist / song combos 
+=======
+    Song: {
+        type: [],
+        trim: true,
+    }, 
+    // Location: {
+    //     type: <GeoJSON type> ,
+    //     coordinates: <coordinates>,
+    // },
+>>>>>>> Stashed changes
 
 }, {
     timestamps: true, // use some sort of time for login / sync not this one 
