@@ -1,5 +1,6 @@
 import React from "react";
 import App from "./App";
+import Login from './components/Login'
 import { configure, shallow, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
@@ -15,14 +16,14 @@ describe("App component", () => {
 
 describe("App component", () => {
   it("Name of project should read yada yada", () => {
-    const component = shallow(<App />);
+    const component = shallow(<Login />);
     expect(component.find("h1").text()).toBe("SPOTTERFLY");
   });
 });
 
 describe("App component", () => {
   it("Description of project should read yada yada", () => {
-    const component = shallow(<App />);
+    const component = shallow(<Login />);
     expect(component.find("p1").text()).toBe(
       "Share your playlists with people near you with similar tastes."
     );
