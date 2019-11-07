@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import React, { Component } from "react";
 import Login from "./components/Login.js";
 import "./App.css";
+=======
+import React, { Component } from 'react';
+import Login from "./Login.js";
+import '../App.css';
+>>>>>>> 7688d49cdd145e08550cfa120d40d11040d47b35
 
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
@@ -88,13 +94,18 @@ class Profile extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     if (this.state.loggedIn == true) {
+=======
+    if (this.state.loggedIn === true) {
+>>>>>>> 7688d49cdd145e08550cfa120d40d11040d47b35
       return (
         <section class="top-artists">
           <h2>Thanks for logging in! Your top artists have been imported. </h2>
           <br></br>
           <p>Your top artists are: </p>
           <div class="display-box">
+<<<<<<< HEAD
             <ol>
               <li>However we can get the top artists.</li>
             </ol>
@@ -144,6 +155,64 @@ class Profile extends Component {
           </footer>
         </div>
       );
+=======
+              <ol>
+                <li>However we can get the top artists.</li>
+              </ol>
+          </div>
+        </section>
+      );
+    }
+    else {
+      return (
+        <div className="App">
+          <Login></Login>
+    
+            <div>
+              Now Playing: { this.state.nowPlaying.name }
+            </div>
+            <div>
+              <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
+            </div>
+            { this.state.loggedIn &&
+              <button onClick={() => this.getNowPlaying()}>
+                Check Now Playing
+              </button>
+            }
+    
+            <div>
+              Top Artists: { this.state.topArtists.artists }
+            </div>
+            { this.state.loggedIn && 
+              <button onClick={() => this.getTopArtists()}>
+                Check Top Artists
+              </button>
+            }
+    
+            <div>
+              Top Tracks: { this.state.topTracks.tracks }
+            </div>
+            { this.state.loggedIn && 
+              <button onClick={() => this.getTopTracks()}>
+                Check Top Tracks
+              </button>
+            }
+    
+            <div>
+              Latitude: { this.state.location.latitude }
+            </div>
+            <div>
+              Longitude: { this.state.location.longitude }
+            </div>
+            { <button onClick={() => this.getLocation()}>
+                Check Location
+              </button>
+            }
+    
+            <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
+          </div>
+        );
+>>>>>>> 7688d49cdd145e08550cfa120d40d11040d47b35
     }
   }
 }
