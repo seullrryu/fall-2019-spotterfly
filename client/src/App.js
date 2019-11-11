@@ -194,6 +194,7 @@ class App extends Component {
                 Check Location
               </button>
             }
+           <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
           </div>
         );
     }
