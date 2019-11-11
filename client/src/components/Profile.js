@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Link } from 'react-router-dom';
 import '../App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
