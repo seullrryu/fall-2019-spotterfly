@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import Login from "./components/Login.js";
 import Artists from "./components/Artists.js";
 import './App.css';
@@ -11,16 +12,18 @@ class App extends Component {
     super();
     const params = this.getHashParams();
     const token = params.access_token;
-    if (token) {
-      spotifyApi.setAccessToken(token);
-    }
+    
     this.state = {
       loggedIn: token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' },
-      topArtists: { artists: 'Not Checked' }, //, artistProfile: ''}
+      topArtists: { artists: 'Not Checked', artistsPic:""}, //, artistProfile: ''}
       topTracks: { tracks : 'Not Checked' },
       location: { latitude : 'Loading', longitude : 'Loading'}
     };
+
+    if (token) {
+      spotifyApi.setAccessToken(token);
+    }
   }
 
   getHashParams() {
@@ -36,35 +39,41 @@ class App extends Component {
   }
 
   getNowPlaying(){
-    spotifyApi.getMyCurrentPlaybackState()
-      .then((response) => {
+    spotifyApi.getMyCurrentPlaybackState().then(
+      (response) => {
+        console.log(response);
         this.setState({
           nowPlaying: { 
-              name: response.item.name, 
-              albumArt: response.item.album.images[0].url
-            }
+            name: response.item.name,
+            albumArt: response.item.album.images[0].url
+          }
         });
       })
   }
 
   getTopArtists(){
-    spotifyApi.getMyTopArtists({limit: 20})
+    spotifyApi.getMyTopArtists({limit: 10, time_range: 'long_term'})
       .then((response) => {
+        console.log(response);
         var arr = [];
+        var picArray = []; 
         response.items.forEach(function(p){
           arr.push(p.name);
+          picArray.push(p.images[0].url)
         });
         this.setState({
           topArtists: { 
-              artists: arr.join(', ')
+              artists: arr,
+              artistsPic: picArray
             }
         });
       });
   }
 
   getTopTracks(){
-    spotifyApi.getMyTopTracks()
+    spotifyApi.getMyTopTracks({limit: 10, time_range: 'long_term'})
       .then((response) => {
+        console.log(response);
         var arr = [];
         response.items.forEach(function(p){
           arr.push(p.name);
@@ -93,7 +102,50 @@ class App extends Component {
   render() {
     if (this.state.loggedIn === true) {
       return (
-        <Artists></Artists>
+        <section class="profile">
+          <nav>
+              <div><Link to="/">Home</Link></div>
+              <div><Link to="/profile">Profile</Link></div>
+          </nav>
+        
+          <div>
+              Now Playing: { this.state.nowPlaying.name }
+          </div>
+          <div>
+            <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
+          </div>
+
+          { this.state.loggedIn &&
+              <button onClick={() => this.getNowPlaying()}>
+                Check Now Playing
+              </button>
+          }
+
+          <div id="top-artists">
+            <h3>Your Top Artists: </h3>
+            <div>
+              Top Artists: { this.state.topArtists.artists }
+              <br></br>
+              Pics: {this.state.topArtists.artistsPic}
+            </div>
+            { this.state.loggedIn &&
+              <button onClick={() => this.getTopArtists()}>
+                Get Top Artists
+              </button>
+            }
+          </div> 
+          <div id="top-tracks">
+            <h3>Your Top Tracks: </h3>
+            <div>
+              Top Artists: { this.state.topTracks.tracks }
+            </div>
+            { this.state.loggedIn &&
+              <button onClick={() => this.getTopTracks()}>
+                Get Top Tracks
+              </button>
+            }
+          </div>
+        </section>
       );
     }
     else {
@@ -107,6 +159,7 @@ class App extends Component {
             <div>
               <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
             </div>
+
             { this.state.loggedIn &&
               <button onClick={() => this.getNowPlaying()}>
                 Check Now Playing
@@ -141,8 +194,6 @@ class App extends Component {
                 Check Location
               </button>
             }
-    
-            <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
           </div>
         );
     }
