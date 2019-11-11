@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Login from "./Login.js";
+import { BrowserRouter as Link } from 'react-router-dom';
 import '../App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -34,7 +34,7 @@ class Profile extends Component {
     return hashParams;
   }
 
-  getNowPlaying(){
+  getNowPlaying() {
     spotifyApi.getMyCurrentPlaybackState()
       .then((response) => {
         this.setState({
@@ -64,7 +64,7 @@ class Profile extends Component {
   getTopTracks(){
     spotifyApi.getMyTopTracks()
       .then((response) => {
-        var arr = [];
+        var arr = [1];
         response.items.forEach(function(p){
           arr.push(p.name);
         });
@@ -90,70 +90,35 @@ class Profile extends Component {
   }
 
   render() {
-    if (this.state.loggedIn === true) {
-      return (
-        <section class="top-artists">
-          <h2>Thanks for logging in! Your top artists have been imported. </h2>
-          <br></br>
-          <p>Your top artists are: </p>
-          <div class="display-box">
-              <ol>
-                <li>However we can get the top artists.</li>
-              </ol>
-          </div>
-        </section>
-      );
-    }
-    else {
-      return (
-        <div className="App">
-          <Login></Login>
-    
-            <div>
+    return (
+      <div class="container">
+        <section class="profile">
+          <nav>
+              <div><Link to="/">Home</Link></div>
+              <div><Link to="/profile">Profile</Link></div>
+          </nav>
+        
+          {/* <div>
               Now Playing: { this.state.nowPlaying.name }
             </div>
-            <div>
-              <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
-            </div>
-            { this.state.loggedIn &&
-              <button onClick={() => this.getNowPlaying()}>
-                Check Now Playing
-              </button>
-            }
-    
-            <div>
-              Top Artists: { this.state.topArtists.artists }
-            </div>
-            { this.state.loggedIn && 
-              <button onClick={() => this.getTopArtists()}>
-                Check Top Artists
-              </button>
-            }
-    
-            <div>
-              Top Tracks: { this.state.topTracks.tracks }
-            </div>
-            { this.state.loggedIn && 
-              <button onClick={() => this.getTopTracks()}>
-                Check Top Tracks
-              </button>
-            }
-    
-            <div>
-              Latitude: { this.state.location.latitude }
-            </div>
-            <div>
-              Longitude: { this.state.location.longitude }
-            </div>
-            { <button onClick={() => this.getLocation()}>
-                Check Location
-              </button>
-            }
-    
-            <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
+          <div>
+            <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
+          </div> */}
+
+            {/* <button onClick={() => this.getNowPlaying()}>
+              Check Now Playing
+            </button> */}
+
+          <div id="top-artists">
+            <h3>Your Top Artists: </h3>
+            <p>{this.getNowPlaying()}</p>
+          </div> 
+          <div id="top-tracks">
+            <h3>Your Top Tracks: </h3>
           </div>
-        );
-    }
+        </section>
+      </div>
+    );
   }
 }
 
