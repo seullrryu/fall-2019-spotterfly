@@ -3,7 +3,7 @@ import { BrowserRouter as Link } from 'react-router-dom';
 import '../App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
-const spotifyApi = new SpotifyWebApi();
+// const spotifyApi = new SpotifyWebApi();
 
 function ArtistItem(props) {
   const name = props.obj;
@@ -14,7 +14,7 @@ function ArtistItem(props) {
       <div className="artist-item">
         <span>{name}</span>
         <br></br>
-        <img src={pics[index]} width="300" height="300"/>
+        <img src={pics[index]} width="300" height="300" alt="We don't have the images. Sorry :("/>
         <br></br>
         <br></br>
       </div>
@@ -31,7 +31,7 @@ function TracksItem(props) {
       <div className="tracks-item">
         <span>{name}</span>
         <br></br>
-        <img src={pics[index]} width="300" height="300"/>
+        <img src={pics[index]} width="300" height="300" alt="We don't have the images. Sorry :("/>
         <br></br>
         <br></br>
       </div>
@@ -40,9 +40,9 @@ function TracksItem(props) {
 }
 
 class Profile extends Component {
-  constructor(props){
-    super(props);
-  }
+  // constructor(props){
+  //   super(props);
+  // }
   render() {
     var top_artists = this.props.artists.split(","); 
     var top_artists_pics = this.props.pics.split(","); 
@@ -68,7 +68,7 @@ class Profile extends Component {
             </ol>
           </div>
           <div class="tracks">
-            <h2>{this.props.userinfo.username}'s Top Artists:</h2>
+            <h2>{this.props.userinfo.username}'s Top Tracks:</h2>
             <ol>
               {
                 top_tracks.map((object,i) => {
