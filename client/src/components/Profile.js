@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Link } from 'react-router-dom';
 import '../App.css';
 
-import SpotifyWebApi from 'spotify-web-api-js';
+// import SpotifyWebApi from 'spotify-web-api-js';
 // const spotifyApi = new SpotifyWebApi();
 
 function ArtistItem(props) {
