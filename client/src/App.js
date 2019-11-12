@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Link } from 'react-router-dom';
+// import { BrowserRouter as Link } from 'react-router-dom';
 import Login from "./components/Login.js";
-// import Artists from "./components/Artists.js";
+import Profile from "./components/Profile.js"
 import './App.css';
 
 import SpotifyWebApi from 'spotify-web-api-js';
@@ -12,12 +12,14 @@ class App extends Component {
     super();
     const params = this.getHashParams();
     const token = params.access_token;
-    
     this.state = {
+      next: false,
+      params: params,
       loggedIn: token ? true : false,
+      user: {username: "Not Checked", image: null},
       nowPlaying: { name: 'Not Checked', albumArt: '' },
       topArtists: { artists: 'Not Checked', artistsPic:""}, //, artistProfile: ''}
-      topTracks: { tracks : 'Not Checked' },
+      topTracks: { tracks : 'Not Checked' , tracksPic:""},
       location: { latitude : 'Loading', longitude : 'Loading'}
     };
 
@@ -63,24 +65,30 @@ class App extends Component {
         });
         this.setState({
           topArtists: { 
-              artists: arr,
-              artistsPic: picArray
-            }
+              artists: arr.join(),
+              artistsPic: picArray.join()
+          },
+          next: true
         });
       });
+      this.getUser();
+      this.getTopTracks();
   }
 
   getTopTracks(){
     spotifyApi.getMyTopTracks({limit: 10, time_range: 'long_term'})
       .then((response) => {
-        console.log(response);
         var arr = [];
+        var picArray = []; 
         response.items.forEach(function(p){
+          console.log(p);
           arr.push(p.name);
+          picArray.push(p.album.images[0].url)
         });
         this.setState({
           topTracks: { 
-              tracks: arr.join(', ')
+              tracks: arr.join('`'),
+              tracksPic: picArray.join(",")
             }
         });
       })
@@ -99,102 +107,107 @@ class App extends Component {
     }
   }
 
+  getUser() {
+    spotifyApi.getMe()
+      .then((response) => {
+        let username, image;
+        if (response.display_name != null) {
+          username = response.display_name;
+        } else {
+          username = response.id;
+        }
+        if(response.images.length === 0) {
+          image = null;
+        } else {
+          image = response.images[0].url;
+        }
+        this.setState({user: {username: username, image: image}})
+      }, (err) => {
+        this.handleError(err);
+      });
+  }
+
+  handleError(err) {
+    switch(err.status) {
+      case 401:
+        console.log('Log in Expired');
+        this.setState({loggedIn: false, error: 401})
+        break;
+      default:
+        console.log('Error '+err.status);
+    }
+  }
+
+
+
   render() {
     if (this.state.loggedIn === true) {
-      return (
-        <section class="profile">
-          <nav>
-              <div><Link to="/">Home</Link></div>
-              <div><Link to="/profile">Profile</Link></div>
-          </nav>
-        
-          <div>
-              Now Playing: { this.state.nowPlaying.name }
-          </div>
-          <div>
-            <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
-          </div>
-
-          { this.state.loggedIn &&
-              <button onClick={() => this.getNowPlaying()}>
-                Check Now Playing
-              </button>
-          }
-
-          <div id="top-artists">
-            <h3>Your Top Artists: </h3>
+      if (this.state.next) {
+        return (
+          <Profile 
+          userinfo={this.state.user} 
+          artists={this.state.topArtists.artists} 
+          pics={this.state.topArtists.artistsPic} 
+          tracks={this.state.topTracks.tracks} 
+          tracksPic={this.state.topTracks.tracksPic}>
+          </Profile>
+        );
+      }
+      else {
+        return (
+          <section class="Loggedin">
+            <h2>Hey there, thanks for logging in! </h2>
             <div>
-              Top Artists: { this.state.topArtists.artists }
-              <br></br>
-              Pics: {this.state.topArtists.artistsPic}
-            </div>
-            { this.state.loggedIn &&
               <button onClick={() => this.getTopArtists()}>
-                Get Top Artists
+                <b>Click Here to Get Your Top Artists.</b>
               </button>
-            }
-          </div> 
-          <div id="top-tracks">
-            <h3>Your Top Tracks: </h3>
-            <div>
-              Top Artists: { this.state.topTracks.tracks }
             </div>
-            { this.state.loggedIn &&
-              <button onClick={() => this.getTopTracks()}>
-                Get Top Tracks
-              </button>
-            }
-          </div>
-        </section>
-      );
+          </section>
+        );
+      }
+        // <section class="profile">
+        //   <nav>
+        //     <div><a href="/"><Link to="/">Home</Link></a></div>
+        //     <div><a href="/profile"><Link to="/profile">Profile</Link></a></div>
+        //   </nav>
+
+        //   <main>
+        //     <h1>User Profile:</h1>
+        //     <h3>Your Top Artists: </h3>
+        //     <div class="top-artists">
+        //       {/* <ul>
+        //           {this.state.topArtists.artistsPic.split(",").map((item)=><li><img src={item} width="300"></img></li>)}
+        //           {(this.state.topArtists.artists.split(",")).map((item)=><li>{item}</li>)}
+        //       </ul> */}
+        //       <br></br>
+        //       { 
+        //       this.state.loggedIn &&
+        //       <button onClick={() => this.getTopArtists()}>
+        //         Get Top Artists
+        //       </button>
+        //       }
+        //     </div>
+           
+
+        //     <div class="top-tracks">
+        //       <h3>Your Top Tracks: </h3>
+        //       <div>
+        //         Top Artists: { this.state.topTracks.tracks }
+        //       </div>
+        //       { this.state.loggedIn &&
+        //         <button onClick={() => this.getTopTracks()}>
+        //           Get Top Tracks
+        //         </button>
+        //       }
+        //     </div>
+        //   </main> 
+        // </section>
     }
     else {
       return (
         <div className="App">
           <Login></Login>
-    
-            <div>
-              Now Playing: { this.state.nowPlaying.name }
-            </div>
-            <div>
-              <img src={this.state.nowPlaying.albumArt} alt={this.state.nowPlaying.name} style={{ height: 150 }}/>
-            </div>
-
-            { this.state.loggedIn &&
-              <button onClick={() => this.getNowPlaying()}>
-                Check Now Playing
-              </button>
-            }
-    
-            <div>
-              Top Artists: { this.state.topArtists.artists }
-            </div>
-            { this.state.loggedIn && 
-              <button onClick={() => this.getTopArtists()}>
-                Check Top Artists
-              </button>
-            }
-    
-            <div>
-              Top Tracks: { this.state.topTracks.tracks }
-            </div>
-            { this.state.loggedIn && 
-              <button onClick={() => this.getTopTracks()}>
-                Check Top Tracks
-              </button>
-            }
-    
-            <div>
-              Latitude: { this.state.location.latitude }
-            </div>
-            <div>
-              Longitude: { this.state.location.longitude }
-            </div>
-            { <button onClick={() => this.getLocation()}>
-                Check Location
-              </button>
-            }
-           <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
+          <footer>Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun 2019</footer>
           </div>
         );
     }

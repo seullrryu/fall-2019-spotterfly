@@ -8,7 +8,7 @@ class Artists extends Component {
             <div class="container">
                 <section class="top-artists">
                     <nav>
-                        <div><Link to="/">Home</Link></div>
+                        <div><a href="/"><Link to="/">Home</Link></a></div>
                         <div><Link to="/profile">Profile</Link></div>
                     </nav>
                     <h2>Thanks for logging in! Your top artists have been imported. </h2>
