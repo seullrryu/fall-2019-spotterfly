@@ -6,16 +6,18 @@ const SpotifyWebApi = require("spotify-web-api-node");
 var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
 var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
 var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
+var data;
 
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 const uri = app.use(cors());
+const local = "mongodb://localhost/playground";
 app.use(express.json());
 //const uri = process.env.ATLAS_URI;
 
-mongoose.connect("mongodb://localhost/playground", {
+mongoose.connect(local, {
   useNewUrlParser: true,
   useCreateIndex: true
 });
@@ -36,6 +38,19 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: "http://localhost:8888/callback"
 });
 
+/* var scope =
+    "user-read-private user-read-email user-read-playback-state user-top-read playlist-read-private";
+  res.redirect(
+    "https://accounts.spotify.com/authorize?" +
+      querystring.stringify({
+        response_type: "code",
+        client_id: client_id,
+        scope: scope,
+        redirect_uri: redirect_uri,
+        state: state
+      })
+  ); */
+
 var authOptions = {
   url: "https://accounts.spotify.com/api/token",
   headers: {
@@ -47,6 +62,9 @@ var authOptions = {
   },
   json: true
 };
+if (token) {
+  spotifyApi.setAccessToken(token);
+}
 
 request.post(authOptions, function(error, response, body) {
   if (!error && response.statusCode === 200) {
@@ -60,10 +78,12 @@ request.post(authOptions, function(error, response, body) {
       json: true
     };
     request.get(options, function(error, response, body) {
+      data = console.log(body);
       console.log(body);
     });
   }
 });
+console.log(data);
 
 app.use("/userData", userDataRouter);
 app.use("/Artist", ArtistRouter);
