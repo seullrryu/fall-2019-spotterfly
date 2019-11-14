@@ -36,8 +36,15 @@ const ArtistRouter = require("./routes/Artist");
 var spotifySchema = new mongoose.Schema({
   user: Object
 });
-mongoose.model("spotifydata", spotifySchema);
-var spotifydata = mongoose.model("spotifydata");
+var playlistSchema = new mongoose.Schema({
+  playlist: Object
+});
+
+mongoose.model("spotifyModel", spotifySchema);
+mongoose.model("playlistModel", playlistSchema);
+
+var spotifyData = mongoose.model("spotifyModel");
+var playlistData = mongoose.model("playlistModel");
 
 var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
 var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
@@ -128,16 +135,33 @@ app.get("/callback", function(req, res) {
           json: true
         };
 
+        var playlistOptions = {
+          uri: "https://api.spotify.com/v1/me/playlists",
+          headers: { Authorization: "Bearer " + access_token },
+          json: true
+        };
+
         // use the access token to access the Spotify Web APIß
         request.get(options, function(error, response, body) {
-          async function createspot() {
-            spot = new spotifydata({
+          async function createUser() {
+            User = new spotifyData({
               user: body
             });
-            const result = await spot.save();
+            const result = await User.save();
             console.log(result);
           }
-          createspot();
+          createUser();
+        });
+
+        request.get(playlistOptions, function(error, response, body) {
+          async function createPlaylist() {
+            playlist = new playlistData({
+              playlist: body
+            });
+            const result = await playlist.save();
+            console.log(result);
+          }
+          createPlaylist();
         });
 
         // we can also pass the token to the browser to make requests from there
