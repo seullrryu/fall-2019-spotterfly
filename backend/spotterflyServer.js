@@ -6,13 +6,15 @@ const SpotifyWebApi = require("spotify-web-api-node");
 var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
 var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
 var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
-var data;
 require("dotenv").config();
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.PORT || 8888;
 const uri = app.use(cors());
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 //const local = "mongodb://localhost/playground";
 app.use(express.json());
 const uri1 = process.env.ATLAS_URI;
@@ -31,6 +33,11 @@ connection
 
 const userDataRouter = require("./routes/userData");
 const ArtistRouter = require("./routes/Artist");
+var spotifySchema = new mongoose.Schema({
+  user: Object
+});
+mongoose.model("spotifydata", spotifySchema);
+var spotifydata = mongoose.model("spotifydata");
 
 var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
 var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
@@ -123,7 +130,14 @@ app.get("/callback", function(req, res) {
 
         // use the access token to access the Spotify Web APIß
         request.get(options, function(error, response, body) {
-          console.log(body);
+          async function createspot() {
+            spot = new spotifydata({
+              user: body
+            });
+            const result = await spot.save();
+            console.log(result);
+          }
+          createspot();
         });
 
         // we can also pass the token to the browser to make requests from there
@@ -176,15 +190,6 @@ app.get("/refresh_token", function(req, res) {
 
 app.use("/userData", userDataRouter);
 app.use("/Artist", ArtistRouter);
-
-spotifyApi.getMe().then(
-  function(data) {
-    console.log("Some information about the authenticated user", data.body);
-  },
-  function(err) {
-    console.log("Something went wrong!", err);
-  }
-);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
