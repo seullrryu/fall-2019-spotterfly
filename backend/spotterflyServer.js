@@ -33,18 +33,21 @@ connection
 
 const userDataRouter = require("./routes/userData");
 const ArtistRouter = require("./routes/Artist");
-var spotifySchema = new mongoose.Schema({
-  user: Object
+
+var tokenSchema = new mongoose.Schema({
+  token: Object
 });
+
 var playlistSchema = new mongoose.Schema({
-  playlist: Object
+  id: String,
+  songID: Array
 });
 
-mongoose.model("spotifyModel", spotifySchema);
 mongoose.model("playlistModel", playlistSchema);
+mongoose.model("tokenModel", tokenSchema);
 
-var spotifyData = mongoose.model("spotifyModel");
 var playlistData = mongoose.model("playlistModel");
+var tokenData = mongoose.model("tokenModel");
 
 var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
 var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
@@ -134,34 +137,57 @@ app.get("/callback", function(req, res) {
           headers: { Authorization: "Bearer " + access_token },
           json: true
         };
+        //saves token to db just in case we need it?
+        async function saveToken() {
+          Token = new tokenData({
+            token: access_token
+          });
+          const result = await Token.save();
+          //console.log(result);
+        }
 
-        var playlistOptions = {
-          uri: "https://api.spotify.com/v1/me/playlists",
-          headers: { Authorization: "Bearer " + access_token },
-          json: true
-        };
+        saveToken();
 
-        // use the access token to access the Spotify Web APIß
+        /*      // use the access token to access t
         request.get(options, function(error, response, body) {
+          //console.log(body.id);
           async function createUser() {
             User = new spotifyData({
               user: body
             });
             const result = await User.save();
-            console.log(result);
+            //console.log(result);
           }
           createUser();
         });
+        */
 
-        request.get(playlistOptions, function(error, response, body) {
-          async function createPlaylist() {
-            playlist = new playlistData({
-              playlist: body
+        //saves user ID and song ID of user's top tracks during request
+        request.get(options, function(error, response, body) {
+          var userID = body.id;
+          var playlistOptions2 = {
+            uri: "https://api.spotify.com/v1/me/top/tracks",
+            headers: { Authorization: "Bearer " + access_token },
+            json: true
+          };
+
+          request.get(playlistOptions2, function(error, response, body2) {
+            var songs = Array();
+            body2.items.forEach(function(items) {
+              songs.push(items.id);
+              //  console.log(songs);
             });
-            const result = await playlist.save();
-            console.log(result);
-          }
-          createPlaylist();
+
+            async function createPlaylist() {
+              playlist = new playlistData({
+                id: userID,
+                songID: songs
+              });
+              const result = await playlist.save();
+              console.log(result);
+            }
+            createPlaylist();
+          });
         });
 
         // we can also pass the token to the browser to make requests from there
