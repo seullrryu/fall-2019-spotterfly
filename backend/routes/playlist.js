@@ -1,8 +1,11 @@
 const router = require("express").Router();
 let playlistData = require("../model/playlistdata.model");
 var request = require("request");
+var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
+var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
+var redirect_uri = "http://localhost:8888/callback";
 
-router.get("/", function(req, res) {
+/* router.route("/").get((req, res) => {
   var authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
@@ -30,21 +33,23 @@ router.get("/", function(req, res) {
       };
 
       request.get(options, function(error, response, body) {
-        var userID = body.id;
+        var userID;
+        userID = body.id;
+        JSON.stringify(userID);
         playlistData.findOne({ id: userID }).exec((err, data) => {
-          //  if (err) {
-          //    res.status(400).json("Error: " + err);
-          //  } else {
+          // if (err) {
+          //   res.status(400).json("Error: " + err);
+          // } else {
           res.json(data);
           console.log(data);
-          //         }
+          //  }
         });
       });
     }
   });
-});
+}); */
 
-/*router.get("/", function(req, res) {
+router.route("/").get((req, res) => {
   playlistData
     .findOne({ id: "f47nt6lvjgbqcadsly5onj49h" })
     .exec((err, data) => {
@@ -56,5 +61,5 @@ router.get("/", function(req, res) {
       }
     });
 });
-*/
+
 module.exports = router;

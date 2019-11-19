@@ -205,11 +205,13 @@ class App extends Component {
     } else {
       return (
         <div className="App">
-          <Login></Login>
-          <footer>
-            Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng Sun
-            2019
-          </footer>
+          <div class="App-background">
+            <Login></Login>
+            <footer>
+              Copyright © Seulmin Ryu, Yena Park, Alexander Goldman, Zhongheng
+              Sun 2019
+            </footer>
+          </div>
         </div>
       );
     }
