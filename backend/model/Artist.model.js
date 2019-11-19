@@ -3,26 +3,24 @@ const Schema = mongoose.Schema;
 
 function getArtistSchema() {
     return {
-        SongID: {
+        SongID: { //unique song id 
             type: String,
             required: true,
             unique: true,
             trim: true,
         },
-        /*Name: {
-            type: String,
+        SongName: {
+            type: String, //
             required: false,
             unique: false,
             trim: true,
-        },*/
-        /*Artist{
+        },
+        Artist: {
             type: String,
             required: false,
             unique: false,
             trim: true,
         },
-        */
-
     };
 }
 
