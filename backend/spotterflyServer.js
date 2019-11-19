@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 //const local = "mongodb://localhost/playground";
 app.use(express.json());
 const uri1 = process.env.ATLAS_URI;
-
+const router = express.Router();
 mongoose.connect(uri1, {
   useNewUrlParser: true,
   useCreateIndex: true
@@ -40,13 +40,14 @@ var tokenSchema = new mongoose.Schema({
 
 var playlistSchema = new mongoose.Schema({
   id: String,
-  songID: Array
+  songID: Array,
+  displayName: String
 });
 
-mongoose.model("playlistModel", playlistSchema);
+mongoose.model("playlistModels", playlistSchema);
 mongoose.model("tokenModel", tokenSchema);
 
-var playlistData = mongoose.model("playlistModel");
+var playlistData = mongoose.model("playlistModels");
 var tokenData = mongoose.model("tokenModel");
 
 var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
@@ -138,15 +139,15 @@ app.get("/callback", function(req, res) {
           json: true
         };
         //saves token to db just in case we need it?
-        async function saveToken() {
+        /*   async function saveToken() {
           Token = new tokenData({
             token: access_token
           });
           const result = await Token.save();
-          //console.log(result);
+          //console.log(result); 
         }
 
-        saveToken();
+        saveToken(); */
 
         /*      // use the access token to access t
         request.get(options, function(error, response, body) {
@@ -165,6 +166,7 @@ app.get("/callback", function(req, res) {
         //saves user ID and song ID of user's top tracks during request
         request.get(options, function(error, response, body) {
           var userID = body.id;
+          var userDisplay = body.display_name;
           var playlistOptions2 = {
             uri: "https://api.spotify.com/v1/me/top/tracks",
             headers: { Authorization: "Bearer " + access_token },
@@ -181,7 +183,8 @@ app.get("/callback", function(req, res) {
             async function createPlaylist() {
               playlist = new playlistData({
                 id: userID,
-                songID: songs
+                songID: songs,
+                displayName: userDisplay
               });
               const result = await playlist.save();
               console.log(result);
@@ -192,18 +195,18 @@ app.get("/callback", function(req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          "http://localhost:3000/app#" +
+          "http://localhost:3000/artists" /* +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token
-            })
+            }) */
         );
       } else {
         res.redirect(
-          "http://localhost:3000/app#" +
+          "http://localhost:3000/app" /* +
             querystring.stringify({
               error: "invalid_token"
-            })
+            }) */
         );
       }
     });
@@ -238,6 +241,59 @@ app.get("/refresh_token", function(req, res) {
   });
 });
 
+/* app.get("/playlist", function(req, res) {
+  playlistData.findOne({ _id: f47nt6lvjgbqcadsly5onj49h }).exec((err, data) => {
+    if (err) {
+      res.status(400).json("Error: " + err);
+    } else {
+      res.json(data);
+      console.log(data);
+    }
+  });
+*/
+/* var authOptions = {
+    url: "https://accounts.spotify.com/api/token",
+    form: {
+      code: code,
+      redirect_uri: redirect_uri,
+      grant_type: "authorization_code"
+    },
+    headers: {
+      Authorization:
+        "Basic " +
+        new Buffer(client_id + ":" + client_secret).toString("base64")
+    },
+    json: true
+  };
+
+  request.post(authOptions, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token,
+        refresh_token = body.refresh_token;
+
+      var options = {
+        url: "https://api.spotify.com/v1/me",
+        headers: { Authorization: "Bearer " + access_token },
+        json: true
+      };
+
+      request.get(options, function(error, response, body) {
+        var userID = body.id;
+        playlistData.findOne({ id: userID }).exec((err, data) => {
+          if (err) {
+            res.status(400).json("Error: " + err);
+          } else {
+            res.json(data);
+            console.log(data);
+          }
+        });
+      });
+    }
+  }); 
+}); */
+
+const playlistRouter = require("./routes/playlist");
+app.use("/playlistdata", playlistRouter);
 app.use("/userData", userDataRouter);
 app.use("/Artist", ArtistRouter);
 
