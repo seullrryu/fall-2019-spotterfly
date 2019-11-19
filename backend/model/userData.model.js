@@ -20,13 +20,16 @@ const userDataSchema = new Schema({
         type: [],
         trim: true,
     }, 
-    // Location: {
-    //     type: <GeoJSON type> ,
-    //     coordinates: <coordinates>,
-    // },
-                                  
-
-
+    longitude: {
+        type: Float64Array,
+        //required: true,
+        trim: true,
+    },
+    latitude: { 
+        type: Float64Array,
+        //required: true,
+        trim: true,
+    }
 }, {
     timestamps: true, // use some sort of time for login / sync not this one 
 });
