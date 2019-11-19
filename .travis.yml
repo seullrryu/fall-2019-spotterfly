@@ -22,6 +22,7 @@ jobs:
       install:
         - cd client
         - npm install
+        - npm install node-sass
       script:
         - npm run build
 notifications:

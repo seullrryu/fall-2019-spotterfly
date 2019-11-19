@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 //const local = "mongodb://localhost/playground";
 app.use(express.json());
 const uri1 = process.env.ATLAS_URI;
-
+const router = express.Router();
 mongoose.connect(uri1, {
   useNewUrlParser: true,
   useCreateIndex: true
@@ -33,18 +33,22 @@ connection
 
 const userDataRouter = require("./routes/userData");
 const ArtistRouter = require("./routes/Artist");
-var spotifySchema = new mongoose.Schema({
-  user: Object
+
+var tokenSchema = new mongoose.Schema({
+  token: Object
 });
+
 var playlistSchema = new mongoose.Schema({
-  playlist: Object
+  id: String,
+  songID: Array,
+  displayName: String
 });
 
-mongoose.model("spotifyModel", spotifySchema);
-mongoose.model("playlistModel", playlistSchema);
+mongoose.model("playlistModels", playlistSchema);
+mongoose.model("tokenModel", tokenSchema);
 
-var spotifyData = mongoose.model("spotifyModel");
-var playlistData = mongoose.model("playlistModel");
+var playlistData = mongoose.model("playlistModels");
+var tokenData = mongoose.model("tokenModel");
 
 var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
 var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
@@ -134,34 +138,59 @@ app.get("/callback", function(req, res) {
           headers: { Authorization: "Bearer " + access_token },
           json: true
         };
+        //saves token to db just in case we need it?
+        /*   async function saveToken() {
+          Token = new tokenData({
+            token: access_token
+          });
+          const result = await Token.save();
+          //console.log(result); 
+        }
 
-        var playlistOptions = {
-          uri: "https://api.spotify.com/v1/me/playlists",
-          headers: { Authorization: "Bearer " + access_token },
-          json: true
-        };
+        saveToken(); */
 
-        // use the access token to access the Spotify Web APIß
+        /*      // use the access token to access t
         request.get(options, function(error, response, body) {
+          //console.log(body.id);
           async function createUser() {
             User = new spotifyData({
               user: body
             });
             const result = await User.save();
-            console.log(result);
+            //console.log(result);
           }
           createUser();
         });
+        */
 
-        request.get(playlistOptions, function(error, response, body) {
-          async function createPlaylist() {
-            playlist = new playlistData({
-              playlist: body
+        //saves user ID and song ID of user's top tracks during request
+        request.get(options, function(error, response, body) {
+          var userID = body.id;
+          var userDisplay = body.display_name;
+          var playlistOptions2 = {
+            uri: "https://api.spotify.com/v1/me/top/tracks",
+            headers: { Authorization: "Bearer " + access_token },
+            json: true
+          };
+
+          request.get(playlistOptions2, function(error, response, body2) {
+            var songs = Array();
+            body2.items.forEach(function(items) {
+              songs.push(items.id);
+              //  console.log(songs);
             });
-            const result = await playlist.save();
-            console.log(result);
-          }
-          createPlaylist();
+
+            async function createPlaylist() {
+              playlist = new playlistData({
+                id: userID,
+                songID: songs,
+                displayName: userDisplay
+              });
+              const result = await playlist.save();
+              console.log(result);
+            }
+            createPlaylist();
+          });
         });
 
         // we can also pass the token to the browser to make requests from there
@@ -174,10 +203,10 @@ app.get("/callback", function(req, res) {
         );
       } else {
         res.redirect(
-          "http://localhost:3000/app#" +
+          "http://localhost:3000/app" /* +
             querystring.stringify({
               error: "invalid_token"
-            })
+            }) */
         );
       }
     });
@@ -212,6 +241,59 @@ app.get("/refresh_token", function(req, res) {
   });
 });
 
+/* app.get("/playlist", function(req, res) {
+  playlistData.findOne({ _id: f47nt6lvjgbqcadsly5onj49h }).exec((err, data) => {
+    if (err) {
+      res.status(400).json("Error: " + err);
+    } else {
+      res.json(data);
+      console.log(data);
+    }
+  });
+*/
+/* var authOptions = {
+    url: "https://accounts.spotify.com/api/token",
+    form: {
+      code: code,
+      redirect_uri: redirect_uri,
+      grant_type: "authorization_code"
+    },
+    headers: {
+      Authorization:
+        "Basic " +
+        new Buffer(client_id + ":" + client_secret).toString("base64")
+    },
+    json: true
+  };
+
+  request.post(authOptions, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token,
+        refresh_token = body.refresh_token;
+
+      var options = {
+        url: "https://api.spotify.com/v1/me",
+        headers: { Authorization: "Bearer " + access_token },
+        json: true
+      };
+
+      request.get(options, function(error, response, body) {
+        var userID = body.id;
+        playlistData.findOne({ id: userID }).exec((err, data) => {
+          if (err) {
+            res.status(400).json("Error: " + err);
+          } else {
+            res.json(data);
+            console.log(data);
+          }
+        });
+      });
+    }
+  }); 
+}); */
+
+const playlistRouter = require("./routes/playlist");
+app.use("/playlistdata", playlistRouter);
 app.use("/userData", userDataRouter);
 app.use("/Artist", ArtistRouter);
 
