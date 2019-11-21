@@ -50,13 +50,9 @@ var redirect_uri = "http://localhost:8888/callback";
 }); */
 
 router.route("/:id").get((req, res) => {
-  playlistData.findOne({ id: req.params.id }).exec((err, data) => {
-    if (err) {
-      res.status(400).json("Error: " + err);
-    } else {
-      res.json(data);
-      console.log(data);
-    }
-  });
+  playlistData
+    .findOne({ id: req.params.id })
+    .then(playlistData => res.json(playlistData))
+    .catch(err => res.status(400).json("Error: " + err));
 });
 module.exports = router;

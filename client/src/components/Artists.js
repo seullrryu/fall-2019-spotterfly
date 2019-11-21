@@ -8,7 +8,7 @@ class Artists extends Component {
     super(props);
 
     this.state = {
-      id: this.props.match.params.id
+      playlist: []
     };
   }
   componentDidMount() {
@@ -16,31 +16,23 @@ class Artists extends Component {
     urlParams = urlParams.toString();
     var fields = urlParams.split("=");
     var id = fields[1];
-    console.log(id);
 
-    fetch(
-      "http://localhost:8888/playlistdata/" + id,
-
-      { method: "GET" }
-    )
-      .then(response => {
+    fetch("http://localhost:8888/playlistdata/" + id, { method: "GET" }).then(
+      response => {
         if (response.ok) {
-          //return response.json();
           console.log(response.json());
+          //   this.setState({ playlist: response.json() });
         } else {
-          throw new Error("not working.");
+          throw new Error("error");
         }
-      })
-      .then(response => {
-        if (this._isMounted) {
-          this.setState({ playlist: response });
-        }
-      });
+      }
+    );
   }
+
   render() {
     return (
-      <div class="container">
-        <section class="top-artists">
+      <div className="container">
+        <section className="top-artists">
           <nav>
             <div>
               <a href="/">
@@ -54,7 +46,12 @@ class Artists extends Component {
           <h2>Thanks for logging in! Your top artists have been imported. </h2>
           <br></br>
           <p>Your top artists are: </p>
-          <div class="display-box"></div>
+
+          <div className="display-box">
+            {/*         {Object.keys(this.state.playlists).map((c, i) => (
+              <li key={i}>{c.displayName}</li>    
+            ))} */}
+          </div>
         </section>
       </div>
     );
