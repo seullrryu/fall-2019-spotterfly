@@ -3,13 +3,30 @@ import { BrowserRouter as Link } from "react-router-dom";
 import "../App.scss";
 //import SpotifyWebApi from "spotify-web-api-js";
 //const spotifyApi = new SpotifyWebApi();
-
 class Artists extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      id: this.props.match.params.id
+    };
+  }
   componentDidMount() {
-    fetch("/playlist/me", { method: "GET" })
+    var urlParams = new URLSearchParams(window.location.search);
+    urlParams = urlParams.toString();
+    var fields = urlParams.split("=");
+    var id = fields[1];
+    console.log(id);
+
+    fetch(
+      "http://localhost:8888/playlistdata/" + id,
+
+      { method: "GET" }
+    )
       .then(response => {
         if (response.ok) {
-          return response.json();
+          //return response.json();
+          console.log(response.json());
         } else {
           throw new Error("not working.");
         }

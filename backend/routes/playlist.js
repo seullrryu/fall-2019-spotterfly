@@ -49,17 +49,14 @@ var redirect_uri = "http://localhost:8888/callback";
   });
 }); */
 
-router.route("/").get((req, res) => {
-  playlistData
-    .findOne({ id: "f47nt6lvjgbqcadsly5onj49h" })
-    .exec((err, data) => {
-      if (err) {
-        res.status(400).json("Error: " + err);
-      } else {
-        res.json(data);
-        console.log(data);
-      }
-    });
+router.route("/:id").get((req, res) => {
+  playlistData.findOne({ id: req.params.id }).exec((err, data) => {
+    if (err) {
+      res.status(400).json("Error: " + err);
+    } else {
+      res.json(data);
+      console.log(data);
+    }
+  });
 });
-
 module.exports = router;
