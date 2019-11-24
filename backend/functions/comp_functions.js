@@ -34,10 +34,46 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
             //send var extras and screenOut to front end.  or figure out how to do this 
             //screen out is what they matched on 
             //extras are the ones that they differed 
+
+
+
+
+            
             return true;
         }
     }
     return false; 
+
+
+    function distance(lat1, lon1, lat2, lon2) { //geolocation obeject me 
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            var newlat1 = Math.PI * lat1/180;
+            var newlat2 = Math.PI * lat2/180;
+            var theta = lon1-lon2;
+            var newtheta = Math.PI * theta/180;
+            var dist = Math.sin(newlat1) * Math.sin(newlat2) + Math.cos(newlat1) * Math.cos(newlat2) * Math.cos(newtheta);
+            if (dist > 1) {
+                dist = 1;
+            }
+            dist = Math.acos(dist);
+            dist = dist * 180/Math.PI;
+            dist = dist * 60 * 1.1515;
+    
+        }
+        return dist;
+    }
+
+    function distance_checker(dist,range){ // takes in distance from formula and checks it with range 
+        if(Math.abs(dist) <= range){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 
 
