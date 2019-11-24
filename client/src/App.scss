@@ -19,9 +19,9 @@
   height: 100%;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(-45deg, #ee6952, #b13ce7, #23a6d5, #23c9d5);
+  background: linear-gradient(-10deg, #eeb052, #e7a33c, #1698e4c0, #b123d5);
   background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
+  animation: gradientBG 100s ease infinite;
 }
 
 @keyframes gradientBG {
@@ -38,22 +38,6 @@
 
 h1 {
   font-weight: 300;
-}
-
-h3 {
-  color: #eee;
-  font-weight: 100;
-}
-
-h5 {
-  color: #eee;
-  font-weight: 300;
-}
-
-a,
-a:hover {
-  text-decoration: none;
-  color: #ddd;
 }
 
 .App-header {
