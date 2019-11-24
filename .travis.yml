@@ -23,6 +23,7 @@ jobs:
         - cd client
         - npm install
         - npm install node-sass
+        - npm install axios
       script:
         - npm run build
 notifications:

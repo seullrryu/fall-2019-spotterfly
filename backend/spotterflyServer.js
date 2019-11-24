@@ -41,7 +41,9 @@ var tokenSchema = new mongoose.Schema({
 var playlistSchema = new mongoose.Schema({
   id: String,
   songID: Array,
-  displayName: String
+  displayName: String,
+  songName: Array,
+  image: Array
 });
 
 mongoose.model("playlistModels", playlistSchema);
@@ -175,19 +177,25 @@ app.get("/callback", function(req, res) {
 
           request.get(playlistOptions2, function(error, response, body2) {
             var songs = Array();
+            var songnames = Array();
+            var img = Array();
             body2.items.forEach(function(items) {
-              songs.push(items.id);
-              //  console.log(songs);
+              songs.push(items.id); //adding song id
+              songnames.push(items.name); //adding song name
+              img.push(items.album.images[2].url);
+              console.log(img);
             });
 
             async function createPlaylist() {
               playlist = new playlistData({
                 id: userID,
                 songID: songs,
-                displayName: userDisplay
+                displayName: userDisplay,
+                songName: songnames,
+                image: img
               });
               const result = await playlist.save();
-              console.log(result);
+              // console.log(result);
             }
             createPlaylist();
           });

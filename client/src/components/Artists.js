@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Link } from "react-router-dom";
 import "../App.scss";
+import axios from "axios";
 //import SpotifyWebApi from "spotify-web-api-js";
 //const spotifyApi = new SpotifyWebApi();
 class Artists extends Component {
@@ -8,25 +9,44 @@ class Artists extends Component {
     super(props);
 
     this.state = {
-      playlist: []
+      id: "",
+      user: "",
+      datas: [],
+      imagez: []
     };
   }
+
   componentDidMount() {
     var urlParams = new URLSearchParams(window.location.search);
     urlParams = urlParams.toString();
     var fields = urlParams.split("=");
-    var id = fields[1];
+    const id = fields[1];
+    const url = `http://localhost:8888/playlistdata/${id}`;
+    axios.get(url).then(res => {
+      this.setState({
+        id: res.data.id,
+        user: res.data.displayName,
+        datas: res.data.songName,
+        imagez: res.data.image
+      });
+    });
 
-    fetch("http://localhost:8888/playlistdata/" + id, { method: "GET" }).then(
-      response => {
-        if (response.ok) {
-          console.log(response.json());
-          //   this.setState({ playlist: response.json() });
-        } else {
-          throw new Error("error");
+    /*   var processeddata2 = [];
+    this.state.datas.forEach(element => {
+      console.log(element);
+      spotifyApi.getTrack(element).then(
+        function(data) {
+          console.log("Artist albums", data);
+        },
+        function(err) {
+          console.error(err);
         }
-      }
-    );
+      );
+    });
+
+    this.setState({
+      processdatas: processeddata2
+    }); */ //this is for parsing songID but it doesnt work
   }
 
   render() {
@@ -43,14 +63,29 @@ class Artists extends Component {
               <Link to="/profile">Profile</Link>
             </div>
           </nav>
-          <h2>Thanks for logging in! Your top artists have been imported. </h2>
+          <h2>
+            Thanks for logging in {this.state.user}! Your top tracks have been
+            imported.{" "}
+          </h2>
           <br></br>
-          <p>Your top artists are: </p>
+          <p>Your top tracks are: </p>
+          <div className="display-box"></div>
+          <div style={{ float: "left" }}>
+            <ol>
+              {this.state.datas.map(function(song, index1) {
+                return <li key={index1}>{song}</li>;
+              })}
+            </ol>
+          </div>
 
-          <div className="display-box">
-            {/*         {Object.keys(this.state.playlists).map((c, i) => (
-              <li key={i}>{c.displayName}</li>    
-            ))} */}
+          <div style={{ float: "left" }}>
+            {this.state.imagez.map(function(song, index) {
+              return (
+                <div key={index}>
+                  <img src={song} alt="" />
+                </div>
+              );
+            })}
           </div>
         </section>
       </div>
