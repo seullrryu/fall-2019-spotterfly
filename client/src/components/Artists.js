@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { BrowserRouter as Link } from "react-router-dom";
 import "../App.scss";
 import axios from "axios";
-import SpotifyWebApi from "spotify-web-api-js";
-const spotifyApi = new SpotifyWebApi();
+//import SpotifyWebApi from "spotify-web-api-js";
+//const spotifyApi = new SpotifyWebApi();
 class Artists extends Component {
   constructor(props) {
     super(props);
@@ -71,16 +71,19 @@ class Artists extends Component {
           <p>Your top tracks are: </p>
           <div className="display-box"></div>
           <div style={{ float: "left" }}>
-            {this.state.datas.map(function(song, index) {
-              return <li key={index}>{song}</li>;
-            })}
+            <ol>
+              {this.state.datas.map(function(song, index1) {
+                return <li key={index1}>{song}</li>;
+              })}
+            </ol>
           </div>
+
           <div style={{ float: "left" }}>
             {this.state.imagez.map(function(song, index) {
               return (
-                <li key={index}>
-                  <img src={song}></img>
-                </li>
+                <div key={index}>
+                  <img src={song} alt="" />
+                </div>
               );
             })}
           </div>
