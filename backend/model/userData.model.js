@@ -14,23 +14,17 @@ const userDataSchema = new Schema(
       type: String,
       required: true,
       trim: true
-    }, //need to add location type GeoLocation Object
-
-    //make dictionary of artist / song combos
-    Song: {
+    },
+    Songs: {
       type: [],
       trim: true
     },
-    longitude: {
-      //     type: Float64Array,
-      //required: true,
-      //    trim: true
-    },
-    latitude: {
-      //    type: Float64Array,
-      //required: true,
-      //    trim: true
+    LonLat: {
+      type: [],
+      required: true,
+      trim: true
     }
+    //Add hashmap of matches to be rewritten every time there are matches found and deleted when there are none.  This will help us by allowing a return to the frontend of user with matched songs.
   },
   {
     timestamps: true // use some sort of time for login / sync not this one

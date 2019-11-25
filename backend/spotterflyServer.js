@@ -19,10 +19,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 const uri1 = process.env.ATLAS_URI;
 const router = express.Router();
-mongoose.connect(uri1, {
-  useNewUrlParser: true,
-  useCreateIndex: true
-});
+mongoose.connect(uri1, {useNewUrlParser: true, useCreateIndex: true});
 
 const connection = mongoose.connection;
 connection
@@ -183,7 +180,7 @@ app.get("/callback", function(req, res) {
               songs.push(items.id); //adding song id
               songnames.push(items.name); //adding song name
               img.push(items.album.images[2].url);
-              console.log(img);
+              //console.log(img);
             });
 
             async function createPlaylist() {
