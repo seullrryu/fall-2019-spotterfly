@@ -1,6 +1,4 @@
-const MyFunctions = require('./MyFunctions');
-
-
+const mongoose = require("mongoose");
 
 function DisplayOverlap(user1,user2,overlap){ // returns array of non overlapping songs 
     var screenOut = [];
@@ -34,10 +32,7 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
             //send var extras and screenOut to front end.  or figure out how to do this 
             //screen out is what they matched on 
             //extras are the ones that they differed 
-
-
-
-
+            // make a map of matches, wipe old matches and rerun check 
 
             return true;
         }
@@ -77,10 +72,17 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
 }
 
 
-    // function checkAll(user1){
-    //     db.userData.find().forEach( function(myDoc) { print( "user: " + myDoc.name ); } );  // need to figure out for each and how it workse 
-
-    // }
+    function checkAll(user1){
+        //db.userData.find().forEach(function(myDoc) { print( "user: " + myDoc.id); } );  // need to figure out for each and how it workse 
+        db.userData.find().forEach(function(myDoc) { 
+            if(dist(distance_checker(user1.LonLat[0],user1.LonLat[1],myDoc.LonLat[0],myDoc.LonLat[1]),5)){ // takes distances and checks through distance to see if its in range.#TODO change the range 
+                console.log("passed distance check");
+                if (OverlapCheck(user1, myDoc.Songs,1)){ // checks overlap of 1 #TODO change the overlap num 
+                    console.log("there were matches"); 
+                }
+            }
+        } );  
+    }
 
 
 
@@ -94,4 +96,4 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
 // dictionary in terms of {User: {overlaps:[], nOverlaps:[]}} and return that dictionary 
 // will see professor for this 
 
-    module.exports = {OverlapCheck, DisplayOverlap}
+    module.exports = checkAll;
