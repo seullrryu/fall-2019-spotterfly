@@ -24,7 +24,7 @@ describe("App component", () => {
 describe("App component", () => {
   it("Description of project should read yada yada", () => {
     const component = shallow(<Login />);
-    expect(component.find("p").text()).toBe(
+    expect(component.find("p1").text()).toBe(
       "Share your playlists with people near you with similar tastes."
     );
   });

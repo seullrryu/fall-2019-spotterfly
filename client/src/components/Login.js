@@ -6,7 +6,7 @@ class Login extends Component {
     return (
       <section class="login">
         <h1>SPOTTERFLY</h1>
-        <p>Share your playlists with people near you with similar tastes.</p>
+        <p1>Share your playlists with people near you with similar tastes.</p1>
         <p>Discover new music.</p>
         <a href="http://localhost:8888/login">
           <button id="login-button">
