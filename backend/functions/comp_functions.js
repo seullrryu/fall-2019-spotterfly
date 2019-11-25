@@ -85,12 +85,6 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
   }
 }
 
-<<<<<<< HEAD
-// function checkAll(currentUser, otherUsers) needs to be made
-//must determine how to loop through all users to grab songs
-//takes in current user as an object and looks at its location first
-// if the location matches with the otherUser location by calling myFunctions distance_checker
-=======
 
     function checkAll(user1){
         //db.userData.find().forEach(function(myDoc) { print( "user: " + myDoc.id); } );  // need to figure out for each and how it workse 
@@ -111,14 +105,9 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
 //must determine how to loop through all users to grab songs 
 //takes in current user as an object and looks at its location first 
 // if the location matches with the otherUser location by calling myFunctions distance_checker 
->>>>>>> 1d9610c559bb3851b00e4df28d19cc6abc09b84d
 // call overlapCheck() on user1's playlist and the user that has been flagged playlist.
 // must shoot the list returned back out to frontend, or store in a dictionary
 // dictionary in terms of {User: {overlaps:[], nOverlaps:[]}} and return that dictionary
 // will see professor for this
 
-<<<<<<< HEAD
-//  module.exports = {OverlapCheck, DisplayOverlap}
-=======
     module.exports = checkAll;
->>>>>>> 1d9610c559bb3851b00e4df28d19cc6abc09b84d
