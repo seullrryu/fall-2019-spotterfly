@@ -38,7 +38,7 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
 
 
 
-            
+
             return true;
         }
     }
@@ -75,6 +75,14 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
     }
 
 }
+
+
+    // function checkAll(user1){
+    //     db.userData.find().forEach( function(myDoc) { print( "user: " + myDoc.name ); } );  // need to figure out for each and how it workse 
+
+    // }
+
+
 
 
 // function checkAll(currentUser, otherUsers) needs to be made 
