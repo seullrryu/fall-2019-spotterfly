@@ -166,43 +166,8 @@ class App extends Component {
           </section>
         );
       }
-      // <section class="profile">
-      //   <nav>
-      //     <div><a href="/"><Link to="/">Home</Link></a></div>
-      //     <div><a href="/profile"><Link to="/profile">Profile</Link></a></div>
-      //   </nav>
-
-      //   <main>
-      //     <h1>User Profile:</h1>
-      //     <h3>Your Top Artists: </h3>
-      //     <div class="top-artists">
-      //       {/* <ul>
-      //           {this.state.topArtists.artistsPic.split(",").map((item)=><li><img src={item} width="300"></img></li>)}
-      //           {(this.state.topArtists.artists.split(",")).map((item)=><li>{item}</li>)}
-      //       </ul> */}
-      //       <br></br>
-      //       {
-      //       this.state.loggedIn &&
-      //       <button onClick={() => this.getTopArtists()}>
-      //         Get Top Artists
-      //       </button>
-      //       }
-      //     </div>
-
-      //     <div class="top-tracks">
-      //       <h3>Your Top Tracks: </h3>
-      //       <div>
-      //         Top Artists: { this.state.topTracks.tracks }
-      //       </div>
-      //       { this.state.loggedIn &&
-      //         <button onClick={() => this.getTopTracks()}>
-      //           Get Top Tracks
-      //         </button>
-      //       }
-      //     </div>
-      //   </main>
-      // </section>
-    } else {
+    } 
+    else {
       return (
         <div className="App">
           <div class="App-background">
