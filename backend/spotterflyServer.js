@@ -17,9 +17,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //const local = "mongodb://localhost/playground";
 app.use(express.json());
-const uri1 = "mongodb+srv://Alexander:helloworld123@cluster0-b7kar.gcp.mongodb.net/test?retryWrites=true&w=majority"
+const uri1 =
+  "mongodb+srv://Alexander:helloworld123@cluster0-b7kar.gcp.mongodb.net/test?retryWrites=true&w=majority";
 const router = express.Router();
-mongoose.connect(uri1, {useNewUrlParser: true, useCreateIndex: true});
+mongoose.connect(uri1, { useNewUrlParser: true, useCreateIndex: true });
 
 const connection = mongoose.connection;
 connection
@@ -179,48 +180,48 @@ app.get("/callback", function(req, res) {
             json: true
           };
 
-        request.get(playlistOptions2, function(error, response, body2) {
-          var songs = Array();
-          var songnames = Array();
-          var img = Array();
-          body2.items.forEach(function(items) {
-            songs.push(items.id); //adding song id
-            songnames.push(items.name); //adding song name
-            img.push(items.album.images[1].url);
-          });
-
-        request.get(playlistOptions3, function(error, response, body2) {
-          var artists = []; 
-          var images = []; 
-          body2.items.forEach(function(items) {
-            artists.push(items.name);
-            images.push(items.images[1].url);
-          })
-        })
-
-          async function createPlaylist() {
-            playlist = new playlistData({
-              id: userID,
-              songID: songs,
-              displayName: userDisplay,
-              songName: songnames,
-              image: img,
-              // artistName: artists,
-              // artistImage: images
+          request.get(playlistOptions2, function(error, response, body2) {
+            var songs = Array();
+            var songnames = Array();
+            var img = Array();
+            body2.items.forEach(function(items) {
+              songs.push(items.id); //adding song id
+              songnames.push(items.name); //adding song name
+              img.push(items.album.images[1].url);
             });
-            const result = await playlist.save();
-            
-            console.log(result);
-          }
-          createPlaylist();
+
+            request.get(playlistOptions3, function(error, response, body2) {
+              var artists = Array();
+              var images = Array();
+              body2.items.forEach(function(items) {
+                artists.push(items.name);
+                images.push(items.images[1].url);
+              });
+            });
+
+            async function createPlaylist() {
+              playlist = new playlistData({
+                id: userID,
+                songID: songs,
+                displayName: userDisplay,
+                songName: songnames,
+                image: img
+                // artistName: artists,
+                // artistImage: images
+              });
+              const result = await playlist.save();
+
+              console.log(result);
+            }
+            createPlaylist();
+          });
+          res.redirect(
+            "http://localhost:3000/artists?" +
+              querystring.stringify({
+                user: userID
+              })
+          );
         });
-        res.redirect(
-          "http://localhost:3000/artists?" +
-            querystring.stringify({
-              user: userID
-            })
-        );
-      });
 
         // we can also pass the token to the browser to make requests from there
         //     res.redirect(
