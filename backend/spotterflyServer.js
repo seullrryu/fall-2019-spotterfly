@@ -42,7 +42,11 @@ var playlistSchema = new mongoose.Schema({
   displayName: String,
   songName: Array,
   image: Array,
+<<<<<<< Updated upstream
   artistName: Array,
+=======
+  artist: Array,
+>>>>>>> Stashed changes
   artistImage: Array
 });
 
@@ -180,6 +184,12 @@ app.get("/callback", function(req, res) {
             json: true
           };
 
+          var playlistOptions3 = {
+            uri: "https://api.spotify.com/v1/me/top/artists",
+            headers: { Authorization: "Bearer " + access_token },
+            json: true
+          };
+
           request.get(playlistOptions2, function(error, response, body2) {
             var songs = Array();
             var songnames = Array();
@@ -196,6 +206,17 @@ app.get("/callback", function(req, res) {
               body2.items.forEach(function(items) {
                 artists.push(items.name);
                 images.push(items.images[1].url);
+              });
+            });
+
+            request.get(playlistOptions3, function(error, response, body2) {
+              var artist = Array();
+              var artimage = Array();
+              body2.items.forEach(function(items) {
+                artist.push(items.name);
+                artimage.push(items.images[2].url);
+                console.log(artist);
+                console.log(artimage);
               });
             });
 

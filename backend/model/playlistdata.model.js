@@ -8,7 +8,11 @@ var playlistSchema = new mongoose.Schema({
   displayName: String,
   songName: Array,
   image: Array,
+<<<<<<< Updated upstream
   artistName: Array,
+=======
+  artist: Array,
+>>>>>>> Stashed changes
   artistImage: Array
 });
 
