@@ -8,7 +8,7 @@ var playlistSchema = new mongoose.Schema({
   displayName: String,
   songName: Array,
   image: Array,
-  artistName: Array,
+  artist: Array,
   artistImage: Array
 });
 

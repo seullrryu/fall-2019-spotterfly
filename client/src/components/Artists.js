@@ -5,7 +5,6 @@ import axios from "axios";
 //import SpotifyWebApi from "spotify-web-api-js";
 //const spotifyApi = new SpotifyWebApi();
 
-
 // function ArtistItem(props) {
 //   const name = props.obj;
 //   const pics = props.pics;
@@ -49,6 +48,28 @@ function TracksItem(props) {
     </li>
   );
 }
+
+function ArtistItem(props) {
+  const name = props.obj;
+  const pics = props.pics;
+  var index = props.index;
+  return (
+    <li>
+      <div className="artist-item">
+        <span>{name}</span>
+        <br></br>
+        <img
+          src={pics[index]}
+          width="300"
+          height="300"
+          alt="We don't have the images. Sorry :("
+        />
+        <br></br>
+        <br></br>
+      </div>
+    </li>
+  );
+}
 class Artists extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +78,9 @@ class Artists extends Component {
       id: "",
       user: "",
       datas: [],
-      imagez: []
+      imagez: [],
+      artist: [],
+      artistimage: []
     };
   }
 
@@ -72,7 +95,9 @@ class Artists extends Component {
         id: res.data.id,
         user: res.data.displayName,
         datas: res.data.songName,
-        imagez: res.data.image
+        imagez: res.data.image,
+        artist: res.data.artist,
+        artistimage: res.data.artistImage
       });
     });
 
@@ -94,11 +119,12 @@ class Artists extends Component {
     }); */ //this is for parsing songID but it doesnt work
   }
 
-  
-
   render() {
-    var top_tracks = this.state.datas; 
-    var top_tracks_pics = this.state.imagez; 
+    var top_tracks = this.state.datas;
+    var top_tracks_pics = this.state.imagez;
+    var top_artists = this.state.artist;
+    var top_artists_pics = this.state.artistimage;
+
     return (
       <section className="top-artists">
         <nav>
@@ -113,7 +139,10 @@ class Artists extends Component {
         </nav>
         <br></br>
         <div className="display-box">
-        <h2>Thanks for logging in {this.state.user}! Your top tracks have been imported.</h2>
+          <h2>
+            Thanks for logging in {this.state.user}! Your top tracks have been
+            imported.
+          </h2>
           <p>Your top tracks are: </p>
           <div>
             <ol>
@@ -127,6 +156,16 @@ class Artists extends Component {
                     pics={top_tracks_pics}
                     index={i}
                   ></TracksItem>
+                );
+              })}
+
+              {top_artists.map((object, i) => {
+                return (
+                  <ArtistItem
+                    obj={object}
+                    pics={top_artists_pics}
+                    index={i}
+                  ></ArtistItem>
                 );
               })}
             </ol>
