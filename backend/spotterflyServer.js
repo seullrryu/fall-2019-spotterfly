@@ -42,11 +42,7 @@ var playlistSchema = new mongoose.Schema({
   displayName: String,
   songName: Array,
   image: Array,
-<<<<<<< Updated upstream
-  artistName: Array,
-=======
   artist: Array,
->>>>>>> Stashed changes
   artistImage: Array
 });
 
@@ -200,41 +196,30 @@ app.get("/callback", function(req, res) {
               img.push(items.album.images[1].url);
             });
 
-            request.get(playlistOptions3, function(error, response, body2) {
+            request.get(playlistOptions3, function(error, response, body3) {
               var artists = Array();
-              var images = Array();
-              body2.items.forEach(function(items) {
+              var artistImages = Array();
+              body3.items.forEach(function(items) {
                 artists.push(items.name);
-                images.push(items.images[1].url);
+                artistImages.push(items.images[1].url);
               });
+
+              async function createPlaylist() {
+                playlist = new playlistData({
+                  id: userID,
+                  songID: songs,
+                  displayName: userDisplay,
+                  songName: songnames,
+                  image: img,
+                  artist: artists,
+                  artistImage: artistImages
+                });
+                const result = await playlist.save();
+
+                console.log(result);
+              }
+              createPlaylist();
             });
-
-            request.get(playlistOptions3, function(error, response, body2) {
-              var artist = Array();
-              var artimage = Array();
-              body2.items.forEach(function(items) {
-                artist.push(items.name);
-                artimage.push(items.images[2].url);
-                console.log(artist);
-                console.log(artimage);
-              });
-            });
-
-            async function createPlaylist() {
-              playlist = new playlistData({
-                id: userID,
-                songID: songs,
-                displayName: userDisplay,
-                songName: songnames,
-                image: img
-                // artistName: artists,
-                // artistImage: images
-              });
-              const result = await playlist.save();
-
-              console.log(result);
-            }
-            createPlaylist();
           });
           res.redirect(
             "http://localhost:3000/artists?" +
@@ -346,7 +331,7 @@ app.get("/refresh_token", function(req, res) {
 const playlistRouter = require("./routes/playlist");
 app.use("/playlistdata", playlistRouter);
 app.use("/userData", userDataRouter);
-app.use("/Artist", ArtistRouter);
+//app.use("/Artist", ArtistRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
