@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //const local = "mongodb://localhost/playground";
 app.use(express.json());
-const uri1 = process.env.ATLAS_URI;
+const uri1 = 'mongodb+srv://Alexander:helloworld123@cluster0-b7kar.gcp.mongodb.net/test?retryWrites=true&w=majority';
 const router = express.Router();
 mongoose.connect(uri1, {
   useNewUrlParser: true,

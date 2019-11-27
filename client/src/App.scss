@@ -109,3 +109,36 @@ main {
   margin-left: 5vw;
   margin-right: 5vw;
 }
+
+/* Friends Page */
+nav {
+  display: flex;
+  flex-direction: row;
+  background-color: #1db954;
+  height: 100px;
+}
+nav > div {
+  margin-top: 50px;
+  margin-left: 5vw;
+  padding-right: 50px;
+  font-size: 24px;
+  text-decoration: none;
+}
+main {
+  margin-left: 5vw;
+  margin-right: 5vw;
+
+}
+
+.container {
+  &__image {
+    height: 100px;
+    width: 100px;
+    float: left;
+    margin-right: 10px;
+  }
+  &__text {
+    display: inline;
+  }
+  padding-bottom: 15px;
+}

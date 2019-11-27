@@ -68,8 +68,13 @@ class Profile extends Component {
             </a>
           </div>
           <div>
-            <a href="/profile">
+            <a href={`/artists?user=${this.state.id}`}>
               <Link to="/profile">Profile</Link>
+            </a>
+          </div>
+          <div>
+            <a href={`/friends?user=${this.state.id}`}>
+              <Link to="/friends">Friends</Link>
             </a>
           </div>
         </nav>
