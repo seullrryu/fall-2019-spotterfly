@@ -4,6 +4,72 @@ import "../App.scss";
 import axios from "axios";
 //import SpotifyWebApi from "spotify-web-api-js";
 //const spotifyApi = new SpotifyWebApi();
+
+// function ArtistItem(props) {
+//   const name = props.obj;
+//   const pics = props.pics;
+//   var index = props.index;
+//   return (
+//     <li>
+//       <div className="artist-item">
+//         <span>{name}</span>
+//         <br></br>
+//         <img
+//           src={pics[index]}
+//           width="300"
+//           height="300"
+//           alt="We don't have the images. Sorry :("
+//         />
+//         <br></br>
+//         <br></br>
+//       </div>
+//     </li>
+//   );
+// }
+
+function TracksItem(props) {
+  const name = props.obj;
+  const pics = props.pics;
+  var index = props.index;
+  return (
+    <li>
+      <div className="tracks-item">
+        <span>{name}</span>
+        <br></br>
+        <img
+          src={pics[index]}
+          width="300"
+          height="300"
+          alt="We don't have the images. Sorry :("
+        />
+        <br></br>
+        <br></br>
+      </div>
+    </li>
+  );
+}
+
+function ArtistItem(props) {
+  const name = props.obj;
+  const pics = props.pics;
+  var index = props.index;
+  return (
+    <li>
+      <div className="artist-item">
+        <span>{name}</span>
+        <br></br>
+        <img
+          src={pics[index]}
+          width="300"
+          height="300"
+          alt="We don't have the images. Sorry :("
+        />
+        <br></br>
+        <br></br>
+      </div>
+    </li>
+  );
+}
 class Artists extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +78,9 @@ class Artists extends Component {
       id: "",
       user: "",
       datas: [],
-      imagez: []
+      imagez: [],
+      artist: [],
+      artistimage: []
     };
   }
 
@@ -27,7 +95,9 @@ class Artists extends Component {
         id: res.data.id,
         user: res.data.displayName,
         datas: res.data.songName,
-        imagez: res.data.image
+        imagez: res.data.image,
+        artist: res.data.artist,
+        artistimage: res.data.artistImage
       });
     });
 

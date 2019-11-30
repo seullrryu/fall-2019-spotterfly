@@ -36,10 +36,6 @@
   }
 }
 
-h1 {
-  font-weight: 300;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -71,6 +67,7 @@ button {
   margin-bottom: 150px;
   color: white;
   border-radius: 20px;
+  border: none; 
   background-color: #1db954;
 }
 button:hover {
@@ -97,6 +94,7 @@ nav {
   flex-direction: row;
   background-color: #1db954;
   height: 100px;
+  position: relative;
 }
 nav > div {
   margin-top: 50px;
@@ -142,3 +140,9 @@ main {
   }
   padding-bottom: 15px;
 }
+
+.display-box {
+  width: 500px;
+  margin: auto;
+}
+
