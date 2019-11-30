@@ -118,7 +118,7 @@ class Artists extends Component {
       processdatas: processeddata2
     }); */ //this is for parsing songID but it doesnt work
   }
-
+  
   render() {
     var top_tracks = this.state.datas;
     var top_tracks_pics = this.state.imagez;
@@ -134,7 +134,14 @@ class Artists extends Component {
             </a>
           </div>
           <div>
-            <Link to="/artists">Profile</Link>
+            <a href={`/artists?user=${this.state.id}`}>
+              <Link to="/artists">Profile</Link>
+            </a>
+          </div>
+          <div>
+            <a href={`/friends?user=${this.state.id}`}>
+              <Link to="/friends">Friends</Link>
+            </a>
           </div>
         </nav>
         <br></br>
