@@ -7,7 +7,9 @@ var playlistSchema = new mongoose.Schema({
   songID: Array,
   displayName: String,
   songName: Array,
-  image: Array
+  image: Array,
+  artist: Array,
+  artistImage: Array
 });
 
 mongoose.model("playlistModel", playlistSchema);
