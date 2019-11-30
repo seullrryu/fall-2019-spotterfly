@@ -79,6 +79,8 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
                 console.log("passed distance check");
                 if (OverlapCheck(user1, myDoc.Songs,1)){ // checks overlap of 1 #TODO change the overlap num 
                     console.log("there were matches"); 
+                } else {
+                     console.log("No matches!!!!!");
                 }
             }
         } );  
@@ -87,7 +89,6 @@ function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays o
 
 
 
-// function checkAll(currentUser, otherUsers) needs to be made 
 //must determine how to loop through all users to grab songs 
 //takes in current user as an object and looks at its location first 
 // if the location matches with the otherUser location by calling myFunctions distance_checker 
