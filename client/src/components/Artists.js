@@ -48,44 +48,66 @@ class Artists extends Component {
       processdatas: processeddata2
     }); */ //this is for parsing songID but it doesnt work
   }
-
+  
   render() {
+    var top_tracks = this.state.datas;
+    var top_tracks_pics = this.state.imagez;
+    var top_artists = this.state.artist;
+    var top_artists_pics = this.state.artistimage;
+
     return (
-      <div className="container">
-        <section className="top-artists">
-          <nav>
-            <div>
-              <a href="/">
-                <Link to="/">Home</Link>
-              </a>
-            </div>
-            <div>
-              <a href={`/artists?user=${this.state.id}`}>
-                <Link to="/profile">Profile</Link>
-              </a>
-            </div>
-            <div>
-              <a href={`/friends?user=${this.state.id}`}>
-                <Link to="/friends">Friends</Link>
-              </a>
-            </div>
-          </nav>
+      <section className="top-artists">
+        <nav>
+          <div>
+            <a href="/">
+              <Link to="/">Home</Link>
+            </a>
+          </div>
+          <div>
+            <a href={`/artists?user=${this.state.id}`}>
+              <Link to="/artists">Profile</Link>
+            </a>
+          </div>
+          <div>
+            <a href={`/friends?user=${this.state.id}`}>
+              <Link to="/friends">Friends</Link>
+            </a>
+          </div>
+        </nav>
+        <br></br>
+        <div className="display-box">
           <h2>
             Thanks for logging in {this.state.user}! Your top tracks have been
-            imported.{" "}
+            imported.
           </h2>
-          <br></br>
           <p>Your top tracks are: </p>
-          <div className="display-box"></div>
-          <div style={{ float: "left" }}>
+          <div>
             <ol>
-              {this.state.datas.map(function(song, index1) {
+              {/* {this.state.datas.map(function(song, index1) {
                 return <li key={index1}>{song}</li>;
+              })} */}
+              {top_tracks.map((object, i) => {
+                return (
+                  <TracksItem
+                    obj={object}
+                    pics={top_tracks_pics}
+                    index={i}
+                  ></TracksItem>
+                );
+              })}
+
+              {top_artists.map((object, i) => {
+                return (
+                  <ArtistItem
+                    obj={object}
+                    pics={top_artists_pics}
+                    index={i}
+                  ></ArtistItem>
+                );
               })}
             </ol>
           </div>
-
-          <div style={{ float: "left" }}>
+          {/* <div>
             {this.state.imagez.map(function(song, index) {
               return (
                 <div key={index}>
@@ -93,9 +115,9 @@ class Artists extends Component {
                 </div>
               );
             })}
-          </div>
-        </section>
-      </div>
+          </div> */}
+        </div>
+      </section>
     );
   }
 }
