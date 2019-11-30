@@ -83,7 +83,7 @@ class Friends extends Component {
           <div className="friendinfo">
             <h2>{this.state.user}'s Friends{" "}</h2>
               <div className = "container">
-                <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" className = 'container__image'/>
+                <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" alt = "test image" className = 'container__image'/>
                 <div className= 'container__text'>
                   <h3>Friend 1</h3>
                   <p>Listens to Artist A and Artist B</p>
@@ -91,7 +91,7 @@ class Friends extends Component {
                 </div>
               </div>
               <div className = "container">
-                <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" className = 'container__image'/>
+                <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" alt = "test image" className = 'container__image'/>
                 <div className= 'container__text'>
                   <h3>Friend 2</h3>
                   <p>Listens to Artist C and Artist D</p>
@@ -99,7 +99,7 @@ class Friends extends Component {
                 </div>
               </div>
               <div className = "container">
-                <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" className = 'container__image'/>
+                <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" alt = "test image" className = 'container__image'/>
                 <div className= 'container__text'>
                   <h3>Friend 3</h3>
                   <p>Listens to Artist E and Artist F</p>
