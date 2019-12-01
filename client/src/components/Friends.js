@@ -77,6 +77,11 @@ class Friends extends Component {
               <Link to="/friends"><img id="friends-icon" src="/icons/friends.png" width="50" height="50" alt="Friends"></img></Link>
             </a>
           </div>
+          <div id="logout">
+            <a href="/">
+              <img id="logout-icon" src="/icons/logout.png" width="50" height="50" alt="Log Out"></img>
+            </a>
+          </div>
         </nav>
 
         <main>

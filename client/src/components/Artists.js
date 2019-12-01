@@ -121,7 +121,9 @@ class Artists extends Component {
             </a>
           </div>
           <div id="logout">
-            <a href="#"><img id="logout-icon" src="/icons/logout.png" width="50" height="50" alt="Log Out"></img></a>
+            <a href="/">
+              <img id="logout-icon" src="/icons/logout.png" width="50" height="50" alt="Log Out"></img>
+            </a>
           </div>
         </nav>
 
