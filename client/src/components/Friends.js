@@ -64,17 +64,17 @@ class Friends extends Component {
         <nav>
           <div>
             <a href="/">
-              <Link to="/">Home</Link>
+              <Link to="/"><img id="home-icon" src="/icons/home.png" width="50" height="50" alt="Home"></img></Link>
             </a>
           </div>
           <div>
             <a href={`/artists?user=${this.state.id}`}>
-              <Link to="/profile">Profile</Link>
+              <Link to="/profile"><img id="profile-icon" src="/icons/profile.png" width="50" height="50" alt="Profile"></img></Link>
             </a>
           </div>
           <div>
             <a href={`/friends?user=${this.state.id}`}>
-              <Link to="/friends">Friends</Link>
+              <Link to="/friends"><img id="friends-icon" src="/icons/friends.png" width="50" height="50" alt="Friends"></img></Link>
             </a>
           </div>
         </nav>

@@ -216,7 +216,6 @@ app.get("/callback", function(req, res) {
                   artistImage: artistImages
                 });
                 const result = await playlist.save();
-
                 console.log(result);
               }
               createPlaylist();
