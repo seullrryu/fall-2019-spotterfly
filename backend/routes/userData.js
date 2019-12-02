@@ -24,7 +24,10 @@ router.route("/:id").post((req, res) => {
     const result = await newUser.save();
     console.log(result);
   }
-  createUser();
+
+  if (UserData.findById(req.body.id) !== req.body.id) {
+    createUser();
+  }
 });
 
 module.exports = router;
