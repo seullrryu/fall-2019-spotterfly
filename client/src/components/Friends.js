@@ -57,6 +57,10 @@ class Friends extends Component {
     }
   }
 
+  logout() {
+    this.props.logoutHandler(); 
+  };
+
   render() {
     return (
       <section className="friends">
@@ -78,7 +82,7 @@ class Friends extends Component {
             </a>
           </div>
           <div id="logout">
-            <a href="/">
+            <a role="button" onClick={() => {this.logout()}} href="/" >
               <img id="logout-icon" src="/icons/logout.png" width="50" height="50" alt="Log Out"></img>
             </a>
           </div>
@@ -90,7 +94,7 @@ class Friends extends Component {
               <div className = "container">
                 <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" alt = "" className = 'container__image'/>
                 <div className= 'container__text'>
-                  <h3>Friend 1</h3>
+                  <a href="/"><h3>Friend 1</h3></a>
                   <p>Listens to Artist A and Artist B</p>
                   <p>Compatibility ♥♥♥♥♡ </p>
                 </div>
@@ -98,7 +102,7 @@ class Friends extends Component {
               <div className = "container">
                 <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" alt = "" className = 'container__image'/>
                 <div className= 'container__text'>
-                  <h3>Friend 2</h3>
+                  <a href="/"><h3>Friend 2</h3></a>
                   <p>Listens to Artist C and Artist D</p>
                   <p>Compatibility ♥♥♡♡♡ </p>
                 </div>
@@ -106,12 +110,11 @@ class Friends extends Component {
               <div className = "container">
                 <img src = "https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png" alt = "" className = 'container__image'/>
                 <div className= 'container__text'>
-                  <h3>Friend 3</h3>
+                  <a href="/"><h3>Friend 3</h3></a>
                   <p>Listens to Artist E and Artist F</p>
                   <p>Compatibility ♥♥♥♡♡ </p>
                 </div>
               </div>
-
           </div>
         </main>
       </section>
