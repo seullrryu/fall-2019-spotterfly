@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Link } from "react-router-dom";
 import "../App.scss";
 import axios from "axios";
-//import SpotifyWebApi from "spotify-web-api-js";
-//const spotifyApi = new SpotifyWebApi();
 
 function TracksItem(props) {
   const name = props.obj;
@@ -67,34 +65,57 @@ class Artists extends Component {
     var fields = urlParams.split("=");
     const id = fields[1];
     const url = `http://localhost:8888/playlistdata/${id}`;
+
     axios.get(url).then(res => {
+      var song_array = [];
+      var song_image_array = []; 
+      var artist_array = [];
+      var artist_image_array = []; 
+     
+      var i; 
+       //Just get the top 10 songs
+      if (res.data.songName.length >= 10) {
+        for (i = 0; i < 10; i++) {
+          song_array.push(res.data.songName[i]); 
+          song_image_array.push(res.data.image[i]);
+        }
+      }
+      else {
+        for (i = 0; i < res.data.songName.length; i++) {
+          song_array.push(res.data.songName[i]); 
+          song_image_array.push(res.data.image[i]);
+        }
+      }
+
+      var j; 
+      // Just get the top 10 Artists 
+      if (res.data.artist.length >= 10) {
+        for (j = 0; j < 10; j++) {
+          artist_array.push(res.data.artist[j]); 
+          artist_image_array.push(res.data.artistImage[j]);
+        }
+      }
+      else {
+        for (j = 0; j < res.data.artist.length; j++) {
+          artist_array.push(res.data.artist[j]); 
+          artist_image_array.push(res.data.artistImage[j]);        
+        }
+      }
+      
       this.setState({
         id: res.data.id,
         user: res.data.displayName,
-        datas: res.data.songName.slice(0,5),
-        imagez: res.data.image.slice(0,5),
-        artist: res.data.artist,
-        artistimage: res.data.artistImage
+        datas: song_array,
+        imagez: song_image_array,
+        artist: artist_array,
+        artistimage: artist_image_array
       });
     });
-
-    /*   var processeddata2 = [];
-    this.state.datas.forEach(element => {
-      console.log(element);
-      spotifyApi.getTrack(element).then(
-        function(data) {
-          console.log("Artist albums", data);
-        },
-        function(err) {
-          console.error(err);
-        }
-      );
-    });
-
-    this.setState({
-      processdatas: processeddata2
-    }); */ //this is for parsing songID but it doesnt work
   }
+
+  logout() {
+    this.props.logoutHandler(); 
+  };
   
   render() {
     var top_tracks = this.state.datas;
@@ -121,7 +142,7 @@ class Artists extends Component {
             </a>
           </div>
           <div id="logout">
-            <a href="/">
+            <a role="button" onClick={() => {this.logout()}} href="/" >
               <img id="logout-icon" src="/icons/logout.png" width="50" height="50" alt="Log Out"></img>
             </a>
           </div>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import { BrowserRouter as Link } from 'react-router-dom';
 import Login from "./components/Login.js";
-import Profile from "./components/Profile.js";
+// import Profile from "./components/Profile.js";
 import "./App.scss";
 
 import SpotifyWebApi from "spotify-web-api-js";
@@ -143,31 +143,31 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.loggedIn === true) {
-      if (this.state.next) {
-        return (
-          <Profile
-            userinfo={this.state.user}
-            artists={this.state.topArtists.artists}
-            pics={this.state.topArtists.artistsPic}
-            tracks={this.state.topTracks.tracks}
-            tracksPic={this.state.topTracks.tracksPic}
-          ></Profile>
-        );
-      } else {
-        return (
-          <section class="Loggedin">
-            <h2>Hey there, thanks for logging in! </h2>
-            <div>
-              <button onClick={() => this.getTopArtists()}>
-                <b>Click Here to Get Your Top Artists.</b>
-              </button>
-            </div>
-          </section>
-        );
-      }
-    } 
-    else {
+    // if (this.state.loggedIn === true) {
+    //   if (this.state.next) {
+    //     return (
+    //       <Profile
+    //         userinfo={this.state.user}
+    //         artists={this.state.topArtists.artists}
+    //         pics={this.state.topArtists.artistsPic}
+    //         tracks={this.state.topTracks.tracks}
+    //         tracksPic={this.state.topTracks.tracksPic}
+    //       ></Profile>
+    //     );
+    //   } else {
+    //     return (
+    //       <section class="Loggedin">
+    //         <h2>Hey there, thanks for logging in! </h2>
+    //         <div>
+    //           <button onClick={() => this.getTopArtists()}>
+    //             <b>Click Here to Get Your Top Artists.</b>
+    //           </button>
+    //         </div>
+    //       </section>
+    //     );
+    //   }
+    // } 
+    // else {
       return (
         <div className="App">
           <div class="App-background">
@@ -181,6 +181,5 @@ class App extends Component {
       );
     }
   }
-}
 
 export default App;
