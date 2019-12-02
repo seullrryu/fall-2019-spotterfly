@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { BrowserRouter as Link } from "react-router-dom";
 import "../App.scss";
+import setTitle from "../setTitle";
 import axios from "axios";
 
+//decorator design pattern
+@setTitle((props) => {
+    //if(!props.user) return 'Loading friends...'
+    return "Your Friends"
+})
 class Friends extends Component {
   //check for Geolocation support
   // if (navigator.geolocation) {
@@ -11,8 +17,6 @@ class Friends extends Component {
   // else {
   //   console.log('Geolocation is not supported for this Browser/OS.');
   // }
-
-
 
   constructor(props) {
     super(props);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Link } from "react-router-dom";
 import "../App.scss";
+import setTitle from "../setTitle";
 import axios from "axios";
 
 function TracksItem(props) {
@@ -45,6 +46,12 @@ function ArtistItem(props) {
     </li>
   );
 }
+
+//decorator design pattern
+@setTitle((props) => {
+    //if(!props.user) return 'Loading friends...'
+    return "Your Profile"
+})
 class Artists extends Component {
   constructor(props) {
     super(props);
