@@ -52,6 +52,7 @@ function ArtistItem(props) {
     //if(!props.user) return 'Loading friends...'
     return "Your Profile"
 })
+
 class Artists extends Component {
   constructor(props) {
     super(props);
