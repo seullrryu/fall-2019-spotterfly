@@ -30,8 +30,11 @@ connection
   })
   .catch(err => console.error("could not connect to mongodb", err));
 
-const userDataRouter = require("./routes/userData");
+const UserDataRouter = require("./routes/userData");
+const UserDataModel = require('./model/userData.model');
 const ArtistRouter = require("./routes/Artist");
+const AristInfo = require('./model/Artist.model')
+
 
 var tokenSchema = new mongoose.Schema({
   token: Object
@@ -179,13 +182,8 @@ app.get("/callback", function(req, res) {
             uri: "https://api.spotify.com/v1/me/top/artists",
             headers: { Authorization: "Bearer " + access_token },
             json: true
-          };
+          }; // douplicate of this was deleted 
 
-          var playlistOptions3 = {
-            uri: "https://api.spotify.com/v1/me/top/artists",
-            headers: { Authorization: "Bearer " + access_token },
-            json: true
-          };
 
           request.get(playlistOptions2, function(error, response, body2) {
             var songs = Array();
@@ -195,6 +193,8 @@ app.get("/callback", function(req, res) {
               songs.push(items.id); //adding song id
               songnames.push(items.name); //adding song name
               img.push(items.album.images[1].url);
+
+              //#TODO if(items.id in Artists song id continue else push it along with song name and artist name to artists modesl )
             });
 
             request.get(playlistOptions3, function(error, response, body3) {
@@ -330,7 +330,7 @@ app.get("/refresh_token", function(req, res) {
 
 const playlistRouter = require("./routes/playlist");
 app.use("/playlistdata", playlistRouter);
-app.use("/userData", userDataRouter);
+app.use("/userData", UserDataRouter);
 //app.use("/Artist", ArtistRouter);
 
 app.listen(port, () => {
