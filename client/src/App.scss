@@ -9,7 +9,6 @@
   margin: 0;
   overflow: hidden;
 }
-
 .App-background {
   margin: 0;
   min-height: 100%;
@@ -57,7 +56,7 @@ h1 {
   font-size: 60px;
   font-family: "Titillium Web", sans-serif;
 }
-button {
+#login-button {
   font-size: 20px;
   padding-left: 50px;
   padding-right: 50px;
@@ -70,7 +69,7 @@ button {
   border: none; 
   background-color: #1db954;
 }
-button:hover {
+#login-button:hover {
   box-shadow: 0px 10px 50px rgb(0, 0, 0.5);
 }
 footer {
@@ -88,27 +87,8 @@ footer {
   text-align: center;
 }
 
-/* Profile Page */
-nav {
-  display: flex;
-  flex-direction: row;
-  background-color: #1db954;
-  height: 100px;
-  position: relative;
-}
-nav > div {
-  margin-top: 50px;
-  margin-left: 5vw;
-  padding-right: 50px;
-  font-size: 24px;
-  text-decoration: none;
-}
-main {
-  margin-left: 5vw;
-  margin-right: 5vw;
-}
 
-/* Friends Page */
+// Nav bar
 nav {
   display: flex;
   flex-direction: row;
@@ -116,16 +96,25 @@ nav {
   height: 100px;
 }
 nav > div {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto; 
+  padding-right: 50px;
+  font-size: 24px;
+  text-decoration: none;
+}
+nav > a {
   margin-top: 50px;
   margin-left: 5vw;
   padding-right: 50px;
   font-size: 24px;
   text-decoration: none;
 }
+
+
 main {
   margin-left: 5vw;
   margin-right: 5vw;
-
 }
 
 .container {
@@ -138,11 +127,31 @@ main {
   &__text {
     display: inline;
   }
-  padding-bottom: 15px;
+  padding-bottom: 50px;
+  
+}
+#top {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 100px;
+  padding: 10px;
+  width: 50%;
+}
+.labels {
+  text-align: center;
+  font-size: 24px; 
+  font-weight: bold
+}
+#compatible {
+  padding: 5px 5px;
+  font-size: 16px;
+  color: white;
+  border-radius: 20px;
+  border: none; 
+  background-color: #1db954;
+}
+#compatible:hover {
+  box-shadow: 0px 10px 50px rgb(0, 0, 0.1);
 }
 
-.display-box {
-  width: 500px;
-  margin: auto;
-}
 
