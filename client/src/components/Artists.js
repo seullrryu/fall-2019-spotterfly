@@ -48,11 +48,10 @@ function ArtistItem(props) {
 }
 
 //decorator design pattern
-@setTitle((props) => {
-    //if(!props.user) return 'Loading friends...'
-    return "Your Profile"
+@setTitle(props => {
+  //if(!props.user) return 'Loading friends...'
+  return "Your Profile";
 })
-
 class Artists extends Component {
   constructor(props) {
     super(props);
@@ -76,40 +75,38 @@ class Artists extends Component {
 
     axios.get(url).then(res => {
       var song_array = [];
-      var song_image_array = []; 
+      var song_image_array = [];
       var artist_array = [];
-      var artist_image_array = []; 
-     
-      var i; 
-       //Just get the top 10 songs
+      var artist_image_array = [];
+
+      var i;
+      //Just get the top 10 songs
       if (res.data.songName.length >= 10) {
         for (i = 0; i < 10; i++) {
-          song_array.push(res.data.songName[i]); 
+          song_array.push(res.data.songName[i]);
           song_image_array.push(res.data.image[i]);
         }
-      }
-      else {
+      } else {
         for (i = 0; i < res.data.songName.length; i++) {
-          song_array.push(res.data.songName[i]); 
+          song_array.push(res.data.songName[i]);
           song_image_array.push(res.data.image[i]);
         }
       }
 
-      var j; 
-      // Just get the top 10 Artists 
+      var j;
+      // Just get the top 10 Artists
       if (res.data.artist.length >= 10) {
         for (j = 0; j < 10; j++) {
-          artist_array.push(res.data.artist[j]); 
+          artist_array.push(res.data.artist[j]);
+          artist_image_array.push(res.data.artistImage[j]);
+        }
+      } else {
+        for (j = 0; j < res.data.artist.length; j++) {
+          artist_array.push(res.data.artist[j]);
           artist_image_array.push(res.data.artistImage[j]);
         }
       }
-      else {
-        for (j = 0; j < res.data.artist.length; j++) {
-          artist_array.push(res.data.artist[j]); 
-          artist_image_array.push(res.data.artistImage[j]);        
-        }
-      }
-      
+
       this.setState({
         id: res.data.id,
         user: res.data.displayName,
@@ -122,9 +119,9 @@ class Artists extends Component {
   }
 
   logout() {
-    this.props.logoutHandler(); 
-  };
-  
+    this.props.logoutHandler();
+  }
+
   render() {
     var top_tracks = this.state.datas;
     var top_tracks_pics = this.state.imagez;
@@ -133,36 +130,73 @@ class Artists extends Component {
 
     return (
       <section className="profile">
-        <nav>
-          <div>
-            <a href="/">
-              <Link to="/"><img id="home-icon" src="/icons/home.png" width="50" height="50" alt="Home"></img></Link>
-            </a>
-          </div>
-          <div>
-            <a href={`/artists?user=${this.state.id}`}>
-              <Link to="/profile"><img id="profile-icon" src="/icons/profile.png" width="50" height="50" alt="Profile"></img></Link>
-            </a>
-          </div>
-          <div>
-            <a href={`/friends?user=${this.state.id}`}>
-              <Link to="/friends"><img id="friends-icon" src="/icons/friends.png" width="50" height="50" alt="Friends"></img></Link>
-            </a>
-          </div>
-          <div id="logout">
-            <a role="button" onClick={() => {this.logout()}} href="/" >
-              <img id="logout-icon" src="/icons/logout.png" width="50" height="50" alt="Log Out"></img>
-            </a>
-          </div>
-        </nav>
+        <div class="App-background2">
+          <nav>
+            <div>
+              <a href="/">
+                <Link to="/">
+                  <img
+                    id="home-icon"
+                    src="/icons/home.png"
+                    width="50"
+                    height="50"
+                    alt="Home"
+                  ></img>
+                </Link>
+              </a>
+            </div>
+            <div>
+              <a href={`/artists?user=${this.state.id}`}>
+                <Link to="/profile">
+                  <img
+                    id="profile-icon"
+                    src="/icons/profile.png"
+                    width="50"
+                    height="50"
+                    alt="Profile"
+                  ></img>
+                </Link>
+              </a>
+            </div>
+            <div>
+              <a href={`/friends?user=${this.state.id}`}>
+                <Link to="/friends">
+                  <img
+                    id="friends-icon"
+                    src="/icons/friends.png"
+                    width="50"
+                    height="50"
+                    alt="Friends"
+                  ></img>
+                </Link>
+              </a>
+            </div>
+            <div id="logout">
+              <a
+                role="button"
+                onClick={() => {
+                  this.logout();
+                }}
+                href="/"
+              >
+                <img
+                  id="logout-icon"
+                  src="/icons/logout.png"
+                  width="50"
+                  height="50"
+                  alt="Log Out"
+                ></img>
+              </a>
+            </div>
+          </nav>
 
-        <br></br>
-        <main>
-          <h2>
-            Thanks for logging in {this.state.user}! Your top tracks have been
-            imported.
-          </h2>
-          <article id="top">
+          <br></br>
+          <main>
+            <h2>
+              Thanks for logging in {this.state.user}! Your top tracks have been
+              imported.
+            </h2>
+            <article id="top">
               <div className="items">
                 <ol>
                   <p className="labels">Top Tracks</p>
@@ -177,8 +211,8 @@ class Artists extends Component {
                   })}
                 </ol>
               </div>
-              
-              <div className="items"> 
+
+              <div className="items">
                 <ol>
                   <p className="labels">Top Artists</p>
                   {top_artists.map((object, i) => {
@@ -192,8 +226,9 @@ class Artists extends Component {
                   })}
                 </ol>
               </div>
-            </article> 
-        </main>
+            </article>
+          </main>
+        </div>
       </section>
     );
   }
