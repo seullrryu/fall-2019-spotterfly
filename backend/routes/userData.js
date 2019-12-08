@@ -69,7 +69,7 @@ function checkAll(user1) {
     ) {
       // takes distances and checks through distance to see if its in range.#TODO change the range
       console.log("passed distance check");
-      if ((matched_songs = OverlapCheck(user1.Songs, myDoc, 1)) === null) {
+      if ((matched_songs = OverlapCheck(user1.songs, myDoc, 1)) === null) {
         // idk if the matched_songs = in an if works but it should
         console.log("No matches!!!!!");
       } else {
@@ -82,7 +82,7 @@ function checkAll(user1) {
 
 async function checkAll2() {
   var matches = new Map();
-  user1 = await UserData.findOne({ userID: "f47nt6lvjgbqcadsly5onj49h" });
+  user1 = await UserData.findOne({ userID: "f47nt6lvjgbqcadsly5onj49h" }); //my data
   user2 = await UserData.find(); //user that is being compared to
   user2.forEach(myDoc => {
     if (user1 == myDoc) {
