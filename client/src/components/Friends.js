@@ -117,7 +117,7 @@ class Friends extends Component {
         const pos = [];
         pos.push(position.coords.longitude);
         pos.push(position.coords.latitude);
-        if (this.state.id != "") {
+        if (this.state.id !== "") {
           axios.post(url, {
             id: this.state.id,
             name: this.state.user,
