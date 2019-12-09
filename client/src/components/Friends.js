@@ -41,15 +41,15 @@ class Friends extends Component {
     this.state = {
       id: "",
       user: "",
-      lat: "",
-      lon: "",
+      LonLat: [],
       songs: [],
-      songID: [],
+      songIDs: [],
       otherUsers: {
         username: [],
         location: {},
         userID: [],
-        songs: {}
+        songs: {},
+        songIDs:{}
       }
     };
     this.getLocation = this.getLocation.bind(this);
@@ -61,6 +61,7 @@ class Friends extends Component {
     var fields = urlParams.split("=");
     const id = fields[1];
 
+    //My stuff
     const url = `http://localhost:8888/playlistdata/${id}`;
     axios.get(url).then(res => {
       var song_array = [];
@@ -93,37 +94,46 @@ class Friends extends Component {
         id: res.data.id,
         user: res.data.displayName,
         songs: song_array,
-        songid: res.data.songID,
+        songIDs: res.data.songID,
         artists: artist_array
       });
     });
 
-    //userdata stuff
+    //other user data stuff
     var userdatas = "http://localhost:8888/userdata/";
     axios.get(userdatas).then(res => {
       var username = [];
       var locationDict = {};
       var userID = [];
       var songDict = {};
-      var songname = [];
+      var songID_Dict= [];
       for (var i = 0; i < res.data.length; i++) {
         username.push(res.data[i].name);
         userID.push(res.data[i].userID);
         locationDict[res.data[i].name] = res.data[i].LonLat;
-        songDict[res.data[i].name] = res.data[i].songs;
-        songname = res.data[i].songName;
-        console.log(songname);
+        songDict[res.data[i].name] = res.data[i].songName;
+        songID_Dict[res.data[i].name] = res.data[i].songs;
       }
+
+      //Getting my location 
+      //If I exist in the locations dictionary, set state to the array of [longitude, latitude] of where I am
+      if (this.state.user in locationDict) {
+        this.setState({
+          LonLat: locationDict[this.state.user]
+        })
+      }
+      
       this.setState(prevState => ({
         otherUsers: {
           ...prevState.otherUsers,
           username: username,
           location: locationDict,
           userID: userID,
-          songs: songDict
+          songs: songDict,
+          songIDs:songID_Dict
         }
       }));
-      console.log(this.state.otherUsers);
+      console.log(this.state);
     });
 
     function geolocationObservable(options) {
