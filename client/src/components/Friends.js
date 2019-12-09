@@ -5,18 +5,19 @@ import setTitle from "../setTitle";
 import axios from "axios";
 import { Observable } from "rxjs";
 
-
 function Users(props) {
   const name = props.obj;
   const songs = props.songs;
   // var index = props.index;
   return (
     <li>
-        <span>{name}</span>
-        <p>Songs they listen to:</p>
-        <ol>
-          {songs.map(song => <li>{song}</li>)}
-        </ol>
+      <span>{name}</span>
+      <p>Songs they listen to:</p>
+      <ol>
+        {songs.map(song => (
+          <li>{song}</li>
+        ))}
+      </ol>
     </li>
   );
 }
@@ -26,7 +27,6 @@ function Users(props) {
   //if(!props.user) return 'Loading friends...'
   return "Your Friends";
 })
-
 class Friends extends Component {
   //check for Geolocation support
   // if (navigator.geolocation) {
@@ -46,9 +46,9 @@ class Friends extends Component {
       songs: [],
       songID: [],
       otherUsers: {
-        username:[],
-        location:{}, 
-        userID:[], 
+        username: [],
+        location: {},
+        userID: [],
         songs: {}
       }
     };
@@ -60,7 +60,7 @@ class Friends extends Component {
     urlParams = urlParams.toString();
     var fields = urlParams.split("=");
     const id = fields[1];
-    
+
     const url = `http://localhost:8888/playlistdata/${id}`;
     axios.get(url).then(res => {
       var song_array = [];
@@ -93,40 +93,38 @@ class Friends extends Component {
         id: res.data.id,
         user: res.data.displayName,
         songs: song_array,
-        songid: res.data.songID, 
+        songid: res.data.songID,
         artists: artist_array
       });
     });
 
-    
-
-    //userdata stuff 
-    var userdatas = "http://localhost:8888/userdata"; 
+    //userdata stuff
+    var userdatas = "http://localhost:8888/userdata/";
     axios.get(userdatas).then(res => {
-      var username = []; 
+      var username = [];
       var locationDict = {};
-      var userID = []; 
+      var userID = [];
       var songDict = {};
+      var songname = [];
       for (var i = 0; i < res.data.length; i++) {
         username.push(res.data[i].name);
         userID.push(res.data[i].userID);
         locationDict[res.data[i].name] = res.data[i].LonLat;
         songDict[res.data[i].name] = res.data[i].songs;
+        songname = res.data[i].songName;
+        console.log(songname);
       }
       this.setState(prevState => ({
         otherUsers: {
           ...prevState.otherUsers,
-          username:username,
-          location:locationDict,
-          userID:userID,
+          username: username,
+          location: locationDict,
+          userID: userID,
           songs: songDict
         }
-      }))
+      }));
       console.log(this.state.otherUsers);
     });
-
-
-
 
     function geolocationObservable(options) {
       return new Observable(observer => {
@@ -175,6 +173,7 @@ class Friends extends Component {
             id: this.state.id,
             name: this.state.user,
             songs: this.state.songid,
+            songNames: this.state.songs,
             location: pos
           });
         }
@@ -196,7 +195,7 @@ class Friends extends Component {
   }
 
   render() {
-    var list_of_users = this.state.otherUsers.username; 
+    var list_of_users = this.state.otherUsers.username;
     return (
       <section className="friends">
         {this.getLocation()}
