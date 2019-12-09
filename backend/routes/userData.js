@@ -4,11 +4,13 @@ let UserData = require("../model/userData.model");
 function OverlapCheck(user1, user2, overlap) {
   // user1 and user2 are song arrays overlap is how many songs they need in common to match
   var count = 0;
-  var u2Songs = user2.songs; //not sure what this does? Are user2 jsons or song arrays? if they are song arrays whats user2.songs?
+  var u1Songs = user1.songs;
+  var u2Songs = user2.songs;
   var screenOut = [];
-  for (var i = 0; i < user1.length; i++) {
-    if (u2Songs.indexOf(user1[i]) !== -1) {
-      screenOut.push(user1[i]);
+  for (var i = 0; i < u1Songs.length; i++) {
+    console.log(u2Songs[i]);
+    if (u2Songs.indexOf(u1Songs[i]) !== -1) {
+      screenOut.push(u1Songs[i]);
       count++;
     }
   }
@@ -80,42 +82,54 @@ function checkAll(user1) {
   });
 }
 
-async function checkAll2() {
+async function checkAll2(id) {
   var matches = new Map();
-  user1 = await UserData.findOne({ userID: "f47nt6lvjgbqcadsly5onj49h" }); //my data
-  user2 = await UserData.find(); //user that is being compared to
-  user2.forEach(myDoc => {
-    if (user1 == myDoc) {
-      console.log("im here");
-    }
-    var matched_songs = [];
+  const user1 = await UserData.findOne({ userID: id });
+  const user2 = await UserData.find({
+    userID: { $nin: [id] }
+  });
+  console.log(user2);
+
+  nearby = [];
+  //console.log(songdat);
+  for (var i = 0; i < user2.length; i++) {
     if (
       distance_checker(
         distance(
           user1.LonLat[0],
           user1.LonLat[1],
-          myDoc.LonLat[0],
-          myDoc.LonLat[1]
+          user2[i].LonLat[0],
+          user2[i].LonLat[1]
         ),
         5
       )
     ) {
-      // takes distances and checks through distance to see if its in range.#TODO change the range
-      console.log("passed distance check");
-      if ((matched_songs = OverlapCheck(user1.songs, user2, 1)) === null) {
+      if ((matched_songs = OverlapCheck(user1, user2[i], 1)) === null) {
         // idk if the matched_songs = in an if works but it should
         console.log("No matches!!!!!");
       } else {
         console.log("there were matches");
-        matches.set(user2.userID, matched_songs);
-        console.log(matches);
+        matches.set(user2[i].userID, matched_songs);
       }
+      console.log(matches);
+      /* if (user2[i].userID != user1.userID && !nearby.includes(user2[i])) {
+        nearby.push(user2[i]);
+      } */
     }
-  });
+  }
 }
 
+//console.log(nearby);
+/*for (var i = 0; i < nearby.length; i++) {
+    const intersection = songdat.filter(element =>
+      nearby[i].songs.includes(element)
+    );
+    console.log(intersection);
+  }
+}*/
+
 router.route("/:id/find").get((req, res) => {
-  checkAll2;
+  res.json(checkAll2(req.body.id));
 });
 
 router.route("/").get((req, res) => {

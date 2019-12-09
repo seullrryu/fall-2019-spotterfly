@@ -10,9 +10,6 @@ import { Observable } from "rxjs";
   //if(!props.user) return 'Loading friends...'
   return "Your Friends";
 })
-
-
-
 class Friends extends Component {
   //check for Geolocation support
   // if (navigator.geolocation) {
@@ -20,7 +17,7 @@ class Friends extends Component {
   // }
   // else {
   //   console.log('Geolocation is not supported for this Browser/OS.');
-  // } 
+  // }
   constructor(props) {
     super(props);
 
@@ -31,7 +28,7 @@ class Friends extends Component {
       lon: [],
       songs: [],
       songID: [],
-      pos: [],
+      pos: []
     };
     this.getLocation = this.getLocation.bind(this);
   }
@@ -45,37 +42,35 @@ class Friends extends Component {
     axios.get(url).then(res => {
       var song_array = [];
       var artist_array = [];
-           
-      var i; 
-       //Just get the top 10 songs
+
+      var i;
+      //Just get the top 10 songs
       if (res.data.songName.length >= 10) {
         for (i = 0; i < 10; i++) {
-          song_array.push(res.data.songName[i]); 
+          song_array.push(res.data.songName[i]);
         }
-      }
-      else {
+      } else {
         for (i = 0; i < res.data.songName.length; i++) {
-          song_array.push(res.data.songName[i]); 
+          song_array.push(res.data.songName[i]);
         }
       }
 
-      var j; 
-      // Just get the top 10 Artists 
+      var j;
+      // Just get the top 10 Artists
       if (res.data.artist.length >= 10) {
         for (j = 0; j < 10; j++) {
-          artist_array.push(res.data.artist[j]); 
+          artist_array.push(res.data.artist[j]);
         }
-      }
-      else {
+      } else {
         for (j = 0; j < res.data.artist.length; j++) {
-          artist_array.push(res.data.artist[j]); 
+          artist_array.push(res.data.artist[j]);
         }
       }
       this.setState({
         id: res.data.id,
         user: res.data.displayName,
         songs: res.data.song_array,
-        songid: res.data.songID, 
+        songid: res.data.songID,
         artists: res.data.artist_array
       });
     });
@@ -122,12 +117,14 @@ class Friends extends Component {
         const pos = [];
         pos.push(position.coords.longitude);
         pos.push(position.coords.latitude);
-        axios.post(url, {
-          id: this.state.id,
-          name: this.state.user,
-          songs: this.state.songid,
-          location: pos
-        });
+        if (this.state.id !== "") {
+          axios.post(url, {
+            id: this.state.id,
+            name: this.state.user,
+            songs: this.state.songid,
+            location: pos
+          });
+        }
         this.setState({
           lat: position.coords.latititude,
           lon: position.coords.longitude
@@ -147,11 +144,11 @@ class Friends extends Component {
 
   render() {
     //pass on these arrays to the compare functions.
-    
+
     // eslint-disable-next-line
-    var topsongs = this.state.songs; 
+    var topsongs = this.state.songs;
     // eslint-disable-next-line
-    var topartists = this.state.artists; 
+    var topartists = this.state.artists;
     return (
       <section className="friends">
         {this.getLocation()}
@@ -228,7 +225,9 @@ class Friends extends Component {
                   <h3>Friend 1</h3>
                 </a>
                 {/* <p>Listens to Artist A and Artist B</p> */}
-                <button id="compatible">Click to find out your Compatibility!</button>
+                <button id="compatible">
+                  Click to find out your Compatibility!
+                </button>
               </div>
             </div>
             <div className="container">
@@ -242,7 +241,9 @@ class Friends extends Component {
                   <h3>Friend 2</h3>
                 </a>
                 {/* <p>Listens to Artist C and Artist D</p> */}
-                <button id="compatible">Click to find out your Compatibility!</button>
+                <button id="compatible">
+                  Click to find out your Compatibility!
+                </button>
               </div>
             </div>
             <div className="container">
@@ -256,7 +257,9 @@ class Friends extends Component {
                   <h3>Friend 3</h3>
                 </a>
                 {/* <p>Listens to Artist E and Artist F</p> */}
-                <button id="compatible">Click to find out your Compatibility!</button>
+                <button id="compatible">
+                  Click to find out your Compatibility!
+                </button>
               </div>
             </div>
           </div>
