@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 function Users(props) {
   const name = props.obj;
   const songs = props.songs;
-  var index = props.index;
+  // var index = props.index;
   return (
     <li>
         <span>{name}</span>
