@@ -83,7 +83,7 @@ function distance_checker(dist, range) {
 } */
 
 async function checkAll2(id) {
-  //replace id with your spotify id to debug
+  //replace id with your spotify id to debug. open web browser to localhost://8888/userdata/find and check terminal console
   var matches = new Map();
   const user1 = await UserData.findOne({ userID: id }); //find user(you) from database;
   const user2 = await UserData.find({
@@ -125,7 +125,7 @@ async function checkAll2(id) {
 }
 
 router.route("/find").get(async (req, res) => {
-  res.json(checkAll2(req.body.id));
+  res.json(checkAll2(id));
 });
 
 router.route("/").get((req, res) => {
@@ -135,12 +135,6 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/:id").post((req, res) => {
-  /* newUser
-    .save()
-    .then(() => res.json("User added!"))
-    .catch(err => res.status(400).json("Error: " + err));
-*/
-
   async function createUser() {
     const newUser = new UserData({
       userID: req.body.id,
@@ -150,7 +144,7 @@ router.route("/:id").post((req, res) => {
       songName: req.body.songNames
     });
     const result = await newUser.save();
-    console.log(result);
+    // console.log(result);
   }
 
   createUser();

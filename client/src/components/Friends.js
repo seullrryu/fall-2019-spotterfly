@@ -105,11 +105,14 @@ class Friends extends Component {
       var locationDict = {};
       var userID = [];
       var songDict = {};
+      var songname = [];
       for (var i = 0; i < res.data.length; i++) {
         username.push(res.data[i].name);
         userID.push(res.data[i].userID);
         locationDict[res.data[i].name] = res.data[i].LonLat;
         songDict[res.data[i].name] = res.data[i].songs;
+        songname = res.data[i].songName;
+        console.log(songname);
       }
       this.setState(prevState => ({
         otherUsers: {
