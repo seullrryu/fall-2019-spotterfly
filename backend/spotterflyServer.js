@@ -21,7 +21,7 @@ app.use(express.json());
 const uri1 =
   "mongodb+srv://Alexander:helloworld123@cluster0-b7kar.gcp.mongodb.net/test?retryWrites=true&w=majority";
 const router = express.Router();
-mongoose.connect(uri1, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(uri1, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
 
 const connection = mongoose.connection;
 connection
@@ -129,7 +129,8 @@ app.get("/callback", function(req, res) {
       headers: {
         Authorization:
           "Basic " +
-          new Buffer(client_id + ":" + client_secret).toString("base64")
+          //new Buffer(client_id + ":" + client_secret).toString("base64")
+          Buffer.from(client_id + ":" + client_secret).toString("base64")
       },
       json: true
     };
