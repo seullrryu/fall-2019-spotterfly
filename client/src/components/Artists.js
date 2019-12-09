@@ -72,7 +72,7 @@ class Artists extends Component {
     var fields = urlParams.split("=");
     const id = fields[1];
     const url = `http://localhost:8888/playlistdata/${id}`;
-
+    
     axios.get(url).then(res => {
       var song_array = [];
       var song_image_array = [];
