@@ -51,7 +51,7 @@ function distance_checker(dist, range) {
   }
 }
 
-function checkAll(user1) {
+/*function checkAll(user1) {
   var matches = new Map();
   db.userData.find().forEach(function(myDoc) {
     if (user1 === myDoc) {
@@ -80,22 +80,24 @@ function checkAll(user1) {
       }
     }
   });
-}
+} */
 
 async function checkAll2(id) {
+  //replace id with your spotify id to debug
   var matches = new Map();
-  const user1 = await UserData.findOne({ userID: id });
+  const user1 = await UserData.findOne({ userID: id }); //find user(you) from database;
   const user2 = await UserData.find({
-    userID: { $nin: [id] }
+    userID: { $nin: [id] } //find everyone whos not the user from database
   });
   console.log(user2);
-
-  nearby = [];
   //console.log(songdat);
   for (var i = 0; i < user2.length; i++) {
+    //looping through other users in the database. user2[i] = user2 at ith position in the document
     if (
       distance_checker(
+        // distance checker sees if the distance between the user and the other user is <5
         distance(
+          //distance takes in user longitude latitude and the other user's longitude latitude
           user1.LonLat[0],
           user1.LonLat[1],
           user2[i].LonLat[0],
@@ -105,35 +107,28 @@ async function checkAll2(id) {
       )
     ) {
       if ((matched_songs = OverlapCheck(user1, user2[i], 1)) === null) {
-        // idk if the matched_songs = in an if works but it should
+        //overlapchecks for similar songs between user1 and user2[i], 1 is the number of overlapped songs allowed
         console.log("No matches!!!!!");
       } else {
         console.log("there were matches");
-        matches.set(user2[i].userID, matched_songs);
+        // matches.set(user2[i].userID, matched_songs);
+        var json = { user: user2[i].userID, songs: matched_songs }; //return it in json format
       }
-      console.log(matches);
+      //console.log(matches);
+
       /* if (user2[i].userID != user1.userID && !nearby.includes(user2[i])) {
         nearby.push(user2[i]);
       } */
     }
   }
+  return json;
 }
 
-//console.log(nearby);
-/*for (var i = 0; i < nearby.length; i++) {
-    const intersection = songdat.filter(element =>
-      nearby[i].songs.includes(element)
-    );
-    console.log(intersection);
-  }
-}*/
-
-router.route("/:id/find").get((req, res) => {
+router.route("/find").get(async (req, res) => {
   res.json(checkAll2(req.body.id));
 });
 
 router.route("/").get((req, res) => {
-  checkAll2();
   UserData.find()
     .then(userData => res.json(userData))
     .catch(err => res.status(400).json("Error: " + err));
@@ -151,7 +146,8 @@ router.route("/:id").post((req, res) => {
       userID: req.body.id,
       name: req.body.name,
       songs: req.body.songs,
-      LonLat: req.body.location
+      LonLat: req.body.location,
+      songName: req.body.songNames
     });
     const result = await newUser.save();
     console.log(result);
