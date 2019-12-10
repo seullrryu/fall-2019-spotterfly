@@ -200,6 +200,28 @@ class Friends extends Component {
     }
   }
 
+  compare(){
+    var list_of_users = this.state.otherUsers.username;
+    var my_songs = this.state.songIDs
+    //my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
+    console.log("list of users: " + list_of_users);
+    console.log("my songs: " + my_songs);
+
+    for(let i = 0; i < list_of_users.length; i++){
+      var name = list_of_users[i];
+      var their_songs = this.state.otherUsers.songIDs[name];
+      console.log(name + "'s' songs: " + their_songs);
+      var matched_songs = my_songs.filter(x => their_songs.includes(x));
+      console.log(matched_songs);
+      if (matched_songs.length === 0){
+        console.log("you and " + name + " have no overlapping songs");
+      }else{
+        const matched_songs_string = matched_songs.join(", ");
+        console.log("you and " + name + " both listen to " + matched_songs_string);
+      } 
+    }
+  }
+
   logout() {
     this.props.logoutHandler();
   }
@@ -209,6 +231,7 @@ class Friends extends Component {
     return (
       <section className="friends">
         {this.getLocation()}
+        {this.compare()}
         <nav>
           <div>
             <a href="/">
