@@ -5,6 +5,9 @@ import setTitle from "../setTitle";
 import axios from "axios";
 import { Observable } from "rxjs";
 
+
+
+
 function Users(props) {
   const name = props.obj;
   const songs = props.songs;
@@ -200,15 +203,30 @@ class Friends extends Component {
     }
   }
 
-  compare(){
-    var list_of_users = this.state.otherUsers.username;
-    var my_songs = this.state.songIDs
-    //my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
-    console.log("list of users: " + list_of_users);
-    console.log("my songs: " + my_songs);
-
+  compareLocation(){
+    var list_of_user_locations = this.state.otherUsers.location;
+    var list_of_close_users = [];
+    var myLatLng = new google.maps.LatLng({lat: this.state.LonLat[1], lng: this.state.LonLat[0]}); 
     for(let i = 0; i < list_of_users.length; i++){
       var name = list_of_users[i];
+      var theirLatLng = new google.maps.LatLng({lat: this.state.otherUsers.location[name][1], lng: this.state.otherUsers.location}[name][0]);
+      var distance = computeDistanceBetween(myLatLng, theirLatLng);
+      if(distance < Number.MAX_SAFE_INTEGER){
+        list_of_close_users.push(name);
+      } 
+    }
+    compareSongs(list_of_close_users)
+  }
+
+
+  compareSongs(list_of_close_users){
+    var my_songs = this.state.songIDs
+    //my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
+    console.log("list of nearby users: " + list_of_close_users);
+    console.log("my songs: " + my_songs);
+
+    for(let i = 0; i < list_of_close_users; i++){
+      var name = list_of_close_users[i];
       var their_songs = this.state.otherUsers.songIDs[name];
       console.log(name + "'s' songs: " + their_songs);
       var matched_songs = my_songs.filter(x => their_songs.includes(x));
@@ -232,6 +250,7 @@ class Friends extends Component {
       <section className="friends">
         {this.getLocation()}
         {this.compare()}
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUJA1Y5IAGmdFA6PITEk20n1wbXMQnG98&libraries=geometry"></script>
         <nav>
           <div>
             <a href="/">
