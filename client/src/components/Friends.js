@@ -5,9 +5,6 @@ import setTitle from "../setTitle";
 import axios from "axios";
 import { Observable } from "rxjs";
 
-
-
-
 function Users(props) {
   const name = props.obj;
   const songs = props.songs;
@@ -56,6 +53,10 @@ class Friends extends Component {
       }
     };
     this.getLocation = this.getLocation.bind(this);
+    this.toRad = this.toRad.bind(this);
+    this.compareSongs = this.compareSongs.bind(this);
+    this.compareLocation = this.compareLocation.bind(this);
+    this.computeDistanceBetween = this.computeDistanceBetween.bind(this);
   }
 
   componentDidMount() {
@@ -204,38 +205,71 @@ class Friends extends Component {
   }
 
   compareLocation(){
-    var list_of_user_locations = this.state.otherUsers.location;
+    var list_of_users = this.state.otherUsers.username;
+    var dict_of_user_locations = this.state.otherUsers.location;;
     var list_of_close_users = [];
-    var myLatLng = new google.maps.LatLng({lat: this.state.LonLat[1], lng: this.state.LonLat[0]}); 
-    for(let i = 0; i < list_of_users.length; i++){
+    var lat1 = this.state.LonLat[1];
+    var lon1 = this.state.LonLat[0];
+    console.log("my lat: " + lat1 + ", my lon: " + lon1);
+    for(let i = 0; i < Object.keys(dict_of_user_locations).length; i++){
       var name = list_of_users[i];
-      var theirLatLng = new google.maps.LatLng({lat: this.state.otherUsers.location[name][1], lng: this.state.otherUsers.location}[name][0]);
-      var distance = computeDistanceBetween(myLatLng, theirLatLng);
-      if(distance < Number.MAX_SAFE_INTEGER){
+      var lat2 = this.state.otherUsers.location[name][1];
+      var lon2 = this.state.otherUsers.location[name][0];
+      console.log(name + "'s lat: " + lat2 + "," + name + "'s lon " + lon2);
+      var distance = this.computeDistanceBetween(lat1, lon1, lat2, lon2);
+      console.log("distance: " + distance);
+      if(name !== this.state.user && distance < Number.MAX_SAFE_INTEGER){
         list_of_close_users.push(name);
       } 
     }
-    compareSongs(list_of_close_users)
+    console.log(list_of_close_users);
+    this.compareSongs(list_of_close_users);
   }
 
+  computeDistanceBetween(lat1, lon1, lat2, lon2) {
+    var R = 6371; // km
+    var dLat = this.toRad(lat2-lat1);
+    var dLon = this.toRad(lon2-lon1);
+    lat1 = this.toRad(lat1);
+    lat2 = this.toRad(lat2);
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c;
+    return d;
+  }
+
+  // Converts numeric degrees to radians
+  toRad(value) {
+    return value * Math.PI / 180;
+  }
 
   compareSongs(list_of_close_users){
-    var my_songs = this.state.songIDs
-    //my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
+    var my_songs = this.state.songIDs;
+    // my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
+    var my_song_names = this.state.songs;
+    var matched_songs = {};
+    var matched_song_names = {};
     console.log("list of nearby users: " + list_of_close_users);
     console.log("my songs: " + my_songs);
+    console.log("my song names: " + my_song_names);
 
-    for(let i = 0; i < list_of_close_users; i++){
+    for(var i = 0; i < list_of_close_users.length; i++){
       var name = list_of_close_users[i];
       var their_songs = this.state.otherUsers.songIDs[name];
+      var their_song_names = this.state.otherUsers.songs[name];
       console.log(name + "'s' songs: " + their_songs);
-      var matched_songs = my_songs.filter(x => their_songs.includes(x));
-      console.log(matched_songs);
-      if (matched_songs.length === 0){
+      console.log(name + "'s' song names: " + their_song_names);
+      // eslint-disable-next-line
+      matched_songs[name] = my_songs.filter(x => their_songs.includes(x));
+      // eslint-disable-next-line
+      matched_song_names[name] = my_song_names.filter(y => their_song_names.includes(y));
+      if (matched_songs[name].length === 0){
         console.log("you and " + name + " have no overlapping songs");
       }else{
-        const matched_songs_string = matched_songs.join(", ");
-        console.log("you and " + name + " both listen to " + matched_songs_string);
+        var matched_song_names_string = matched_song_names[name].join(", ");
+        console.log("you and " + name + " both listen to " + matched_song_names_string);
       } 
     }
   }
@@ -249,8 +283,7 @@ class Friends extends Component {
     return (
       <section className="friends">
         {this.getLocation()}
-        {this.compare()}
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUJA1Y5IAGmdFA6PITEk20n1wbXMQnG98&libraries=geometry"></script>
+        {this.compareLocation()}
         <nav>
           <div>
             <a href="/">
