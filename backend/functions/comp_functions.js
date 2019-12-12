@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays overlap is how many songs they need in common to match 
+function OverlapCheck(user1,user2,overlap){ // user1 and user2 are song arrays, overlap is how many songs they need in common to match 
   var count = 0;
   var u2Songs = user2.Songs;
   var screenOut = [];
