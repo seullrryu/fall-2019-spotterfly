@@ -31,10 +31,9 @@ connection
   .catch(err => console.error("could not connect to mongodb", err));
 
 const UserDataRouter = require("./routes/userData");
-const UserDataModel = require('./model/userData.model');
+const UserDataModel = require("./model/userData.model");
 const ArtistRouter = require("./routes/Artist");
-const AristInfo = require('./model/Artist.model')
-
+const AristInfo = require("./model/Artist.model");
 
 var tokenSchema = new mongoose.Schema({
   token: Object
@@ -47,7 +46,8 @@ var playlistSchema = new mongoose.Schema({
   songName: Array,
   image: Array,
   artist: Array,
-  artistImage: Array
+  artistImage: Array,
+  previewURL: Array
 });
 
 mongoose.model("playlistModels", playlistSchema);
@@ -182,16 +182,17 @@ app.get("/callback", function(req, res) {
             uri: "https://api.spotify.com/v1/me/top/artists",
             headers: { Authorization: "Bearer " + access_token },
             json: true
-          }; // douplicate of this was deleted 
-
+          }; // douplicate of this was deleted
 
           request.get(playlistOptions2, function(error, response, body2) {
             var songs = Array();
             var songnames = Array();
             var img = Array();
+            var preview = Array();
             body2.items.forEach(function(items) {
               songs.push(items.id); //adding song id
               songnames.push(items.name); //adding song name
+              preview.push(items.preview_url);
               img.push(items.album.images[1].url);
 
               //#TODO if(items.id in Artists song id continue else push it along with song name and artist name to artists modesl )
@@ -213,10 +214,11 @@ app.get("/callback", function(req, res) {
                   songName: songnames,
                   image: img,
                   artist: artists,
-                  artistImage: artistImages
+                  artistImage: artistImages,
+                  previewURL: preview
                 });
                 const result = await playlist.save();
-                // console.log(result);
+                console.log(result);
               }
               createPlaylist();
             });

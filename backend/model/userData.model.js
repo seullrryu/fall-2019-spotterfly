@@ -7,7 +7,8 @@ const userDataSchema = new Schema({
   name: String,
   songs: [],
   LonLat: [],
-  songName: []
+  songName: [],
+  previewURL: []
   //required: true, // #TODO will be required post add
 
   //Add hashmap of matches to be rewritten every time there are matches found and deleted when there are none.  This will help us by allowing a return to the frontend of user with matched songs },

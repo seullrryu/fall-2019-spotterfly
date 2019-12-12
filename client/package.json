@@ -58,9 +58,8 @@
     "semver": "6.3.0",
     "spotify-web-api-js": "^1.2.0",
     "style-loader": "1.0.0",
-    "terser-webpack-plugin": "1.4.1",
+    "terser-webpack-plugin": "^2.2.3",
     "ts-pnp": "1.1.4",
-    "typescript": "^3.7.2",
     "url-loader": "2.1.0",
     "webpack": "4.41.0",
     "webpack-dev-server": "3.2.1",
@@ -93,7 +92,8 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "jest": "^24.9.0",
-    "jest-enzyme": "^7.1.2"
+    "jest-enzyme": "^7.1.2",
+    "typescript": "^3.7.3"
   },
   "jest": {
     "roots": [
