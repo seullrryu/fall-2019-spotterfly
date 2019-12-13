@@ -49,7 +49,7 @@ class Friends extends Component {
         location: {},
         userID: [],
         songs: {},
-        songIDs:{}
+        songIDs: {}
       }
     };
     this.getLocation = this.getLocation.bind(this);
@@ -110,7 +110,7 @@ class Friends extends Component {
       var locationDict = {};
       var userID = [];
       var songDict = {};
-      var songID_Dict= [];
+      var songID_Dict = [];
       for (var i = 0; i < res.data.length; i++) {
         username.push(res.data[i].name);
         userID.push(res.data[i].userID);
@@ -119,14 +119,14 @@ class Friends extends Component {
         songID_Dict[res.data[i].name] = res.data[i].songs;
       }
 
-      //Getting my location 
+      //Getting my location
       //If I exist in the locations dictionary, set state to the array of [longitude, latitude] of where I am
       if (this.state.user in locationDict) {
         this.setState({
           LonLat: locationDict[this.state.user]
-        })
+        });
       }
-      
+
       this.setState(prevState => ({
         otherUsers: {
           ...prevState.otherUsers,
@@ -134,7 +134,7 @@ class Friends extends Component {
           location: locationDict,
           userID: userID,
           songs: songDict,
-          songIDs:songID_Dict
+          songIDs: songID_Dict
         }
       }));
       console.log(this.state);
@@ -182,7 +182,7 @@ class Friends extends Component {
         const pos = [];
         pos.push(position.coords.longitude);
         pos.push(position.coords.latitude);
-        if (this.state.id !== "") {
+        if (this.state.id !== "" && pos[0] !== "") {
           axios.post(url, {
             id: this.state.id,
             name: this.state.user,
