@@ -83,6 +83,10 @@ class Friends extends Component {
         }
       }
 
+      //for testing overlap
+      song_array.push("Six Weeks","A Good Day");
+      res.data.songID.push("060WwU9cva7KOpMhZAJjT6","11tT1T2BSELuCaMHMLLIrw");
+
       var j;
       // Just get the top 10 Artists
       if (res.data.artist.length >= 10) {
