@@ -8,18 +8,32 @@ function TracksItem(props) {
   const name = props.obj;
   const pics = props.pics;
   var index = props.index;
+  const audio = props.audio;
+  const link = props.link;
   return (
     <li>
       <div className="tracks-item">
         <span>{name}</span>
         <br></br>
-        <img
-          src={pics[index]}
-          width="300"
-          height="300"
-          alt="We don't have the images. Sorry :("
-        />
+        <a
+          href={`https://open.spotify.com/track/${link[index]}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={pics[index]}
+            width="300"
+            height="300"
+            alt="We don't have the images. Sorry :("
+          />
+        </a>
+
         <br></br>
+        <audio
+          controls
+          src={audio[index]}
+          alt="we don't have the audio. Sorry :("
+        />
         <br></br>
       </div>
     </li>
@@ -62,7 +76,9 @@ class Artists extends Component {
       datas: [],
       imagez: [],
       artist: [],
-      artistimage: []
+      artistimage: [],
+      previewURL: [],
+      songid: []
     };
   }
 
@@ -72,24 +88,29 @@ class Artists extends Component {
     var fields = urlParams.split("=");
     const id = fields[1];
     const url = `http://localhost:8888/playlistdata/${id}`;
-    
+
     axios.get(url).then(res => {
       var song_array = [];
+      var songid_array = [];
       var song_image_array = [];
       var artist_array = [];
       var artist_image_array = [];
-
+      var previewURL_array = [];
       var i;
       //Just get the top 10 songs
       if (res.data.songName.length >= 10) {
         for (i = 0; i < 10; i++) {
+          songid_array.push(res.data.songID[i]);
           song_array.push(res.data.songName[i]);
           song_image_array.push(res.data.image[i]);
+          previewURL_array.push(res.data.previewURL[i]);
         }
       } else {
         for (i = 0; i < res.data.songName.length; i++) {
+          songid_array.push(res.data.songID[i]);
           song_array.push(res.data.songName[i]);
           song_image_array.push(res.data.image[i]);
+          previewURL_array.push(res.data.previewURL[i]);
         }
       }
 
@@ -113,7 +134,9 @@ class Artists extends Component {
         datas: song_array,
         imagez: song_image_array,
         artist: artist_array,
-        artistimage: artist_image_array
+        artistimage: artist_image_array,
+        previewURL: previewURL_array,
+        songid: songid_array
       });
     });
   }
@@ -127,7 +150,8 @@ class Artists extends Component {
     var top_tracks_pics = this.state.imagez;
     var top_artists = this.state.artist;
     var top_artists_pics = this.state.artistimage;
-
+    var previewURL = this.state.previewURL;
+    var top_song_id = this.state.songid;
     return (
       <section className="profile">
         <div class="App-background2">
@@ -204,7 +228,9 @@ class Artists extends Component {
                     return (
                       <TracksItem
                         obj={object}
+                        link={top_song_id}
                         pics={top_tracks_pics}
+                        audio={previewURL}
                         index={i}
                       ></TracksItem>
                     );
