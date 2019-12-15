@@ -21,7 +21,11 @@ app.use(express.json());
 const uri1 =
   "mongodb+srv://Alexander:helloworld123@cluster0-b7kar.gcp.mongodb.net/test?retryWrites=true&w=majority";
 const router = express.Router();
-mongoose.connect(uri1, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(uri1, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true
+});
 
 const connection = mongoose.connection;
 connection
@@ -47,7 +51,8 @@ var playlistSchema = new mongoose.Schema({
   image: Array,
   artist: Array,
   artistImage: Array,
-  previewURL: Array
+  previewURL: Array,
+  artistlink: Array
 });
 
 mongoose.model("playlistModels", playlistSchema);
@@ -202,9 +207,11 @@ app.get("/callback", function(req, res) {
             request.get(playlistOptions3, function(error, response, body3) {
               var artists = Array();
               var artistImages = Array();
+              var artistLink = Array();
               body3.items.forEach(function(items) {
                 artists.push(items.name);
                 artistImages.push(items.images[1].url);
+                artistLink.push(items.external_urls.spotify);
               });
 
               async function createPlaylist() {
@@ -216,7 +223,8 @@ app.get("/callback", function(req, res) {
                   image: img,
                   artist: artists,
                   artistImage: artistImages,
-                  previewURL: preview
+                  previewURL: preview,
+                  artistlink: artistLink
                 });
                 const result = await playlist.save();
                 console.log(result);

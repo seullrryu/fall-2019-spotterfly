@@ -45,18 +45,21 @@ function ArtistItem(props) {
   const name = props.obj;
   const pics = props.pics;
   var index = props.index;
+  const artlink = props.artlink;
   return (
     <li>
       <div className="artist-item">
         <span>{name}</span>
         <br></br>
         <br></br>
-        <img
-          src={pics[index]}
-          width="300"
-          height="300"
-          alt="We don't have the images. Sorry :("
-        />
+        <a href={`${artlink[index]}`} target="_blank" rel="noopener noreferrer">
+          <img
+            src={pics[index]}
+            width="300"
+            height="300"
+            alt="We don't have the images. Sorry :("
+          />
+        </a>
         <br></br>
         <br></br>
       </div>
@@ -81,7 +84,8 @@ class Artists extends Component {
       artist: [],
       artistimage: [],
       previewURL: [],
-      songid: []
+      songid: [],
+      artistlink: []
     };
   }
 
@@ -99,6 +103,7 @@ class Artists extends Component {
       var artist_array = [];
       var artist_image_array = [];
       var previewURL_array = [];
+      var artistlink_array = [];
       var i;
       //Just get the top 10 songs
       if (res.data.songName.length >= 10) {
@@ -123,11 +128,13 @@ class Artists extends Component {
         for (j = 0; j < 10; j++) {
           artist_array.push(res.data.artist[j]);
           artist_image_array.push(res.data.artistImage[j]);
+          artistlink_array.push(res.data.artistlink[j]);
         }
       } else {
         for (j = 0; j < res.data.artist.length; j++) {
           artist_array.push(res.data.artist[j]);
           artist_image_array.push(res.data.artistImage[j]);
+          artistlink_array.push(res.data.artistlink[j]);
         }
       }
 
@@ -139,7 +146,8 @@ class Artists extends Component {
         artist: artist_array,
         artistimage: artist_image_array,
         previewURL: previewURL_array,
-        songid: songid_array
+        songid: songid_array,
+        artistlink: artistlink_array
       });
     });
   }
@@ -155,12 +163,13 @@ class Artists extends Component {
     var top_artists_pics = this.state.artistimage;
     var previewURL = this.state.previewURL;
     var top_song_id = this.state.songid;
+    var artistURL = this.state.artistlink;
     return (
       <section className="profile">
         <div class="App-background2">
           <nav>
             <div>
-              <a href={`/artists?user=${this.state.id}`}>
+              <a href={`http://localhost:8888/login`}>
                 <Link to="/profile">
                   <img
                     id="profile-icon"
@@ -233,6 +242,7 @@ class Artists extends Component {
                       <ArtistItem
                         obj={object}
                         pics={top_artists_pics}
+                        artlink={artistURL}
                         index={i}
                       ></ArtistItem>
                     );
@@ -247,9 +257,3 @@ class Artists extends Component {
   }
 }
 export default Artists;
-
-
-
-
-
-
