@@ -16,6 +16,7 @@ function TracksItem(props) {
       <div className="tracks-item">
         <span>{name}</span>
         <br></br>
+        <br></br>
         <a
           href={`https://open.spotify.com/track/${link[index]}`}
           target="_blank"
@@ -48,6 +49,7 @@ function ArtistItem(props) {
     <li>
       <div className="artist-item">
         <span>{name}</span>
+        <br></br>
         <br></br>
         <img
           src={pics[index]}
@@ -158,19 +160,6 @@ class Artists extends Component {
         <div class="App-background2">
           <nav>
             <div>
-              <a href="/">
-                <Link to="/">
-                  <img
-                    id="home-icon"
-                    src="/icons/home.png"
-                    width="50"
-                    height="50"
-                    alt="Home"
-                  ></img>
-                </Link>
-              </a>
-            </div>
-            <div>
               <a href={`/artists?user=${this.state.id}`}>
                 <Link to="/profile">
                   <img
@@ -217,9 +206,7 @@ class Artists extends Component {
 
           <br></br>
           <main>
-            <h2>
-              {this.state.user}'s Profile
-            </h2>
+            <h2>{this.state.user}'s Profile</h2>
             <article id="top">
               <div className="items">
                 <ol>

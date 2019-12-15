@@ -8,11 +8,15 @@ import { Observable } from "rxjs";
 function Users(props) {
   const name = props.obj;
   const songs = props.songs;
-  // var index = props.index;
+  var users = props.users;
+  var index = users.indexOf(name); 
+  const id = props.userID;
+  var address = "http://localhost:3000/artists?user=" + id[index];
+
   if(songs && songs.length > 0){
     return (
       <li>
-        <span>{name}</span>
+        <span><a id="to-others" href={address}>{name}</a></span>
         <p>Songs you both listen to:</p>
         <ol>
           {songs.map(song => (
@@ -22,10 +26,9 @@ function Users(props) {
       </li>
     );
   }
-
   return (
     <li>
-      <span>{name}</span>
+      <span><a id="to-others" href={address}>{name}</a></span>
       <p>No overlapping songs.</p>
     </li>
   );
@@ -36,6 +39,8 @@ function Users(props) {
   //if(!props.user) return 'Loading friends...'
   return "Your Friends";
 })
+
+
 class Friends extends Component {
   //check for Geolocation support
   // if (navigator.geolocation) {
@@ -166,8 +171,6 @@ class Friends extends Component {
         }
       }));
       console.log("matched songs: " + this.state.matchedSongs);
-
-
     });
 
     function geolocationObservable(options) {
@@ -236,7 +239,7 @@ class Friends extends Component {
 
   compareLocation(){
     var list_of_users = this.state.otherUsers.username;
-    var dict_of_user_locations = this.state.otherUsers.location;;
+    var dict_of_user_locations = this.state.otherUsers.location;
     var list_of_close_users = [];
     var lat1 = this.state.LonLat[1];
     var lon1 = this.state.LonLat[0];
@@ -323,128 +326,66 @@ class Friends extends Component {
     var list_of_close_users = this.state.otherUsers.nearMe;
     return (
       <section className="friends">
-        {this.getLocation()}
-        <nav>
-          <div>
-            <a href="/">
-              <Link to="/">
-                <img
-                  id="home-icon"
-                  src="/icons/home.png"
-                  width="50"
-                  height="50"
-                  alt="Home"
-                />
-              </Link>
-            </a>
-          </div>
-          <div>
-            <a href={`/artists?user=${this.state.id}`}>
-              <Link to="/profile">
-                <img
-                  id="profile-icon"
-                  src="/icons/profile.png"
-                  width="50"
-                  height="50"
-                  alt="Profile"
-                ></img>
-              </Link>
-            </a>
-          </div>
-          <div>
-            <a href={`/friends?user=${this.state.id}`}>
-              <Link to="/friends">
-                <img
-                  id="friends-icon"
-                  src="/icons/friends.png"
-                  width="50"
-                  height="50"
-                  alt="Friends"
-                ></img>
-              </Link>
-            </a>
-          </div>
-          <div id="logout">
-            <a
-              role="button"
-              onClick={() => {
-                this.logout();
-              }}
-              href="/"
-            >
-              <img
-                id="logout-icon"
-                src="/icons/logout.png"
-                width="50"
-                height="50"
-                alt="Log Out"
-              ></img>
-            </a>
-          </div>
-        </nav>
-        <main>
-          <div className="friendinfo">
-            <h2>Users similar to {this.state.user} </h2>
-
-            {list_of_close_users.map((object, i) => {
-              return (
-                <Users
-                  obj={object}
-                  songs={this.state.otherUsers.matchedSongs[object]}
-                ></Users>
-              );
-              
-            })}
-
-            {/* <div className="container">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png"
-                alt=""
-                className="container__image"
-              />
-              <div className="container__text">
-                <a href="/">
-                  <h3>Friend 1</h3>
+        <div class="App-background">
+          {/* {this.getLocation()} */}
+            <nav>
+              <div>
+                <a href={`/artists?user=${this.state.id}`}>
+                  <Link to="/profile">
+                    <img
+                      id="profile-icon"
+                      src="/icons/profile.png"
+                      width="50"
+                      height="50"
+                      alt="Profile"
+                    ></img>
+                  </Link>
                 </a>
-                <button id="compatible">
-                  Click to find out your Compatibility!
-                </button>
               </div>
-            </div>
-            <div className="container">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png"
-                alt=""
-                className="container__image"
-              />
-              <div className="container__text">
-                <a href="/">
-                  <h3>Friend 2</h3>
-                </a>
-                <button id="compatible">
-                  Click to find out your Compatibility!
-                </button>
-              </div>
-            </div>
-            <div className="container">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png"
-                alt=""
-                className="container__image"
-              />
-              <div className="container__text">
-                <a href="/">
-                  <h3>Friend 3</h3>
-                </a>
-                <button id="compatible">
-                  Click to find out your Compatibility!
-                </button>
-              </div>
-            </div> */}
 
+              <div>
+                <a href={`/friends?user=${this.state.id}`}>
+                  <Link to="/friends">
+                      <img
+                        id="friends-icon"
+                        src="/icons/friends.png"
+                        width="50"
+                        height="50"
+                        alt="Friends"
+                      ></img>
+                    </Link>
+                  </a>
+              </div>
 
-          </div>
-        </main>
+              <div id="logout">
+                <a role="button" onClick={() => {this.logout()}} href="/">
+                  <img
+                    id="logout-icon"
+                    src="/icons/logout.png"
+                    width="50"
+                    height="50"
+                    alt="Log Out"
+                  ></img>
+                </a>
+              </div>
+            </nav>
+            
+            <main>
+              <h2>Other users near {this.state.user} with similar tastes </h2>
+              <article id="users">
+                {list_of_close_users.map((object, i) => {
+                  return (
+                    <Users
+                      obj={object}
+                      songs={this.state.otherUsers.matchedSongs[object]}
+                      userID={this.state.otherUsers.userID}
+                      users={this.state.otherUsers.username}
+                    ></Users>
+                  );
+                })}
+              </article>
+            </main>
+        </div>
       </section>
     );
   }
