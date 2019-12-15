@@ -9,14 +9,18 @@ function Users(props) {
   const name = props.obj;
   const songs = props.songs;
   var users = props.users;
-  var index = users.indexOf(name); 
+  var index = users.indexOf(name);
   const id = props.userID;
   var address = "http://localhost:3000/artists?user=" + id[index];
 
-  if(songs && songs.length > 0){
+  if (songs && songs.length > 0) {
     return (
       <li>
-        <span><a id="to-others" href={address}>{name}</a></span>
+        <span>
+          <a id="to-others" href={address}>
+            {name}
+          </a>
+        </span>
         <p>Songs you both listen to:</p>
         <ol>
           {songs.map(song => (
@@ -28,7 +32,11 @@ function Users(props) {
   }
   return (
     <li>
-      <span><a id="to-others" href={address}>{name}</a></span>
+      <span>
+        <a id="to-others" href={address}>
+          {name}
+        </a>
+      </span>
       <p>No overlapping songs.</p>
     </li>
   );
@@ -39,8 +47,6 @@ function Users(props) {
   //if(!props.user) return 'Loading friends...'
   return "Your Friends";
 })
-
-
 class Friends extends Component {
   //check for Geolocation support
   // if (navigator.geolocation) {
@@ -160,8 +166,8 @@ class Friends extends Component {
 
       var list_of_close_users = this.compareLocation();
       var matched_song_names = this.compareSongs(list_of_close_users);
-      console.log("list header: "+list_of_close_users);
-      console.log("matches header:"+ Object.keys(matched_song_names));
+      console.log("list header: " + list_of_close_users);
+      console.log("matches header:" + Object.keys(matched_song_names));
 
       this.setState(prevState => ({
         otherUsers: {
@@ -214,16 +220,19 @@ class Friends extends Component {
       navigator.geolocation.getCurrentPosition(position => {
         const pos = [];
         pos.push(position.coords.longitude);
+
         pos.push(position.coords.latitude);
+
         if (this.state.id !== "" && pos[0] !== "") {
           axios.post(url, {
             id: this.state.id,
             name: this.state.user,
-            songs: this.state.songid,
+            songs: this.state.songIDs,
             songNames: this.state.songs,
             location: pos
           });
         }
+
         this.setState({
           lat: position.coords.latititude,
           lon: position.coords.longitude
@@ -237,7 +246,7 @@ class Friends extends Component {
     }
   }
 
-  compareLocation(){
+  compareLocation() {
     var list_of_users = this.state.otherUsers.username;
     var dict_of_user_locations = this.state.otherUsers.location;
     var list_of_close_users = [];
@@ -245,20 +254,21 @@ class Friends extends Component {
     var lon1 = this.state.LonLat[0];
     //var isNear = [];
     console.log("my lat: " + lat1 + ", my lon: " + lon1);
-    for(let i = 0; i < Object.keys(dict_of_user_locations).length; i++){
+    for (let i = 0; i < Object.keys(dict_of_user_locations).length; i++) {
       var name = list_of_users[i];
       var lat2 = this.state.otherUsers.location[name][1];
       var lon2 = this.state.otherUsers.location[name][0];
       console.log(name + "'s lat: " + lat2 + "," + name + "'s lon " + lon2);
       var distance = this.computeDistanceBetween(lat1, lon1, lat2, lon2);
       console.log("distance: " + distance);
-      if(name !== this.state.user && distance < Number.MAX_SAFE_INTEGER){
+      if (name !== this.state.user && distance < Number.MAX_SAFE_INTEGER) {
         list_of_close_users.push(name);
         //isNear.push(1);
       }
-    //   else{
-    //     //isNear.push(0);
-    //   }
+      //   else{
+      //     //isNear.push(0);
+      //   }
+      setTimeout(this.compareLocation, 0);
     }
 
     //console.log(isNear);
@@ -266,27 +276,27 @@ class Friends extends Component {
     return list_of_close_users;
   }
 
-
   computeDistanceBetween(lat1, lon1, lat2, lon2) {
     var R = 6371; // km
-    var dLat = this.toRad(lat2-lat1);
-    var dLon = this.toRad(lon2-lon1);
+    var dLat = this.toRad(lat2 - lat1);
+    var dLon = this.toRad(lon2 - lon1);
     lat1 = this.toRad(lat1);
     lat2 = this.toRad(lat2);
 
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     return d;
   }
 
   // Converts numeric degrees to radians
   toRad(value) {
-    return value * Math.PI / 180;
+    return (value * Math.PI) / 180;
   }
 
-  compareSongs(list_of_close_users){
+  compareSongs(list_of_close_users) {
     var my_songs = this.state.songIDs;
     // my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
     var my_song_names = this.state.songs;
@@ -296,7 +306,7 @@ class Friends extends Component {
     console.log("my songs: " + my_songs);
     console.log("my song names: " + my_song_names);
 
-    for(var i = 0; i < list_of_close_users.length; i++){
+    for (var i = 0; i < list_of_close_users.length; i++) {
       var name = list_of_close_users[i];
       var their_songs = this.state.otherUsers.songIDs[name];
       var their_song_names = this.state.otherUsers.songs[name];
@@ -305,13 +315,17 @@ class Friends extends Component {
       // eslint-disable-next-line
       matched_songs[name] = my_songs.filter(x => their_songs.includes(x));
       // eslint-disable-next-line
-      matched_song_names[name] = my_song_names.filter(y => their_song_names.includes(y));
-      if (matched_songs[name].length === 0){
+      matched_song_names[name] = my_song_names.filter(y =>
+        their_song_names.includes(y)
+      );
+      if (matched_songs[name].length === 0) {
         console.log("you and " + name + " have no overlapping songs");
-      }else{
+      } else {
         var matched_song_names_string = matched_song_names[name].join(", ");
-        console.log("you and " + name + " both listen to " + matched_song_names_string);
-      } 
+        console.log(
+          "you and " + name + " both listen to " + matched_song_names_string
+        );
+      }
     }
 
     return matched_song_names;
@@ -327,64 +341,70 @@ class Friends extends Component {
     return (
       <section className="friends">
         <div class="App-background">
-          {/* {this.getLocation()} */}
-            <nav>
-              <div>
-                <a href={`/artists?user=${this.state.id}`}>
-                  <Link to="/profile">
-                    <img
-                      id="profile-icon"
-                      src="/icons/profile.png"
-                      width="50"
-                      height="50"
-                      alt="Profile"
-                    ></img>
-                  </Link>
-                </a>
-              </div>
-
-              <div>
-                <a href={`/friends?user=${this.state.id}`}>
-                  <Link to="/friends">
-                      <img
-                        id="friends-icon"
-                        src="/icons/friends.png"
-                        width="50"
-                        height="50"
-                        alt="Friends"
-                      ></img>
-                    </Link>
-                  </a>
-              </div>
-
-              <div id="logout">
-                <a role="button" onClick={() => {this.logout()}} href="/">
+          {this.getLocation()}
+          <nav>
+            <div>
+              <a href={`http://localhost:8888/login`}>
+                <Link to="/profile">
                   <img
-                    id="logout-icon"
-                    src="/icons/logout.png"
+                    id="profile-icon"
+                    src="/icons/profile.png"
                     width="50"
                     height="50"
-                    alt="Log Out"
+                    alt="Profile"
                   ></img>
-                </a>
-              </div>
-            </nav>
-            
-            <main>
-              <h2>Other users near {this.state.user} with similar tastes </h2>
-              <article id="users">
-                {list_of_close_users.map((object, i) => {
-                  return (
-                    <Users
-                      obj={object}
-                      songs={this.state.otherUsers.matchedSongs[object]}
-                      userID={this.state.otherUsers.userID}
-                      users={this.state.otherUsers.username}
-                    ></Users>
-                  );
-                })}
-              </article>
-            </main>
+                </Link>
+              </a>
+            </div>
+
+            <div>
+              <a href={`/friends?user=${this.state.id}`}>
+                <Link to="/friends">
+                  <img
+                    id="friends-icon"
+                    src="/icons/friends.png"
+                    width="50"
+                    height="50"
+                    alt="Friends"
+                  ></img>
+                </Link>
+              </a>
+            </div>
+
+            <div id="logout">
+              <a
+                role="button"
+                onClick={() => {
+                  this.logout();
+                }}
+                href="/"
+              >
+                <img
+                  id="logout-icon"
+                  src="/icons/logout.png"
+                  width="50"
+                  height="50"
+                  alt="Log Out"
+                ></img>
+              </a>
+            </div>
+          </nav>
+
+          <main>
+            <h2>Other users near {this.state.user} with similar tastes </h2>
+            <article id="users">
+              {list_of_close_users.map((object, i) => {
+                return (
+                  <Users
+                    obj={object}
+                    songs={this.state.otherUsers.matchedSongs[object]}
+                    userID={this.state.otherUsers.userID}
+                    users={this.state.otherUsers.username}
+                  ></Users>
+                );
+              })}
+            </article>
+          </main>
         </div>
       </section>
     );

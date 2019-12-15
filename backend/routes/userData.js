@@ -1,6 +1,5 @@
 const router = require("express").Router();
 let UserData = require("../model/userData.model");
-
 function OverlapCheck(user1, user2, overlap) {
   // user1 and user2 are song arrays overlap is how many songs they need in common to match
   var count = 0;
@@ -141,11 +140,11 @@ router.route("/:id").post((req, res) => {
       name: req.body.name,
       songs: req.body.songs,
       LonLat: req.body.location,
-      songName: req.body.songNames,
-      preview: req.body.preview
+      songName: req.body.songNames
+      // preview: req.body.preview
     });
     const result = await newUser.save();
-    // console.log(result);
+    console.log(result);
   }
 
   createUser();

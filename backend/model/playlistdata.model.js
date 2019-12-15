@@ -10,7 +10,8 @@ var playlistSchema = new mongoose.Schema({
   image: Array,
   artist: Array,
   artistImage: Array,
-  previewURL: Array
+  previewURL: Array,
+  artistlink: Array
 });
 
 mongoose.model("playlistModel", playlistSchema);
