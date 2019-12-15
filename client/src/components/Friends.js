@@ -9,7 +9,7 @@ function Users(props) {
   const name = props.obj;
   const songs = props.songs;
   // var index = props.index;
-  if(songs){
+  if(songs && songs.length > 0){
     return (
       <li>
         <span>{name}</span>
@@ -95,8 +95,8 @@ class Friends extends Component {
       }
 
       //for testing overlap
-      song_array.push("Six Weeks","A Good Day");
-      res.data.songID.push("060WwU9cva7KOpMhZAJjT6","11tT1T2BSELuCaMHMLLIrw");
+      // song_array.push("Six Weeks","A Good Day");
+      // res.data.songID.push("060WwU9cva7KOpMhZAJjT6","11tT1T2BSELuCaMHMLLIrw");
 
       var j;
       // Just get the top 10 Artists
@@ -142,11 +142,6 @@ class Friends extends Component {
         });
       }
 
-      var list_of_close_users = this.compareLocation();
-      var matched_songs = this.compareSongs(list_of_close_users);
-      console.log(list_of_close_users);
-      console.log(matched_songs);
-
       this.setState(prevState => ({
         otherUsers: {
           ...prevState.otherUsers,
@@ -154,11 +149,23 @@ class Friends extends Component {
           location: locationDict,
           userID: userID,
           songs: songDict,
-          songIDs: songID_Dict,
-          nearMe: list_of_close_users,
-          matchedSongs: matched_songs
+          songIDs: songID_Dict
         }
       }));
+
+      var list_of_close_users = this.compareLocation();
+      var matched_song_names = this.compareSongs(list_of_close_users);
+      console.log("list header: "+list_of_close_users);
+      console.log("matches header:"+ Object.keys(matched_song_names));
+
+      this.setState(prevState => ({
+        otherUsers: {
+          ...prevState.otherUsers,
+          nearMe: list_of_close_users,
+          matchedSongs: matched_song_names
+        }
+      }));
+      console.log("matched songs: " + this.state.matchedSongs);
 
 
     });
@@ -250,15 +257,8 @@ class Friends extends Component {
     //     //isNear.push(0);
     //   }
     }
-    // this.setState(prevState => ({
-    //   otherUsers: {
-    //     ...prevState.otherUsers,
-    //     nearMe: isNear
-    //   }
-    // }));
 
     //console.log(isNear);
-    //this.compareSongs(list_of_close_users);
     //console.log(list_of_close_users);
     return list_of_close_users;
   }
@@ -311,13 +311,6 @@ class Friends extends Component {
       } 
     }
 
-    // this.setState(prevState => ({
-    //   otherUsers: {
-    //     ...prevState.otherUsers,
-    //     matchedSongs: matched_song_names
-    //   }
-    // }));
-
     return matched_song_names;
   }
 
@@ -326,9 +319,8 @@ class Friends extends Component {
   }
 
   render() {
-    var list_of_users = this.state.otherUsers.username;
-    var list_of_close_users = this.compareLocation();
-    this.compareSongs(list_of_close_users);
+    //var list_of_close_users = this.compareLocation();
+    var list_of_close_users = this.state.otherUsers.nearMe;
     return (
       <section className="friends">
         {this.getLocation()}
@@ -394,12 +386,11 @@ class Friends extends Component {
           <div className="friendinfo">
             <h2>Users similar to {this.state.user} </h2>
 
-            {list_of_users.map((object, i) => {
+            {list_of_close_users.map((object, i) => {
               return (
                 <Users
                   obj={object}
                   songs={this.state.otherUsers.matchedSongs[object]}
-                  index={i}
                 ></Users>
               );
               
