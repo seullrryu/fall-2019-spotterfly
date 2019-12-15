@@ -10,6 +10,7 @@ function TracksItem(props) {
   var index = props.index;
   const audio = props.audio;
   const link = props.link;
+
   return (
     <li>
       <div className="tracks-item">
@@ -64,7 +65,7 @@ function ArtistItem(props) {
 //decorator design pattern
 @setTitle(props => {
   //if(!props.user) return 'Loading friends...'
-  return "Your Profile";
+  return "Profile";
 })
 class Artists extends Component {
   constructor(props) {
@@ -217,8 +218,7 @@ class Artists extends Component {
           <br></br>
           <main>
             <h2>
-              Thanks for logging in {this.state.user}! Your top tracks have been
-              imported.
+              {this.state.user}'s Profile
             </h2>
             <article id="top">
               <div className="items">
@@ -260,3 +260,9 @@ class Artists extends Component {
   }
 }
 export default Artists;
+
+
+
+
+
+
