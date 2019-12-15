@@ -227,7 +227,7 @@ app.get("/callback", function(req, res) {
                   artistlink: artistLink
                 });
                 const result = await playlist.save();
-                console.log(result);
+                //console.log(result);
               }
               createPlaylist();
             });

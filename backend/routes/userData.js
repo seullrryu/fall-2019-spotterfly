@@ -140,8 +140,8 @@ router.route("/:id").post((req, res) => {
       name: req.body.name,
       songs: req.body.songs,
       LonLat: req.body.location,
-      songName: req.body.songNames
-      // preview: req.body.preview
+      songName: req.body.songNames,
+      preview: req.body.preview
     });
     const result = await newUser.save();
     console.log(result);

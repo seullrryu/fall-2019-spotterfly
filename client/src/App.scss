@@ -67,11 +67,31 @@ h1 {
   color: white;
   border-radius: 20px;
   border: none;
-  background-color: #1db954;
+  background-color: #1db963;
 }
 #login-button:hover {
   box-shadow: 0px 10px 50px rgb(0, 0, 0.5);
 }
+
+#user-button {
+  font-size: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  color: white;
+  border-radius: 20px;
+  border: none;
+  background-color: Transparent;
+}
+.wrapper {
+  text-align: center;
+}
+
+#login-button:hover {
+  box-shadow: 0px 10px 50px rgb(0, 0, 0.5);
+}
+
 footer {
   position: absolute;
   bottom: 50px;
@@ -111,9 +131,9 @@ nav > a {
 }
 
 main {
-  display: block; 
-  width: 90%; 
-  margin-left: auto; 
+  display: block;
+  width: 90%;
+  margin-left: auto;
   margin-right: auto;
 }
 h2 {
@@ -121,10 +141,11 @@ h2 {
   text-align: center;
   margin-bottom: 100px;
 }
+
 #top {
-  display: flex; 
-  flex-direction: row; 
-  justify-content: center; 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 #top > div {
   padding: 10px 20px;
@@ -136,14 +157,15 @@ h2 {
 .artist-item {
   margin-bottom: 90px;
 }
-.labels { //"Top Tracks" and "Top Artists"
+.labels {
+  //"Top Tracks" and "Top Artists"
   text-align: center;
   font-size: 24px;
   font-weight: bold;
 }
 #users {
-  display: grid; 
-  grid-template-columns: auto auto auto; 
+  display: grid;
+  grid-template-columns: auto auto auto;
   justify-items: center;
 }
 #users > li {
@@ -151,12 +173,13 @@ h2 {
 }
 #to-others {
   padding: 10px;
-  color:white;
+  color: white;
   font-size: 32px;
-  text-decoration: none; 
+  text-decoration: none;
 }
-#to-other:link, #to-others:visited {
-  color: #3ce789; 
+#to-other:link,
+#to-others:visited {
+  color: #3ce789;
 }
 #to-others:hover {
   text-decoration: underline;

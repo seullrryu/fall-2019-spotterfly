@@ -201,10 +201,11 @@ class Friends extends Component {
       enableHighAccuracy: true,
       timeout: 20000,
       maximumAge: 1000
-    }).subscribe(
-      position => console.log(position),
-      e => console.error(e)
-    );
+    })
+      .subscribe
+      //    position => console.log(position),
+      //   e => console.error(e)
+      ();
   }
 
   getLocation() {
@@ -215,7 +216,7 @@ class Friends extends Component {
     const url = `http://localhost:8888/userdata/${id}`;
     if ("geolocation" in navigator) {
       console.log("geolocation available");
-      console.log(this.state.id);
+      //console.log(this.state.id);
 
       navigator.geolocation.getCurrentPosition(position => {
         const pos = [];
@@ -268,7 +269,6 @@ class Friends extends Component {
       //   else{
       //     //isNear.push(0);
       //   }
-      setTimeout(this.compareLocation, 0);
     }
 
     //console.log(isNear);

@@ -164,6 +164,7 @@ class Artists extends Component {
     var previewURL = this.state.previewURL;
     var top_song_id = this.state.songid;
     var artistURL = this.state.artistlink;
+
     return (
       <section className="profile">
         <div class="App-background2">
@@ -198,7 +199,13 @@ class Artists extends Component {
               <a
                 role="button"
                 onClick={() => {
-                  this.logout();
+                  const url = "https://www.spotify.com/en/logout/";
+                  const spotifyLogoutWindow = window.open(
+                    url,
+                    "Spotify Logout",
+                    "width=700,height=500,top=40,left=40"
+                  );
+                  setTimeout(() => spotifyLogoutWindow.close(), 1000);
                 }}
                 href="/"
               >
@@ -215,7 +222,19 @@ class Artists extends Component {
 
           <br></br>
           <main>
-            <h2>{this.state.user}'s Profile</h2>
+            <div class="wrapper">
+              <a
+                href={`https://open.spotify.com/user/${this.state.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button id="user-button">
+                  <img src="/icons/logo.png" width="20" height="20"></img>
+
+                  <b>{this.state.user}'s Profile</b>
+                </button>
+              </a>
+            </div>
             <article id="top">
               <div className="items">
                 <ol>
