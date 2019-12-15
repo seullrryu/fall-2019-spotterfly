@@ -9,15 +9,24 @@ function Users(props) {
   const name = props.obj;
   const songs = props.songs;
   // var index = props.index;
+  if(songs){
+    return (
+      <li>
+        <span>{name}</span>
+        <p>Songs you both listen to:</p>
+        <ol>
+          {songs.map(song => (
+            <li>{song}</li>
+          ))}
+        </ol>
+      </li>
+    );
+  }
+
   return (
     <li>
       <span>{name}</span>
-      <p>Songs they listen to:</p>
-      <ol>
-        {songs.map(song => (
-          <li>{song}</li>
-        ))}
-      </ol>
+      <p>No overlapping songs.</p>
     </li>
   );
 }
@@ -49,7 +58,9 @@ class Friends extends Component {
         location: {},
         userID: [],
         songs: {},
-        songIDs: {}
+        songIDs: {},
+        nearMe: [],
+        matchedSongs: {}
       }
     };
     this.getLocation = this.getLocation.bind(this);
@@ -131,6 +142,11 @@ class Friends extends Component {
         });
       }
 
+      var list_of_close_users = this.compareLocation();
+      var matched_songs = this.compareSongs(list_of_close_users);
+      console.log(list_of_close_users);
+      console.log(matched_songs);
+
       this.setState(prevState => ({
         otherUsers: {
           ...prevState.otherUsers,
@@ -138,10 +154,13 @@ class Friends extends Component {
           location: locationDict,
           userID: userID,
           songs: songDict,
-          songIDs: songID_Dict
+          songIDs: songID_Dict,
+          nearMe: list_of_close_users,
+          matchedSongs: matched_songs
         }
       }));
-      console.log(this.state);
+
+
     });
 
     function geolocationObservable(options) {
@@ -214,6 +233,7 @@ class Friends extends Component {
     var list_of_close_users = [];
     var lat1 = this.state.LonLat[1];
     var lon1 = this.state.LonLat[0];
+    //var isNear = [];
     console.log("my lat: " + lat1 + ", my lon: " + lon1);
     for(let i = 0; i < Object.keys(dict_of_user_locations).length; i++){
       var name = list_of_users[i];
@@ -224,11 +244,25 @@ class Friends extends Component {
       console.log("distance: " + distance);
       if(name !== this.state.user && distance < Number.MAX_SAFE_INTEGER){
         list_of_close_users.push(name);
-      } 
+        //isNear.push(1);
+      }
+    //   else{
+    //     //isNear.push(0);
+    //   }
     }
-    console.log(list_of_close_users);
-    this.compareSongs(list_of_close_users);
+    // this.setState(prevState => ({
+    //   otherUsers: {
+    //     ...prevState.otherUsers,
+    //     nearMe: isNear
+    //   }
+    // }));
+
+    //console.log(isNear);
+    //this.compareSongs(list_of_close_users);
+    //console.log(list_of_close_users);
+    return list_of_close_users;
   }
+
 
   computeDistanceBetween(lat1, lon1, lat2, lon2) {
     var R = 6371; // km
@@ -276,6 +310,15 @@ class Friends extends Component {
         console.log("you and " + name + " both listen to " + matched_song_names_string);
       } 
     }
+
+    // this.setState(prevState => ({
+    //   otherUsers: {
+    //     ...prevState.otherUsers,
+    //     matchedSongs: matched_song_names
+    //   }
+    // }));
+
+    return matched_song_names;
   }
 
   logout() {
@@ -284,10 +327,11 @@ class Friends extends Component {
 
   render() {
     var list_of_users = this.state.otherUsers.username;
+    var list_of_close_users = this.compareLocation();
+    this.compareSongs(list_of_close_users);
     return (
       <section className="friends">
         {this.getLocation()}
-        {this.compareLocation()}
         <nav>
           <div>
             <a href="/">
@@ -298,7 +342,7 @@ class Friends extends Component {
                   width="50"
                   height="50"
                   alt="Home"
-                ></img>
+                />
               </Link>
             </a>
           </div>
@@ -346,19 +390,21 @@ class Friends extends Component {
             </a>
           </div>
         </nav>
-
         <main>
           <div className="friendinfo">
-            <h2>Other users near {this.state.user} </h2>
+            <h2>Users similar to {this.state.user} </h2>
+
             {list_of_users.map((object, i) => {
               return (
                 <Users
                   obj={object}
-                  songs={this.state.otherUsers.songs[object]}
+                  songs={this.state.otherUsers.matchedSongs[object]}
                   index={i}
                 ></Users>
               );
+              
             })}
+
             {/* <div className="container">
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Square_200x200.png"
@@ -404,6 +450,8 @@ class Friends extends Component {
                 </button>
               </div>
             </div> */}
+
+
           </div>
         </main>
       </section>

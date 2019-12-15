@@ -10,6 +10,16 @@ function TracksItem(props) {
   var index = props.index;
   const audio = props.audio;
   const link = props.link;
+  
+            // {list_of_users.map((object, i) => {
+            //   return (
+            //     <Users
+            //       obj={object}
+            //       songs={this.state.otherUsers.songs[object]}
+            //       index={i}
+            //     ></Users>
+            //   );
+            // })}
   return (
     <li>
       <div className="tracks-item">
@@ -259,3 +269,9 @@ class Artists extends Component {
   }
 }
 export default Artists;
+
+
+
+
+
+
