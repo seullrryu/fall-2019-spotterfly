@@ -229,7 +229,12 @@ class Artists extends Component {
                 rel="noopener noreferrer"
               >
                 <button id="user-button">
-                  <img src="/icons/logo.png" width="20" height="20"></img>
+                  <img
+                    src="/icons/logo.png"
+                    width="20"
+                    height="20"
+                    alt="none.png"
+                  ></img>
 
                   <b>{this.state.user}'s Profile</b>
                 </button>
