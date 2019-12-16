@@ -224,15 +224,13 @@ class Friends extends Component {
 
         pos.push(position.coords.latitude);
 
-        if (this.state.id !== "" && pos[0] !== "") {
-          axios.post(url, {
-            id: this.state.id,
-            name: this.state.user,
-            songs: this.state.songIDs,
-            songNames: this.state.songs,
-            location: pos
-          });
-        }
+        axios.post(url, {
+          id: this.state.id,
+          name: this.state.user,
+          songs: this.state.songIDs,
+          songNames: this.state.songs,
+          location: pos
+        });
 
         this.setState({
           lat: position.coords.latititude,
@@ -375,7 +373,13 @@ class Friends extends Component {
               <a
                 role="button"
                 onClick={() => {
-                  this.logout();
+                  const url = "https://www.spotify.com/en/logout/";
+                  const spotifyLogoutWindow = window.open(
+                    url,
+                    "Spotify Logout",
+                    "width=700,height=500,top=40,left=40"
+                  );
+                  setTimeout(() => spotifyLogoutWindow.close(), 1000);
                 }}
                 href="/"
               >

@@ -134,6 +134,50 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/:id").post((req, res) => {
+  async function createUser2() {
+    const newUser = new UserData({
+      userID: 11111,
+      name: "Joseph Joestar",
+      songs: [
+        "0YveezON7jpiaHA8fnUHxN",
+        "4prEPl61C8qZpeo3IkYSMl",
+
+        "7GyDcM22nxCJHcQa11fbYk",
+
+        "02Bj0KWmT8OznkcfKyDSDc",
+
+        "4K3jhGzgxlU9yYP72bHffX",
+
+        "060WwU9cva7KOpMhZAJjT6",
+
+        "15IWqq4MaJ09ZQZgzcbn4p",
+
+        "1ZURRCb1lFN3fbFHXHHhUV",
+
+        "2RvbnvBX3XKkHy8daq3PUT"
+      ],
+      LonLat: [1111111, 1111111],
+      songName: [
+        "Roundabout",
+        "Where the Sky Hang",
+        "Seaweed Song",
+
+        "Let Your Love Grow Tall",
+
+        "Six Weeks",
+        "Love Love Love",
+        "Yellow Light",
+        "Mr. Brightside",
+        "Lakehouse"
+      ],
+      preview: req.body.preview
+    });
+    const result = await newUser.save();
+    console.log(result);
+  }
+
+  createUser2();
+
   async function createUser() {
     const newUser = new UserData({
       userID: req.body.id,
