@@ -201,10 +201,11 @@ class Friends extends Component {
       enableHighAccuracy: true,
       timeout: 20000,
       maximumAge: 1000
-    }).subscribe(
-      position => console.log(position),
-      e => console.error(e)
-    );
+    })
+      .subscribe
+      //    position => console.log(position),
+      //   e => console.error(e)
+      ();
   }
 
   getLocation() {
@@ -215,7 +216,7 @@ class Friends extends Component {
     const url = `http://localhost:8888/userdata/${id}`;
     if ("geolocation" in navigator) {
       console.log("geolocation available");
-      console.log(this.state.id);
+      //console.log(this.state.id);
 
       navigator.geolocation.getCurrentPosition(position => {
         const pos = [];
@@ -223,15 +224,13 @@ class Friends extends Component {
 
         pos.push(position.coords.latitude);
 
-        if (this.state.id !== "" && pos[0] !== "") {
-          axios.post(url, {
-            id: this.state.id,
-            name: this.state.user,
-            songs: this.state.songIDs,
-            songNames: this.state.songs,
-            location: pos
-          });
-        }
+        axios.post(url, {
+          id: this.state.id,
+          name: this.state.user,
+          songs: this.state.songIDs,
+          songNames: this.state.songs,
+          location: pos
+        });
 
         this.setState({
           lat: position.coords.latititude,
@@ -268,7 +267,6 @@ class Friends extends Component {
       //   else{
       //     //isNear.push(0);
       //   }
-      setTimeout(this.compareLocation, 0);
     }
 
     //console.log(isNear);
@@ -375,7 +373,13 @@ class Friends extends Component {
               <a
                 role="button"
                 onClick={() => {
-                  this.logout();
+                  const url = "https://www.spotify.com/en/logout/";
+                  const spotifyLogoutWindow = window.open(
+                    url,
+                    "Spotify Logout",
+                    "width=700,height=500,top=40,left=40"
+                  );
+                  setTimeout(() => spotifyLogoutWindow.close(), 1000);
                 }}
                 href="/"
               >
