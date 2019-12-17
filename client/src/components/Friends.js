@@ -221,9 +221,7 @@ class Friends extends Component {
       navigator.geolocation.getCurrentPosition(position => {
         const pos = [];
         pos.push(position.coords.longitude);
-
         pos.push(position.coords.latitude);
-
         axios.post(url, {
           id: this.state.id,
           name: this.state.user,

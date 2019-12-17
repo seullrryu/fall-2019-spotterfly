@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userDataSchema = new Schema({
-  userID: { type: String, unique: true },
+  userID: { type: String, unique: true, required: true },
   name: String,
   songs: [],
   LonLat: [],

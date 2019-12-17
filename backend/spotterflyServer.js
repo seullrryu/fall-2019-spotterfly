@@ -214,52 +214,6 @@ app.get("/callback", function(req, res) {
                 artistLink.push(items.external_urls.spotify);
               });
 
-              async function createPlaylist2() {
-                playlist = new playlistData({
-                  id: "11111",
-                  songID: [
-                    "0YveezON7jpiaHA8fnUHxN",
-                    "4prEPl61C8qZpeo3IkYSMl",
-
-                    "7GyDcM22nxCJHcQa11fbYk",
-
-                    "02Bj0KWmT8OznkcfKyDSDc",
-
-                    "4K3jhGzgxlU9yYP72bHffX",
-
-                    "060WwU9cva7KOpMhZAJjT6",
-
-                    "15IWqq4MaJ09ZQZgzcbn4p",
-
-                    "1ZURRCb1lFN3fbFHXHHhUV",
-
-                    "2RvbnvBX3XKkHy8daq3PUT"
-                  ],
-                  displayName: "Joseph Joestar",
-                  songName: [
-                    "Roundabout",
-                    "Where the Sky Hang",
-                    "Seaweed Song",
-
-                    "Let Your Love Grow Tall",
-
-                    "Six Weeks",
-                    "Love Love Love",
-                    "Yellow Light",
-                    "Mr. Brightside",
-                    "Lakehouse"
-                  ],
-                  image: img,
-                  artist: artists,
-                  artistImage: artistImages,
-                  previewURL: preview,
-                  artistlink: artistLink
-                });
-                const result = await playlist.save();
-                //console.log(result);
-              }
-              createPlaylist2();
-
               async function createPlaylist() {
                 playlist = new playlistData({
                   id: userID,
