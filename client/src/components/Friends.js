@@ -15,7 +15,7 @@ function Users(props) {
 
   if (songs && songs.length > 0) {
     return (
-      <li>
+      <section>
         <span>
           <a id="to-others" href={address}>
             {name}
@@ -27,18 +27,18 @@ function Users(props) {
             <li>{song}</li>
           ))}
         </ol>
-      </li>
+      </section>
     );
   }
   return (
-    <li>
-      <span>
+    <section>
+       <span>
         <a id="to-others" href={address}>
           {name}
         </a>
       </span>
       <p>No overlapping songs.</p>
-    </li>
+    </section>
   );
 }
 
@@ -64,6 +64,7 @@ class Friends extends Component {
       LonLat: [],
       songs: [],
       songIDs: [],
+      artists: [],
       otherUsers: {
         username: [],
         location: {},
@@ -71,7 +72,8 @@ class Friends extends Component {
         songs: {},
         songIDs: {},
         nearMe: [],
-        matchedSongs: {}
+        matchedSongs: {},
+        matchedArtists:{}
       }
     };
     this.getLocation = this.getLocation.bind(this);
@@ -132,6 +134,7 @@ class Friends extends Component {
     //other user data stuff
     var userdatas = "http://localhost:8888/userdata/";
     axios.get(userdatas).then(res => {
+      console.log(res);
       var username = [];
       var locationDict = {};
       var userID = [];
@@ -326,7 +329,7 @@ class Friends extends Component {
 
     return matched_song_names;
   }
-
+  
   logout() {
     this.props.logoutHandler();
   }
