@@ -185,7 +185,8 @@ router.route("/:id").post((req, res) => {
       songs: req.body.songs,
       LonLat: req.body.location,
       songName: req.body.songNames,
-      preview: req.body.preview
+      artists: req.body.artists,
+      previewURL: req.body.preview
     });
     const result = await newUser.save();
     console.log(result);

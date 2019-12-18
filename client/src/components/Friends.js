@@ -12,34 +12,84 @@ function Users(props) {
   var index = users.indexOf(name);
   const id = props.userID;
   var address = "http://localhost:3000/artists?user=" + id[index];
+  const artists = props.artists; 
 
   if (songs && songs.length > 0) {
-    return (
-      <section>
-        <span>
-          <a id="to-others" href={address}>
-            {name}
-          </a>
-        </span>
-        <p>Songs you both listen to:</p>
-        <ol>
-          {songs.map(song => (
-            <li>{song}</li>
-          ))}
-        </ol>
-      </section>
-    );
+    if (artists && artists.length > 0) {
+      return (
+        <section>
+          <span>
+            <a id="to-others" href={address}>
+              {name}
+            </a>
+          </span>
+          <p>Songs you both listen to:</p>
+          <ol>
+            {songs.map(song => (
+              <li>{song}</li>
+            ))}
+          </ol>
+          <p>Artists you both listen to:</p>
+          <ol>
+            {artists.map(song => (
+              <li>{song}</li>
+            ))}
+          </ol>
+        </section>
+      );
+    }
+    else {
+      return (
+        <section>
+          <span>
+            <a id="to-others" href={address}>
+              {name}
+            </a>
+          </span>
+          <p>Songs you both listen to:</p>
+          <ol>
+            {songs.map(song => (
+              <li>{song}</li>
+            ))}
+          </ol>
+          <p>No overlapping artists.</p>
+        </section>
+      );
+    }
   }
-  return (
-    <section>
-       <span>
-        <a id="to-others" href={address}>
-          {name}
-        </a>
-      </span>
-      <p>No overlapping songs.</p>
-    </section>
-  );
+  else {
+    if (artists && artists.length > 0) {
+      return (
+        <section>
+          <span>
+            <a id="to-others" href={address}>
+              {name}
+            </a>
+          </span>
+          <p>No overlapping songs.</p>
+          <p>Artists you both listen to:</p>
+          <ol>
+            {artists.map(song => (
+              <li>{song}</li>
+            ))}
+          </ol>
+        </section>
+      );
+    }
+    else {
+      return (
+        <section>
+          <span>
+            <a id="to-others" href={address}>
+              {name}
+            </a>
+          </span>
+          <p>No overlapping songs.</p>
+          <p>No overlapping artists.</p>
+        </section>
+      );
+    }
+  }
 }
 
 //decorator design pattern
@@ -71,6 +121,7 @@ class Friends extends Component {
         userID: [],
         songs: {},
         songIDs: {},
+        artists:{},
         nearMe: [],
         matchedSongs: {},
         matchedArtists:{}
@@ -82,6 +133,7 @@ class Friends extends Component {
     this.compareLocation = this.compareLocation.bind(this);
     this.computeDistanceBetween = this.computeDistanceBetween.bind(this);
     this.setMyState = this.setMyState.bind(this);
+    this.compareArtists = this.compareArtists.bind(this); 
   }
 
   setMyState(){
@@ -154,12 +206,14 @@ class Friends extends Component {
       var songDict = {};
       var songID_Dict = [];
       console.log("my state loop: " + this.state.user);
+      var artists_Dict = {}; 
       for (var i = 0; i < res.data.length; i++) {
         username.push(res.data[i].name);
         userID.push(res.data[i].userID);
         locationDict[res.data[i].name] = res.data[i].LonLat;
         songDict[res.data[i].name] = res.data[i].songName;
         songID_Dict[res.data[i].name] = res.data[i].songs;
+        artists_Dict[res.data[i].name] = res.data[i].artists;
       }
       //console.log("my state 2: " + this.state.user);
 
@@ -178,12 +232,14 @@ class Friends extends Component {
           location: locationDict,
           userID: userID,
           songs: songDict,
-          songIDs: songID_Dict
+          songIDs: songID_Dict,
+          artists: artists_Dict
         }
       }));
 
       var list_of_close_users = this.compareLocation();
       var matched_song_names = this.compareSongs(list_of_close_users);
+      var matched_artists_names = this.compareArtists(list_of_close_users); 
       console.log("list header: " + list_of_close_users);
       console.log("matches header:" + Object.keys(matched_song_names));
       console.log("my state 3: " + this.state.user);
@@ -192,7 +248,8 @@ class Friends extends Component {
         otherUsers: {
           ...prevState.otherUsers,
           nearMe: list_of_close_users,
-          matchedSongs: matched_song_names
+          matchedSongs: matched_song_names,
+          matchedArtists: matched_artists_names
         }
       }));
       //console.log("matched songs: " + this.state.matchedSongs);
@@ -246,6 +303,7 @@ class Friends extends Component {
           name: this.state.user,
           songs: this.state.songIDs,
           songNames: this.state.songs,
+          artists: this.state.artists,
           location: pos
         });
 
@@ -335,9 +393,34 @@ class Friends extends Component {
         );
       }
     }
-
     return matched_song_names;
   }
+
+  compareArtists(list_of_close_users) {
+    var my_artists = this.state.artists;
+    var matched_artists = {};
+    console.log("my artists: " + my_artists);
+
+    for (var i = 0; i < list_of_close_users.length; i++) {
+      var name = list_of_close_users[i];
+      var their_artists = this.state.otherUsers.artists[name];
+      console.log(name + "'s' artists: " + their_artists);
+
+      // eslint-disable-next-line
+      matched_artists[name] = my_artists.filter(x => their_artists.includes(x));
+     
+      if (matched_artists[name].length === 0) {
+        console.log("you and " + name + " have no overlapping artists");
+      } else {
+        var matched_artists_names_string = matched_artists[name].join(", ");
+        console.log(
+          "you and " + name + " both listen to " + matched_artists_names_string
+        );
+      }
+    }
+    return matched_artists;
+  }
+
   
   logout() {
     this.props.logoutHandler();
@@ -348,7 +431,7 @@ class Friends extends Component {
     var list_of_close_users = this.state.otherUsers.nearMe;
     return (
       <section className="friends">
-        <div class="App-background">
+        <div class="App-background3">
           {this.getLocation()}
           <nav>
             <div>
@@ -414,6 +497,7 @@ class Friends extends Component {
                     songs={this.state.otherUsers.matchedSongs[object]}
                     userID={this.state.otherUsers.userID}
                     users={this.state.otherUsers.username}
+                    artists={this.state.otherUsers.matchedArtists[object]}
                   ></Users>
                 );
               })}
