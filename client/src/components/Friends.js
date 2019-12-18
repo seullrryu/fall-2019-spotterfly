@@ -98,13 +98,6 @@ function Users(props) {
   return "Your Friends";
 })
 class Friends extends Component {
-  //check for Geolocation support
-  // if (navigator.geolocation) {
-  //   console.log('Geolocation is supported!');
-  // }
-  // else {
-  //   console.log('Geolocation is not supported for this Browser/OS.');
-  // }
   constructor(props) {
     super(props);
 
@@ -136,6 +129,7 @@ class Friends extends Component {
     this.compareArtists = this.compareArtists.bind(this); 
   }
 
+  //my stuff
   setMyState(){
     var urlParams = new URLSearchParams(window.location.search);
     urlParams = urlParams.toString();
@@ -144,6 +138,11 @@ class Friends extends Component {
 
     const url = `http://localhost:8888/playlistdata/${id}`;
     axios.get(url).then(res => {
+      console.log(res.data);
+      console.log(res.status);
+      console.log(res.statusText);
+      console.log(res.headers);
+      console.log(res.config);
       var song_array = [];
       var artist_array = [];
 
@@ -174,6 +173,7 @@ class Friends extends Component {
           artist_array.push(res.data.artist[j]);
         }
       }
+      console.log("setmystate");
       this.setState({
         id: res.data.id,
         user: res.data.displayName,
@@ -185,24 +185,18 @@ class Friends extends Component {
 
   }
 
-
-  componentDidMount() {
-
-    //My stuff
-    this.setMyState();
-    //console.log("my state 1: " + this.state.user);
-
-    
-    //other user data stuff
+  //other user stuff
+  setOtherUserState(){
     var userdatas = "http://localhost:8888/userdata/";
+    console.log("my state before: " + this.state.user);
     axios.get(userdatas).then(res => {
+      console.log("my state after: " + this.state.user);
       console.log("res:" + res);
       var username = [];
       var locationDict = {};
       var userID = [];
       var songDict = {};
       var songID_Dict = [];
-      console.log("my state loop: " + this.state.user);
       var artists_Dict = {}; 
       for (var i = 0; i < res.data.length; i++) {
         username.push(res.data[i].name);
@@ -212,7 +206,6 @@ class Friends extends Component {
         songID_Dict[res.data[i].name] = res.data[i].songs;
         artists_Dict[res.data[i].name] = res.data[i].artists;
       }
-      //console.log("my state 2: " + this.state.user);
 
       //Getting my location
       //If I exist in the locations dictionary, set state to the array of [longitude, latitude] of where I am
@@ -251,6 +244,14 @@ class Friends extends Component {
       }));
       //console.log("matched songs: " + this.state.matchedSongs);
     });
+  }
+
+
+  componentDidMount() {
+
+    fetch(this.setMyState()).then(res =>{
+      if(res) this.setOtherUserState()
+    })
 
     function geolocationObservable(options) {
       return new Observable(observer => {
