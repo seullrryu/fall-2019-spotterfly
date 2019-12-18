@@ -81,15 +81,15 @@ class Friends extends Component {
     this.compareSongs = this.compareSongs.bind(this);
     this.compareLocation = this.compareLocation.bind(this);
     this.computeDistanceBetween = this.computeDistanceBetween.bind(this);
+    this.setMyState = this.setMyState.bind(this);
   }
 
-  componentDidMount() {
+  setMyState(){
     var urlParams = new URLSearchParams(window.location.search);
     urlParams = urlParams.toString();
     var fields = urlParams.split("=");
     const id = fields[1];
 
-    //My stuff
     const url = `http://localhost:8888/playlistdata/${id}`;
     axios.get(url).then(res => {
       var song_array = [];
@@ -131,15 +131,31 @@ class Friends extends Component {
       });
     });
 
+  }
+
+
+  componentDidMount() {
+    var urlParams = new URLSearchParams(window.location.search);
+    urlParams = urlParams.toString();
+    var fields = urlParams.split("=");
+    const id = fields[1];
+    var counter = 0;
+
+    //My stuff
+    this.setMyState();
+    //console.log("my state 1: " + this.state.user);
+
+    
     //other user data stuff
     var userdatas = "http://localhost:8888/userdata/";
     axios.get(userdatas).then(res => {
-      console.log(res);
+      console.log("res:" + res);
       var username = [];
       var locationDict = {};
       var userID = [];
       var songDict = {};
       var songID_Dict = [];
+      console.log("my state loop: " + this.state.user);
       for (var i = 0; i < res.data.length; i++) {
         username.push(res.data[i].name);
         userID.push(res.data[i].userID);
@@ -147,6 +163,7 @@ class Friends extends Component {
         songDict[res.data[i].name] = res.data[i].songName;
         songID_Dict[res.data[i].name] = res.data[i].songs;
       }
+      //console.log("my state 2: " + this.state.user);
 
       //Getting my location
       //If I exist in the locations dictionary, set state to the array of [longitude, latitude] of where I am
@@ -171,6 +188,7 @@ class Friends extends Component {
       var matched_song_names = this.compareSongs(list_of_close_users);
       console.log("list header: " + list_of_close_users);
       console.log("matches header:" + Object.keys(matched_song_names));
+      console.log("my state 3: " + this.state.user);
 
       this.setState(prevState => ({
         otherUsers: {
@@ -179,7 +197,7 @@ class Friends extends Component {
           matchedSongs: matched_song_names
         }
       }));
-      console.log("matched songs: " + this.state.matchedSongs);
+      //console.log("matched songs: " + this.state.matchedSongs);
     });
 
     function geolocationObservable(options) {
@@ -252,25 +270,19 @@ class Friends extends Component {
     var list_of_close_users = [];
     var lat1 = this.state.LonLat[1];
     var lon1 = this.state.LonLat[0];
-    //var isNear = [];
     console.log("my lat: " + lat1 + ", my lon: " + lon1);
+
     for (let i = 0; i < Object.keys(dict_of_user_locations).length; i++) {
       var name = list_of_users[i];
-      var lat2 = this.state.otherUsers.location[name][1];
-      var lon2 = this.state.otherUsers.location[name][0];
+      var lat2 = dict_of_user_locations[name][1];
+      var lon2 = dict_of_user_locations[name][0];
       console.log(name + "'s lat: " + lat2 + "," + name + "'s lon " + lon2);
       var distance = this.computeDistanceBetween(lat1, lon1, lat2, lon2);
       console.log("distance: " + distance);
       if (name !== this.state.user && distance < Number.MAX_SAFE_INTEGER) {
         list_of_close_users.push(name);
-        //isNear.push(1);
       }
-      //   else{
-      //     //isNear.push(0);
-      //   }
     }
-
-    //console.log(isNear);
     //console.log(list_of_close_users);
     return list_of_close_users;
   }
@@ -297,7 +309,6 @@ class Friends extends Component {
 
   compareSongs(list_of_close_users) {
     var my_songs = this.state.songIDs;
-    // my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
     var my_song_names = this.state.songs;
     var matched_songs = {};
     var matched_song_names = {};
