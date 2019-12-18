@@ -98,13 +98,6 @@ function Users(props) {
   return "Your Friends";
 })
 class Friends extends Component {
-  //check for Geolocation support
-  // if (navigator.geolocation) {
-  //   console.log('Geolocation is supported!');
-  // }
-  // else {
-  //   console.log('Geolocation is not supported for this Browser/OS.');
-  // }
   constructor(props) {
     super(props);
 
@@ -132,18 +125,24 @@ class Friends extends Component {
     this.compareSongs = this.compareSongs.bind(this);
     this.compareLocation = this.compareLocation.bind(this);
     this.computeDistanceBetween = this.computeDistanceBetween.bind(this);
+    this.setMyState = this.setMyState.bind(this);
     this.compareArtists = this.compareArtists.bind(this); 
   }
 
-  componentDidMount() {
+  //my stuff
+  setMyState(){
     var urlParams = new URLSearchParams(window.location.search);
     urlParams = urlParams.toString();
     var fields = urlParams.split("=");
     const id = fields[1];
 
-    //My stuff
     const url = `http://localhost:8888/playlistdata/${id}`;
     axios.get(url).then(res => {
+      console.log(res.data);
+      console.log(res.status);
+      console.log(res.statusText);
+      console.log(res.headers);
+      console.log(res.config);
       var song_array = [];
       var artist_array = [];
 
@@ -174,6 +173,7 @@ class Friends extends Component {
           artist_array.push(res.data.artist[j]);
         }
       }
+      console.log("setmystate");
       this.setState({
         id: res.data.id,
         user: res.data.displayName,
@@ -183,10 +183,15 @@ class Friends extends Component {
       });
     });
 
-    //other user data stuff
+  }
+
+  //other user stuff
+  setOtherUserState(){
     var userdatas = "http://localhost:8888/userdata/";
+    console.log("my state before: " + this.state.user);
     axios.get(userdatas).then(res => {
-      console.log(res);
+      console.log("my state after: " + this.state.user);
+      console.log("res:" + res);
       var username = [];
       var locationDict = {};
       var userID = [];
@@ -227,6 +232,7 @@ class Friends extends Component {
       var matched_artists_names = this.compareArtists(list_of_close_users); 
       console.log("list header: " + list_of_close_users);
       console.log("matches header:" + Object.keys(matched_song_names));
+      console.log("my state 3: " + this.state.user);
 
       this.setState(prevState => ({
         otherUsers: {
@@ -236,8 +242,16 @@ class Friends extends Component {
           matchedArtists: matched_artists_names
         }
       }));
-      console.log("matched songs: " + this.state.matchedSongs);
+      //console.log("matched songs: " + this.state.matchedSongs);
     });
+  }
+
+
+  componentDidMount() {
+
+    fetch(this.setMyState()).then(res =>{
+      if(res) this.setOtherUserState()
+    })
 
     function geolocationObservable(options) {
       return new Observable(observer => {
@@ -310,25 +324,19 @@ class Friends extends Component {
     var list_of_close_users = [];
     var lat1 = this.state.LonLat[1];
     var lon1 = this.state.LonLat[0];
-    //var isNear = [];
     console.log("my lat: " + lat1 + ", my lon: " + lon1);
+
     for (let i = 0; i < Object.keys(dict_of_user_locations).length; i++) {
       var name = list_of_users[i];
-      var lat2 = this.state.otherUsers.location[name][1];
-      var lon2 = this.state.otherUsers.location[name][0];
+      var lat2 = dict_of_user_locations[name][1];
+      var lon2 = dict_of_user_locations[name][0];
       console.log(name + "'s lat: " + lat2 + "," + name + "'s lon " + lon2);
       var distance = this.computeDistanceBetween(lat1, lon1, lat2, lon2);
       console.log("distance: " + distance);
       if (name !== this.state.user && distance < Number.MAX_SAFE_INTEGER) {
         list_of_close_users.push(name);
-        //isNear.push(1);
       }
-      //   else{
-      //     //isNear.push(0);
-      //   }
     }
-
-    //console.log(isNear);
     //console.log(list_of_close_users);
     return list_of_close_users;
   }
@@ -355,7 +363,6 @@ class Friends extends Component {
 
   compareSongs(list_of_close_users) {
     var my_songs = this.state.songIDs;
-    // my_songs.push("15IWqq4MaJ09ZQZgzcbn4p");
     var my_song_names = this.state.songs;
     var matched_songs = {};
     var matched_song_names = {};
