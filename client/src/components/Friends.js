@@ -187,9 +187,6 @@ class Friends extends Component {
 
 
   componentDidMount() {
-    var urlParams = new URLSearchParams(window.location.search);
-    urlParams = urlParams.toString();
-    var fields = urlParams.split("=");
 
     //My stuff
     this.setMyState();
