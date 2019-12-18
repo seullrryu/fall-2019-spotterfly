@@ -138,8 +138,6 @@ class Friends extends Component {
     var urlParams = new URLSearchParams(window.location.search);
     urlParams = urlParams.toString();
     var fields = urlParams.split("=");
-    const id = fields[1];
-    var counter = 0;
 
     //My stuff
     this.setMyState();
