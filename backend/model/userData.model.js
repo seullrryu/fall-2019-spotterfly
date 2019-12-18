@@ -8,6 +8,7 @@ const userDataSchema = new Schema({
   songs: [],
   LonLat: [],
   songName: [],
+  artists:[],
   previewURL: []
   //required: true, // #TODO will be required post add
 

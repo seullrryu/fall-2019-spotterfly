@@ -22,6 +22,31 @@
   background-size: 400% 400%;
   animation: gradientBG 100s ease infinite;
 }
+.App-background2 {
+  margin: 0;
+  min-height: 100%;
+  min-width: 1024px;
+  // position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: white;
+  background: linear-gradient(-10deg, #eeb052, #3ce789, #e47316c0, #b123d5);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+}
+.App-background3 {
+  margin: 0;
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(-10deg, #eeb052, #e7a33c, #1698e4c0, #b123d5);
+  background-size: 400% 400%;
+  animation: gradientBG 100s ease infinite;
+}
 
 @keyframes gradientBG {
   0% {
@@ -191,19 +216,7 @@ h2 {
 #to-others:hover {
   text-decoration: underline;
 }
-.App-background2 {
-  margin: 0;
-  min-height: 100%;
-  min-width: 1024px;
-  //position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  color: white;
-  background: linear-gradient(-10deg, #eeb052, #3ce789, #e47316c0, #b123d5);
-  background-size: 400% 400%;
-  animation: gradientBG 10s ease infinite;
-}
+
 // .container {
 //   &__image {
 //     height: 100px;
