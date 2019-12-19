@@ -57,7 +57,7 @@ How to install
 6. Run `npm install`
 7. Now you should be able to run backend with `npm start`
 8. If you haven't already, run `npm start` on both client and backend
-9. Open your browser to localhost:8888
+9. Open your browser to localhost:3000
 
 
 
