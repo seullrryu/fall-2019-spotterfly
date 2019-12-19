@@ -61,13 +61,13 @@ How to install
 
 
 
-# Debugging common npm issues
+## Debugging common npm issues
 Sometimes the package-lock.json have conflicts with existing versions. If you run into errors like `Unexpected string in JSON`, remove the package-lock.json file with `rm package-lock.json` and reinstall npm with `npm install`.
 
 
-# Project specifics
+## Project specifics
 
-Since our project is based on matching spotify playlist, you will need a spotify account to use our services. Please create a spotify account here https://www.spotify.com/us/signup/
+Since our project is based on matching spotify playlist, you will need a spotify account to use our services. Please create a spotify account here https://www.spotify.com/us/signup/. Also, you will need to enable gps location so please do so when the prompt comes up. It may not load on the first visit, so reload your webpage after allowing gps permissions.
 
 
 
