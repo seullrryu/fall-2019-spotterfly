@@ -46,6 +46,32 @@ include:
 * Focusing on what is best for the community
 * Showing empathy towards other community members
 
+How to install
+======
+
+1. Clone git repo to your local machine
+2. cd to fall-2019-spotterfly/client
+3. Run `npm install`
+4. Now you should be able to run the client with `npm start`
+5. On another terminal, cd to fall-2019-spotterfly/backend
+6. Run `npm install`
+7. Now you should be able to run backend with `npm start`
+8. If you haven't already, run `npm start` on both client and backend
+9. Open your browser to localhost:8888
+
+
+
+# Debugging common npm issues
+Sometimes the package-lock.json have conflicts with existing versions. If you run into errors like `Unexpected string in JSON`, remove the package-lock.json file with `rm package-lock.json` and reinstall npm with `npm install`.
+
+
+# Project specifics
+
+Since our project is based on matching spotify playlist, you will need a spotify account to use our services. Please create a spotify account here https://www.spotify.com/us/signup/
+
+
+
+
 
 ## Attribution
 Part of this md is attributed to https://gist.github.com/PurpleBooth/b24679402957c63ec426
