@@ -3,8 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 var request = require("request");
 const SpotifyWebApi = require("spotify-web-api-node");
-var client_id = "e1d1de2574d343f7bdfe00a18421ebb2"; // Your client id
-var client_secret = "9b99f7f012634b418dfccf205afa7af3"; // Your secret
+var client_id = process.env.client_id; // Your client id
+var client_secret = process.env.client_secret; // Your secret
 var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
 require("dotenv").config();
 var querystring = require("querystring");
@@ -18,8 +18,7 @@ app.use(bodyParser.json());
 //const local = "mongodb://localhost/playground";
 app.use(express.json());
 
-const uri1 =
-  "mongodb+srv://Alexander:helloworld123@cluster0-b7kar.gcp.mongodb.net/test?retryWrites=true&w=majority";
+const uri1 = process.env.ATLAS_URI;
 const router = express.Router();
 mongoose.connect(uri1, {
   useUnifiedTopology: true,
