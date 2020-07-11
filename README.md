@@ -4,7 +4,7 @@
 
 ## Overview
 
-Find music you like by letting the music find you. Spotterfly connects you with people nearby who share similar music taste.
+Find music you like by letting the music find you. Spotterfly connects you with people nearby who share similar music taste. Login using your spotify credentials. Spotterfly will pull your top tracks and top artists, along with your location. Once that happens, it will show you a list of users around you with similar top artists or top tracks, and will allow you to take a look at the library of that user near you with similar music taste. 
 
 How to install
 ======
